@@ -79,7 +79,7 @@ export default function Footer() {
               Endereço
             </h4>
             <div style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", display: "flex", alignItems: "flex-start", gap: 8 }}>
-              <PinIcon />
+              <IconSpan>📍</IconSpan>
               <span>Rua Piauí, 1.467 – Centro, Avaré/SP</span>
             </div>
           </div>
