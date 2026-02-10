@@ -79,7 +79,7 @@ export default function QuemSomos() {
         </div>
       </section>
 
-      {/* Mission / Vision */}
+      {/* Mission / Vision / Values */}
       <section className="section-padding bg-muted/30">
         <div className="section-container">
           <ScrollReveal>
@@ -91,46 +91,42 @@ export default function QuemSomos() {
             </div>
           </ScrollReveal>
 
-          <div className="grid md:grid-cols-2 gap-6 mb-16">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Missão */}
             <ScrollReveal>
-              <div className="p-8 rounded-2xl bg-card border border-border/50 h-full">
-                <div className="w-12 h-12 rounded-xl gradient-gold flex items-center justify-center mb-5">
-                  <Heart className="w-6 h-6 text-primary" />
+              <div className="bg-card rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300 h-full">
+                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
+                  <Heart className="w-7 h-7 text-primary" />
                 </div>
-                <h3 className="text-xl font-bold text-foreground">Missão</h3>
-                <p className="mt-3 text-muted-foreground leading-relaxed">
-                  Oferecer suporte completo e humanizado em momentos delicados, com dignidade, respeito e profissionalismo,
-                  garantindo segurança e tranquilidade para cada família.
+                <h3 className="text-lg font-bold text-foreground">Missão</h3>
+                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                  Oferecer suporte completo e humanizado em momentos delicados, com dignidade, respeito e profissionalismo.
                 </p>
               </div>
             </ScrollReveal>
 
-            <ScrollReveal delay={0.1}>
-              <div className="p-8 rounded-2xl bg-card border border-border/50 h-full">
-                <div className="w-12 h-12 rounded-xl gradient-navy flex items-center justify-center mb-5">
-                  <Eye className="w-6 h-6 text-primary-foreground" />
+            {/* Visão */}
+            <ScrollReveal delay={0.08}>
+              <div className="bg-card rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300 h-full">
+                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
+                  <Eye className="w-7 h-7 text-primary" />
                 </div>
-                <h3 className="text-xl font-bold text-foreground">Visão</h3>
-                <p className="mt-3 text-muted-foreground leading-relaxed">
-                  Ser a referência em assistência familiar e funerária, reconhecida pela excelência
-                  no atendimento, inovação e compromisso com a comunidade.
+                <h3 className="text-lg font-bold text-foreground">Visão</h3>
+                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                  Ser a referência em assistência familiar e funerária, reconhecida pela excelência no atendimento e inovação.
                 </p>
               </div>
             </ScrollReveal>
-          </div>
 
-          {/* Values Grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {/* Values as cards */}
             {values.map((v, i) => (
-              <ScrollReveal key={v.label} delay={i * 0.06}>
-                <div className="flex items-start gap-4 p-5 rounded-xl bg-card border border-border/50">
-                  <div className="w-10 h-10 rounded-lg gradient-navy flex items-center justify-center flex-shrink-0">
-                    <v.icon className="w-5 h-5 text-primary-foreground" />
+              <ScrollReveal key={v.label} delay={(i + 2) * 0.08}>
+                <div className="bg-card rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300 h-full">
+                  <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
+                    <v.icon className="w-7 h-7 text-primary" />
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground">{v.label}</h4>
-                    <p className="mt-1 text-sm text-muted-foreground">{v.desc}</p>
-                  </div>
+                  <h3 className="text-lg font-bold text-foreground">{v.label}</h3>
+                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{v.desc}</p>
                 </div>
               </ScrollReveal>
             ))}
