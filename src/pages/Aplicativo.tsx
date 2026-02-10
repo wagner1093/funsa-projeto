@@ -50,7 +50,7 @@ export default function Aplicativo() {
 
             <ScrollReveal delay={0.2}>
               <span className="text-sm font-semibold text-gold uppercase tracking-widest">Funcionalidades</span>
-              <h2 className="mt-3 text-3xl md:text-4xl font-bold text-foreground leading-tight">
+              <h2 className="mt-3 text-2xl md:text-3xl font-bold text-foreground leading-tight">
                 Tudo na palma da sua mão
               </h2>
               <p className="mt-6 text-muted-foreground text-lg leading-relaxed">
@@ -80,7 +80,7 @@ export default function Aplicativo() {
       <section className="py-16 gradient-navy">
         <div className="section-container text-center">
           <ScrollReveal>
-            <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-primary-foreground mb-4">
               Baixe agora o aplicativo
             </h2>
             <p className="text-primary-foreground/70 text-lg max-w-xl mx-auto mb-8">
@@ -118,7 +118,7 @@ export default function Aplicativo() {
           <ScrollReveal>
             <div className="text-center mb-12">
               <span className="text-sm font-semibold text-gold uppercase tracking-widest">FAQ</span>
-              <h2 className="mt-3 text-3xl md:text-4xl font-bold text-foreground">
+              <h2 className="mt-3 text-2xl md:text-3xl font-bold text-foreground">
                 Dúvidas sobre o aplicativo
               </h2>
             </div>

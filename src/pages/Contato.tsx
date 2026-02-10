@@ -78,7 +78,7 @@ export default function Contato() {
           <div className="grid lg:grid-cols-2 gap-12">
             <ScrollReveal>
               <div className="p-8 rounded-2xl bg-card border border-border/50">
-                <h2 className="text-2xl font-bold text-foreground mb-6">Envie sua mensagem</h2>
+                <h2 className="text-xl font-bold text-foreground mb-6">Envie sua mensagem</h2>
                 {submitted ? (
                   <div className="text-center py-12">
                     <div className="w-16 h-16 rounded-full gradient-gold flex items-center justify-center mx-auto mb-4">

@@ -42,7 +42,7 @@ export default function ServicesSection() {
         <ScrollReveal>
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-sm font-semibold text-gold uppercase tracking-widest">Nossos Serviços</span>
-            <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
+            <h2 className="mt-3 text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">
               Cuidado completo para sua família
             </h2>
             <p className="mt-4 text-muted-foreground text-lg">

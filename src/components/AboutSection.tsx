@@ -25,7 +25,7 @@ export default function AboutSection() {
           {/* Text */}
           <ScrollReveal>
             <span className="text-sm font-semibold text-gold uppercase tracking-widest">Quem Somos</span>
-            <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
+            <h2 className="mt-3 text-2xl md:text-3xl lg:text-4xl font-bold text-foreground leading-tight">
               Uma história de cuidado e respeito
             </h2>
             <p className="mt-6 text-muted-foreground leading-relaxed text-lg">

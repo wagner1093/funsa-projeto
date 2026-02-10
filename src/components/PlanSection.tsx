@@ -19,7 +19,7 @@ export default function PlanSection() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <ScrollReveal>
             <span className="text-sm font-semibold text-gold uppercase tracking-widest">Plano de Assistência</span>
-            <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground leading-tight">
+            <h2 className="mt-3 text-2xl md:text-3xl lg:text-4xl font-bold text-primary-foreground leading-tight">
               Proteção e tranquilidade para toda a família
             </h2>
             <p className="mt-6 text-primary-foreground/70 text-lg leading-relaxed">
