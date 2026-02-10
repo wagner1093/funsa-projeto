@@ -30,7 +30,7 @@ export default function AppSection() {
           {/* Content */}
           <ScrollReveal delay={0.2}>
             <span className="text-sm font-semibold text-gold uppercase tracking-widest">Aplicativo FUNSA</span>
-            <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
+            <h2 className="mt-3 text-2xl md:text-3xl lg:text-4xl font-bold text-foreground leading-tight">
               Tudo na palma da sua mão
             </h2>
             <p className="mt-6 text-muted-foreground text-lg leading-relaxed">

@@ -46,7 +46,7 @@ export default function QuemSomos() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <ScrollReveal>
               <span className="text-sm font-semibold text-gold uppercase tracking-widest">Nossa História</span>
-              <h2 className="mt-3 text-3xl md:text-4xl font-bold text-foreground leading-tight">
+              <h2 className="mt-3 text-2xl md:text-3xl font-bold text-foreground leading-tight">
                 Uma história de cuidado e respeito
               </h2>
               <p className="mt-6 text-muted-foreground leading-relaxed text-lg">
@@ -85,7 +85,7 @@ export default function QuemSomos() {
           <ScrollReveal>
             <div className="text-center max-w-2xl mx-auto mb-16">
               <span className="text-sm font-semibold text-gold uppercase tracking-widest">Propósito</span>
-              <h2 className="mt-3 text-3xl md:text-4xl font-bold text-foreground">
+              <h2 className="mt-3 text-2xl md:text-3xl font-bold text-foreground">
                 Missão, Visão e Valores
               </h2>
             </div>
@@ -144,7 +144,7 @@ export default function QuemSomos() {
           <ScrollReveal>
             <div className="text-center max-w-2xl mx-auto mb-16">
               <span className="text-sm font-semibold text-gold uppercase tracking-widest">Trajetória</span>
-              <h2 className="mt-3 text-3xl md:text-4xl font-bold text-foreground">
+              <h2 className="mt-3 text-2xl md:text-3xl font-bold text-foreground">
                 Marcos da nossa história
               </h2>
             </div>
@@ -191,7 +191,7 @@ export default function QuemSomos() {
       <section className="section-padding bg-background">
         <div className="section-container text-center">
           <ScrollReveal>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
               Venha nos conhecer
             </h2>
             <p className="text-muted-foreground text-lg max-w-xl mx-auto mb-8">

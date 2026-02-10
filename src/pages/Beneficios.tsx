@@ -28,7 +28,7 @@ export default function Beneficios() {
           <ScrollReveal>
             <div className="text-center max-w-2xl mx-auto mb-16">
               <span className="text-sm font-semibold text-gold uppercase tracking-widest">Diferenciais</span>
-              <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
+              <h2 className="mt-3 text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">
                 Por que escolher a FUNSA?
               </h2>
             </div>
@@ -54,7 +54,7 @@ export default function Beneficios() {
       <section className="section-padding gradient-navy">
         <div className="section-container text-center">
           <ScrollReveal>
-            <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-primary-foreground mb-4">
               Descubra o plano ideal para você
             </h2>
             <p className="text-primary-foreground/70 text-lg max-w-xl mx-auto mb-8">
