@@ -1,5 +1,6 @@
 import { Phone, Mail, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
+import logoFunsa from "@/assets/logo-funsa.png";
 
 const quickLinks = [
   { label: "Home", href: "/" },
@@ -11,12 +12,12 @@ const quickLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-primary py-12">
+    <footer className="bg-primary py-12 border-0 [&_*]:border-0 [&_.footer-divider]:border-t [&_.footer-divider]:border-primary-foreground/10">
       <div className="section-container">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
-            <span className="text-xl font-bold text-primary-foreground">FUNSA</span>
-            <p className="mt-2 text-sm text-primary-foreground/60 leading-relaxed">
+            <img src={logoFunsa} alt="FUNSA" className="h-12 w-auto mb-4 border-0" />
+            <p className="text-sm text-primary-foreground/60 leading-relaxed">
               Funerária Nossa Senhora Aparecida. Desde 1943 cuidando de quem você ama.
             </p>
           </div>
@@ -56,7 +57,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="border-t border-primary-foreground/10 pt-8 text-center text-sm text-primary-foreground/40">
+        <div className="footer-divider pt-8 text-center text-sm text-primary-foreground/40">
           © {new Date().getFullYear()} FUNSA – Funerária Nossa Senhora Aparecida. Todos os direitos reservados.
         </div>
       </div>
