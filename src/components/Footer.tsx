@@ -12,7 +12,7 @@ const quickLinks = [
 
 export default function Footer() {
   return (
-    <footer style={{ background: "hsl(216 50% 16%)", border: "none" }} className="py-12">
+    <footer className="bg-primary py-12 relative z-10 overflow-hidden">
       <div className="section-container">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
@@ -20,7 +20,7 @@ export default function Footer() {
               src={logoFunsa}
               alt="FUNSA"
               className="h-12 w-auto mb-4"
-              style={{ border: "none", filter: "brightness(0) invert(1)" }}
+              style={{ filter: "brightness(0) invert(1)" }}
             />
             <p className="text-sm text-primary-foreground/60 leading-relaxed">
               Funerária Nossa Senhora Aparecida. Desde 1943 cuidando de quem você ama.
@@ -62,10 +62,9 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div
-          style={{ borderTop: "1px solid rgba(255,255,255,0.1)" }}
-          className="pt-8 text-center text-sm text-primary-foreground/40"
-        >
+        {/* Divider as a div instead of border to avoid global border interference */}
+        <div className="h-px bg-primary-foreground/10 mb-0" aria-hidden="true" />
+        <div className="pt-8 text-center text-sm text-primary-foreground/40">
           © {new Date().getFullYear()} FUNSA – Funerária Nossa Senhora Aparecida. Todos os direitos reservados.
         </div>
       </div>
