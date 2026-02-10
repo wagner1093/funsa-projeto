@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import logoFunsa from "@/assets/logo-funsa.png";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -38,12 +39,11 @@ export default function Header() {
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${headerBg}`}>
       <div className="section-container flex items-center justify-between h-16 md:h-20">
         <Link to="/" className="flex items-center gap-2">
-          <span className={`text-xl md:text-2xl font-bold transition-colors duration-300 ${isTransparent ? "text-white" : "text-primary"}`}>
-            FUNSA
-          </span>
-          <span className={`hidden sm:inline text-xs leading-tight max-w-[140px] transition-colors duration-300 ${isTransparent ? "text-white/70" : "text-muted-foreground"}`}>
-            Funerária Nossa Senhora Aparecida
-          </span>
+          <img
+            src={logoFunsa}
+            alt="FUNSA – Funerária Nossa Senhora Aparecida"
+            className={`h-10 md:h-12 w-auto transition-all duration-300 ${isTransparent ? "brightness-0 invert" : ""}`}
+          />
         </Link>
 
         <nav className="hidden lg:flex items-center gap-1" style={{ fontFamily: "'Sora', sans-serif" }}>
