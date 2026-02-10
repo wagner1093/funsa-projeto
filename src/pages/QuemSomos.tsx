@@ -123,7 +123,7 @@ export default function QuemSomos() {
           <ScrollReveal>
             <div className="text-center max-w-2xl mx-auto mb-16">
               <span className="text-sm font-semibold text-gold uppercase tracking-widest">Propósito</span>
-              <h2 className="mt-3 text-2xl md:text-3xl font-bold text-foreground">
+              <h2 className="mt-3 text-2xl font-bold text-foreground md:text-4xl">
                 Missão, Visão e Valores
               </h2>
             </div>
@@ -219,7 +219,7 @@ export default function QuemSomos() {
       <section className="section-padding bg-background">
         <div className="section-container text-center">
           <ScrollReveal>
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
+            <h2 className="text-2xl font-bold text-foreground mb-4 md:text-4xl">
               Venha nos conhecer
             </h2>
             <p className="text-muted-foreground text-lg max-w-xl mx-auto mb-8">
