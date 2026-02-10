@@ -1,7 +1,7 @@
 import PageHero from "@/components/PageHero";
 import ScrollReveal from "@/components/ScrollReveal";
 import appMockup from "@/assets/app-mockup.jpg";
-import { CreditCard, BookOpen, Stethoscope, Flower2, Gift, Smartphone, ArrowRight } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -9,13 +9,11 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const features = [
-  { icon: CreditCard, title: "Carteirinha Virtual", desc: "Tenha sua identificação sempre à mão, sem necessidade de documentos físicos." },
-  { icon: BookOpen, title: "Informações do Plano", desc: "Acesse rapidamente detalhes da sua cobertura, benefícios e serviços inclusos." },
-  { icon: Stethoscope, title: "Guia Médico", desc: "Encontre profissionais e clínicas conveniadas próximas a você." },
-  { icon: Flower2, title: "Obituário", desc: "Consulte informações sobre velórios e sepultamentos de forma prática." },
-  { icon: Gift, title: "Clube FUNSA", desc: "Descontos e benefícios exclusivos em parceiros comerciais da região." },
-  { icon: Smartphone, title: "Promoções Exclusivas", desc: "Fique por dentro das novidades e ofertas especiais para associados." },
+const highlights = [
+  "Acesso rápido à carteirinha virtual",
+  "Guia médico sempre atualizado",
+  "Clube de descontos exclusivos",
+  "Promoções e novidades em tempo real",
 ];
 
 const faqs = [
@@ -35,41 +33,55 @@ export default function Aplicativo() {
       />
 
       {/* App Features */}
-      <section className="section-padding bg-background">
+      <section className="section-padding bg-background overflow-hidden">
         <div className="section-container">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            {/* Image with accent bg */}
             <ScrollReveal>
-              <div className="flex justify-center">
+              <div className="relative flex justify-center">
+                <div className="absolute inset-0 rounded-[2rem] bg-primary/10 -rotate-3 scale-95" />
                 <img
                   src={appMockup}
                   alt="Aplicativo FUNSA na tela do smartphone"
-                  className="w-full max-w-md lg:max-w-lg rounded-3xl shadow-2xl"
+                  className="relative w-full max-w-sm lg:max-w-md rounded-3xl shadow-2xl"
                 />
               </div>
             </ScrollReveal>
 
-            <ScrollReveal delay={0.2}>
-              <span className="text-sm font-semibold text-gold uppercase tracking-widest">Funcionalidades</span>
-              <h2 className="mt-3 text-2xl md:text-3xl font-bold text-foreground leading-tight">
+            {/* Content */}
+            <ScrollReveal delay={0.15}>
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-gold uppercase tracking-widest mb-4">
+                Aplicativo FUNSA
+              </span>
+              <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-bold text-foreground leading-tight">
                 Tudo na palma da sua mão
               </h2>
-              <p className="mt-6 text-muted-foreground text-lg leading-relaxed">
+              <p className="mt-6 text-muted-foreground text-lg leading-relaxed max-w-lg">
                 Com o aplicativo FUNSA, você tem acesso a todos os serviços
-                e informações do seu plano de forma prática e rápida.
+                e informações do seu plano de forma prática e rápida.{" "}
+                <strong className="text-foreground">Baixe gratuitamente</strong> e tenha o controle total do seu plano.
               </p>
 
-              <div className="mt-8 space-y-4">
-                {features.map((f) => (
-                  <div key={f.title} className="flex items-start gap-4 p-4 rounded-xl bg-card border border-border/50 hover-lift">
-                    <div className="w-10 h-10 rounded-lg gradient-gold flex items-center justify-center flex-shrink-0">
-                      <f.icon className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-foreground">{f.title}</h3>
-                      <p className="mt-1 text-sm text-muted-foreground">{f.desc}</p>
-                    </div>
-                  </div>
+              {/* Highlight checklist */}
+              <ul className="mt-8 space-y-4">
+                {highlights.map((item) => (
+                  <li key={item} className="flex items-center gap-3">
+                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Check className="w-3.5 h-3.5 text-primary" />
+                    </span>
+                    <span className="text-foreground font-medium">{item}</span>
+                  </li>
                 ))}
+              </ul>
+
+              {/* CTA */}
+              <div className="mt-10">
+                <a
+                  href="#download"
+                  className="inline-flex items-center gap-2 px-8 py-4 rounded-full gradient-gold text-primary font-semibold hover-lift text-base"
+                >
+                  Quero baixar o aplicativo <ArrowRight className="w-4 h-4" />
+                </a>
               </div>
             </ScrollReveal>
           </div>
@@ -77,7 +89,7 @@ export default function Aplicativo() {
       </section>
 
       {/* Download */}
-      <section className="py-16 gradient-navy">
+      <section id="download" className="py-16 gradient-navy">
         <div className="section-container text-center">
           <ScrollReveal>
             <h2 className="text-2xl md:text-3xl font-bold text-primary-foreground mb-4">
