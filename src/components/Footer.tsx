@@ -1,4 +1,3 @@
-import { Phone, Mail, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import logoFunsa from "@/assets/logo-funsa.png";
 
@@ -59,28 +58,14 @@ export default function Footer() {
               Contato
             </h4>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <a
-                href="tel:1437320202"
-                style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}
-                className="hover:!text-primary-foreground transition-colors"
-              >
-                <Phone size={16} /> (14) 3732-0202
+              <a href="tel:1437320202" style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none" }} className="hover:!text-primary-foreground transition-colors">
+                (14) 3732-0202
               </a>
-              <a
-                href="https://wa.me/5514997792932"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}
-                className="hover:!text-primary-foreground transition-colors"
-              >
-                <Phone size={16} /> (14) 99779-2932
+              <a href="https://wa.me/5514997792932" target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none" }} className="hover:!text-primary-foreground transition-colors">
+                (14) 99779-2932
               </a>
-              <a
-                href="mailto:contato@funsaavare.com.br"
-                style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}
-                className="hover:!text-primary-foreground transition-colors"
-              >
-                <Mail size={16} /> contato@funsaavare.com.br
+              <a href="mailto:contato@funsaavare.com.br" style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none" }} className="hover:!text-primary-foreground transition-colors">
+                contato@funsaavare.com.br
               </a>
             </div>
           </div>
@@ -89,10 +74,9 @@ export default function Footer() {
             <h4 style={{ fontSize: 14, fontWeight: 600, color: "hsl(40,30%,95%)", marginBottom: 12, marginTop: 0 }}>
               Endereço
             </h4>
-            <div style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", display: "flex", alignItems: "flex-start", gap: 8 }}>
-              <MapPin size={16} style={{ marginTop: 2, flexShrink: 0 }} />
-              <span>Rua Piauí, 1.467 – Centro, Avaré/SP</span>
-            </div>
+            <p style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", margin: 0 }}>
+              Rua Piauí, 1.467 – Centro, Avaré/SP
+            </p>
           </div>
         </div>
 
