@@ -130,8 +130,8 @@ export default function Home() {
             {highlights.map((h, i) => (
               <ScrollReveal key={h.title} delay={i * 0.1}>
                 <Link to={h.link} className="block p-8 rounded-2xl bg-card border border-border/50 hover-lift group text-center h-full">
-                  <div className="w-14 h-14 rounded-2xl gradient-navy flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform duration-300">
-                    <h.icon className="w-7 h-7 text-primary-foreground" />
+                  <div className="w-16 h-16 rounded-2xl bg-primary/10 backdrop-blur-xl border border-primary/20 shadow-[0_8px_32px_-4px_hsl(var(--navy)/0.15)] flex items-center justify-center mx-auto mb-5 group-hover:scale-110 group-hover:shadow-[0_12px_40px_-4px_hsl(var(--gold)/0.25)] transition-all duration-300">
+                    <h.icon className="w-7 h-7 text-primary" />
                   </div>
                   <h3 className="text-lg font-bold text-foreground">{h.title}</h3>
                   <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{h.desc}</p>
