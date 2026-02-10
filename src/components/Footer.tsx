@@ -11,63 +11,138 @@ const quickLinks = [
 ];
 
 export default function Footer() {
+  const navy = "hsl(216, 50%, 16%)";
+  const textMain = "hsl(40, 30%, 95%)";
+  const textMuted = "rgba(245, 240, 230, 0.6)";
+  const textFaint = "rgba(245, 240, 230, 0.4)";
+  const dividerColor = "rgba(255, 255, 255, 0.1)";
+
   return (
-    <footer className="bg-primary py-12 relative z-10 overflow-hidden">
+    <div
+      style={{
+        backgroundColor: navy,
+        padding: "3rem 0",
+        borderWidth: 0,
+        borderStyle: "none",
+        outlineWidth: 0,
+        position: "relative",
+        zIndex: 5,
+        overflow: "hidden",
+      }}
+    >
       <div className="section-container">
-        <div className="grid md:grid-cols-4 gap-8 mb-8">
-          <div>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "2rem",
+            marginBottom: "2rem",
+          }}
+        >
+          {/* Logo & Description */}
+          <div style={{ flex: "1 1 220px", minWidth: 200 }}>
             <img
               src={logoFunsa}
               alt="FUNSA"
-              className="h-12 w-auto mb-4"
-              style={{ filter: "brightness(0) invert(1)" }}
+              style={{
+                height: 48,
+                width: "auto",
+                marginBottom: 16,
+                filter: "brightness(0) invert(1)",
+                display: "block",
+              }}
             />
-            <p className="text-sm text-primary-foreground/60 leading-relaxed">
+            <p style={{ fontSize: 14, color: textMuted, lineHeight: 1.6 }}>
               Funerária Nossa Senhora Aparecida. Desde 1943 cuidando de quem você ama.
             </p>
           </div>
-          <div>
-            <h4 className="text-sm font-semibold text-primary-foreground mb-3">Links Rápidos</h4>
-            <div className="space-y-2">
+
+          {/* Quick Links */}
+          <div style={{ flex: "1 1 180px", minWidth: 160 }}>
+            <h4 style={{ fontSize: 14, fontWeight: 600, color: textMain, marginBottom: 12 }}>
+              Links Rápidos
+            </h4>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {quickLinks.map((l) => (
                 <Link
                   key={l.href}
                   to={l.href}
-                  className="block text-sm text-primary-foreground/60 hover:text-primary-foreground transition-colors"
+                  style={{ fontSize: 14, color: textMuted, textDecoration: "none" }}
+                  className="hover:!text-primary-foreground transition-colors"
                 >
                   {l.label}
                 </Link>
               ))}
             </div>
           </div>
-          <div>
-            <h4 className="text-sm font-semibold text-primary-foreground mb-3">Contato</h4>
-            <div className="space-y-2 text-sm text-primary-foreground/60">
-              <a href="tel:1437320202" className="flex items-center gap-2 hover:text-primary-foreground transition-colors">
-                <Phone className="w-4 h-4" /> (14) 3732-0202
+
+          {/* Contact */}
+          <div style={{ flex: "1 1 220px", minWidth: 200 }}>
+            <h4 style={{ fontSize: 14, fontWeight: 600, color: textMain, marginBottom: 12 }}>
+              Contato
+            </h4>
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <a
+                href="tel:1437320202"
+                style={{ fontSize: 14, color: textMuted, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}
+                className="hover:!text-primary-foreground transition-colors"
+              >
+                <Phone size={16} /> (14) 3732-0202
               </a>
-              <a href="https://wa.me/5514997792932" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary-foreground transition-colors">
-                <Phone className="w-4 h-4" /> (14) 99779-2932
+              <a
+                href="https://wa.me/5514997792932"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ fontSize: 14, color: textMuted, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}
+                className="hover:!text-primary-foreground transition-colors"
+              >
+                <Phone size={16} /> (14) 99779-2932
               </a>
-              <a href="mailto:contato@funsaavare.com.br" className="flex items-center gap-2 hover:text-primary-foreground transition-colors">
-                <Mail className="w-4 h-4" /> contato@funsaavare.com.br
+              <a
+                href="mailto:contato@funsaavare.com.br"
+                style={{ fontSize: 14, color: textMuted, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}
+                className="hover:!text-primary-foreground transition-colors"
+              >
+                <Mail size={16} /> contato@funsaavare.com.br
               </a>
             </div>
           </div>
-          <div>
-            <h4 className="text-sm font-semibold text-primary-foreground mb-3">Endereço</h4>
-            <div className="flex items-start gap-2 text-sm text-primary-foreground/60">
-              <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
+
+          {/* Address */}
+          <div style={{ flex: "1 1 220px", minWidth: 200 }}>
+            <h4 style={{ fontSize: 14, fontWeight: 600, color: textMain, marginBottom: 12 }}>
+              Endereço
+            </h4>
+            <div style={{ fontSize: 14, color: textMuted, display: "flex", alignItems: "flex-start", gap: 8 }}>
+              <MapPin size={16} style={{ marginTop: 2, flexShrink: 0 }} />
               <span>Rua Piauí, 1.467 – Centro, Avaré/SP</span>
             </div>
           </div>
         </div>
-        {/* Divider as a div instead of border to avoid global border interference */}
-        <div className="h-px bg-primary-foreground/10 mb-0" aria-hidden="true" />
-        <div className="pt-8 text-center text-sm text-primary-foreground/40">
+
+        {/* Divider - using a div with height instead of border */}
+        <div
+          style={{
+            height: 1,
+            backgroundColor: dividerColor,
+            marginBottom: 0,
+          }}
+          aria-hidden="true"
+        />
+
+        {/* Copyright */}
+        <p
+          style={{
+            paddingTop: 32,
+            textAlign: "center",
+            fontSize: 14,
+            color: textFaint,
+            margin: 0,
+          }}
+        >
           © {new Date().getFullYear()} FUNSA – Funerária Nossa Senhora Aparecida. Todos os direitos reservados.
-        </div>
+        </p>
       </div>
-    </footer>
+    </div>
   );
 }
