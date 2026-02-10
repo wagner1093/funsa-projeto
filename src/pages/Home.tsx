@@ -146,8 +146,12 @@ export default function Home() {
       </section>
 
       {/* Stats */}
-      <section className="py-16 gradient-navy">
-        <div className="section-container">
+      <section className="py-16 relative overflow-hidden">
+        <div className="absolute inset-0">
+          <img src={heroImg} alt="" className="w-full h-full object-cover blur-sm scale-105" />
+          <div className="absolute inset-0 bg-primary/85" />
+        </div>
+        <div className="section-container relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((s, i) => (
               <ScrollReveal key={s.label} delay={i * 0.1}>
