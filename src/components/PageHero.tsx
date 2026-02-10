@@ -55,7 +55,7 @@ export default function PageHero({
       }} transition={{
         duration: 0.6,
         delay: 0.3
-      }} className="mt-6 text-lg md:text-xl text-primary-foreground/70 max-w-2xl leading-relaxed">
+      }} className="mt-6 text-lg text-primary-foreground/70 max-w-2xl leading-relaxed md:text-base">
             {subtitle}
           </motion.p>}
       </div>
