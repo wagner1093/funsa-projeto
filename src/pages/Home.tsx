@@ -198,7 +198,7 @@ export default function Home() {
         <div className="section-container">
           <ScrollReveal>
             <div className="gradient-navy rounded-3xl p-10 md:p-16 text-center">
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary-foreground mb-4">
+              <h2 className="text-3xl md:text-4xl font-semibold text-primary-foreground mb-4" style={{ fontFamily: "'Montserrat', sans-serif" }}>
                 Precisa de atendimento imediato?
               </h2>
               <p className="text-primary-foreground/70 text-lg max-w-xl mx-auto mb-8">
