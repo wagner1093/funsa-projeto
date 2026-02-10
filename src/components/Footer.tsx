@@ -1,3 +1,4 @@
+import { Phone, Mail, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 import logoFunsa from "@/assets/logo-funsa.png";
 
@@ -63,7 +64,7 @@ export default function Footer() {
                 style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}
                 className="hover:!text-primary-foreground transition-colors"
               >
-                ✆ (14) 3732-0202
+                <Phone size={16} /> (14) 3732-0202
               </a>
               <a
                 href="https://wa.me/5514997792932"
@@ -72,14 +73,14 @@ export default function Footer() {
                 style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}
                 className="hover:!text-primary-foreground transition-colors"
               >
-                ✆ (14) 99779-2932
+                <Phone size={16} /> (14) 99779-2932
               </a>
               <a
                 href="mailto:contato@funsaavare.com.br"
                 style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}
                 className="hover:!text-primary-foreground transition-colors"
               >
-                ✉ contato@funsaavare.com.br
+                <Mail size={16} /> contato@funsaavare.com.br
               </a>
             </div>
           </div>
@@ -89,7 +90,7 @@ export default function Footer() {
               Endereço
             </h4>
             <div style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", display: "flex", alignItems: "flex-start", gap: 8 }}>
-              <span style={{ flexShrink: 0 }}>📍</span>
+              <MapPin size={16} style={{ marginTop: 2, flexShrink: 0 }} />
               <span>Rua Piauí, 1.467 – Centro, Avaré/SP</span>
             </div>
           </div>
