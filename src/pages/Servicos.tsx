@@ -66,10 +66,10 @@ export default function Servicos() {
                         <span className="text-sm text-muted-foreground">{d}</span>
                       </div>)}
                   </div>
-                  {s.ctaHref.startsWith("/") ? <Link to={s.ctaHref} className="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-full gradient-gold text-primary font-semibold hover-lift">
-                      {s.cta} <ArrowRight className="w-4 h-4" />
-                    </Link> : <a href={s.ctaHref} className="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-full gradient-gold text-primary font-semibold hover-lift">
-                      {s.cta} <Phone className="w-4 h-4" />
+                  {s.ctaHref.startsWith("/") ? <Link to={s.ctaHref} className="mt-8 inline-flex items-center gap-2 px-6 py-3 text-sm rounded-full gradient-gold text-primary font-semibold hover-lift">
+                      {s.cta} <ArrowRight className="w-3.5 h-3.5" />
+                    </Link> : <a href={s.ctaHref} className="mt-8 inline-flex items-center gap-2 px-6 py-3 text-sm rounded-full gradient-gold text-primary font-semibold hover-lift">
+                      {s.cta} <Phone className="w-3.5 h-3.5" />
                     </a>}
                 </div>
               </div>
