@@ -102,7 +102,7 @@ export default function Servicos() {
                 </div>
 
                 <div className={i % 2 !== 0 ? "lg:order-1" : ""}>
-                  <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground">{s.title}</h2>
+                  <h2 className="text-2xl md:text-3xl font-bold text-foreground">{s.title}</h2>
                   <p className="mt-4 text-muted-foreground leading-relaxed text-lg">{s.description}</p>
                   <div className="mt-6 grid sm:grid-cols-2 gap-3">
                     {s.details.map((d) => (
@@ -138,7 +138,7 @@ export default function Servicos() {
       <section className="section-padding gradient-navy">
         <div className="section-container text-center">
           <ScrollReveal>
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary-foreground mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
               Precisa de mais informações?
             </h2>
             <p className="text-primary-foreground/70 text-lg max-w-xl mx-auto mb-8">

@@ -15,7 +15,7 @@ export default function Footer() {
       <div className="section-container">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
-            <span className="text-xl font-serif font-bold text-primary-foreground">FUNSA</span>
+            <span className="text-xl font-bold text-primary-foreground">FUNSA</span>
             <p className="mt-2 text-sm text-primary-foreground/60 leading-relaxed">
               Funerária Nossa Senhora Aparecida. Desde 1943 cuidando de quem você ama.
             </p>

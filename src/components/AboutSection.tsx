@@ -25,7 +25,7 @@ export default function AboutSection() {
           {/* Text */}
           <ScrollReveal>
             <span className="text-sm font-semibold text-gold uppercase tracking-widest">Quem Somos</span>
-            <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground leading-tight">
+            <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
               Uma história de cuidado e respeito
             </h2>
             <p className="mt-6 text-muted-foreground leading-relaxed text-lg">
@@ -61,7 +61,7 @@ export default function AboutSection() {
                 className="rounded-2xl shadow-2xl w-full object-cover aspect-[4/3]"
               />
               <div className="absolute -bottom-6 -left-6 p-6 glass-card rounded-2xl">
-                <span className="text-3xl font-serif font-bold text-primary">1943</span>
+                <span className="text-3xl font-bold text-primary">1943</span>
                 <p className="text-sm text-muted-foreground mt-1">Ano de fundação</p>
               </div>
             </div>
@@ -73,7 +73,7 @@ export default function AboutSection() {
           {stats.map((s, i) => (
             <ScrollReveal key={s.label} delay={i * 0.1}>
               <div className="text-center p-6 rounded-2xl bg-muted/30">
-                <div className="text-3xl md:text-4xl font-serif font-bold text-primary">
+                <div className="text-3xl md:text-4xl font-bold text-primary">
                   <Counter end={s.value} suffix={s.suffix} />
                 </div>
                 <p className="mt-2 text-sm text-muted-foreground">{s.label}</p>

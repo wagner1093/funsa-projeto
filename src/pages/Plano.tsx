@@ -66,7 +66,7 @@ export default function Plano() {
           <div className="grid lg:grid-cols-2 gap-16 items-start">
             <ScrollReveal>
               <span className="text-sm font-semibold text-gold uppercase tracking-widest">Plano Familiar</span>
-              <h2 className="mt-3 text-3xl md:text-4xl font-serif font-bold text-foreground leading-tight">
+              <h2 className="mt-3 text-3xl md:text-4xl font-bold text-foreground leading-tight">
                 Proteção e tranquilidade para toda a família
               </h2>
               <p className="mt-6 text-muted-foreground text-lg leading-relaxed">
@@ -95,7 +95,7 @@ export default function Plano() {
 
             <ScrollReveal delay={0.2}>
               <div className="p-8 rounded-2xl bg-card border border-border/50 shadow-lg">
-                <h3 className="text-xl font-serif font-bold text-foreground mb-6">O que está incluído</h3>
+                <h3 className="text-xl font-bold text-foreground mb-6">O que está incluído</h3>
                 <div className="space-y-4">
                   {included.map((item) => (
                     <div key={item} className="flex items-start gap-3">
@@ -118,7 +118,7 @@ export default function Plano() {
           <ScrollReveal>
             <div className="text-center mb-12">
               <span className="text-sm font-semibold text-gold uppercase tracking-widest">Dúvidas?</span>
-              <h2 className="mt-3 text-3xl md:text-4xl font-serif font-bold text-foreground">
+              <h2 className="mt-3 text-3xl md:text-4xl font-bold text-foreground">
                 Perguntas Frequentes
               </h2>
             </div>

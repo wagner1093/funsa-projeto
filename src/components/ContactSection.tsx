@@ -8,7 +8,7 @@ export default function ContactSection() {
         <ScrollReveal>
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-sm font-semibold text-gold uppercase tracking-widest">Contato</span>
-            <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground">
+            <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
               Estamos aqui para ajudar
             </h2>
             <p className="mt-4 text-muted-foreground text-lg">
@@ -46,7 +46,7 @@ export default function ContactSection() {
           <div className="gradient-navy rounded-3xl overflow-hidden">
             <div className="grid lg:grid-cols-2">
               <div className="p-10 md:p-14 flex flex-col justify-center">
-                <h3 className="text-2xl md:text-3xl font-serif font-bold text-primary-foreground">
+                <h3 className="text-2xl md:text-3xl font-bold text-primary-foreground">
                   Precisa de atendimento imediato?
                 </h3>
                 <p className="mt-4 text-primary-foreground/70 leading-relaxed">

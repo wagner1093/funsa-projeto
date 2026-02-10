@@ -63,7 +63,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.4 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-primary-foreground leading-tight mb-6"
+              className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6"
             >
               Acolhimento e segurança para sua família
             </motion.h1>
@@ -120,7 +120,7 @@ export default function Home() {
           <ScrollReveal>
             <div className="text-center max-w-2xl mx-auto mb-16">
               <span className="text-sm font-semibold text-gold uppercase tracking-widest">O que oferecemos</span>
-              <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground">
+              <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
                 Cuidado completo para sua família
               </h2>
             </div>
@@ -133,7 +133,7 @@ export default function Home() {
                   <div className="w-14 h-14 rounded-2xl gradient-navy flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform duration-300">
                     <h.icon className="w-7 h-7 text-primary-foreground" />
                   </div>
-                  <h3 className="text-lg font-serif font-bold text-foreground">{h.title}</h3>
+                  <h3 className="text-lg font-bold text-foreground">{h.title}</h3>
                   <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{h.desc}</p>
                   <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-gold">
                     Saiba Mais <ArrowRight className="w-3.5 h-3.5" />
@@ -152,7 +152,7 @@ export default function Home() {
             {stats.map((s, i) => (
               <ScrollReveal key={s.label} delay={i * 0.1}>
                 <div className="text-center">
-                  <div className="text-3xl md:text-5xl font-serif font-bold text-primary-foreground">
+                  <div className="text-3xl md:text-5xl font-bold text-primary-foreground">
                     <Counter end={s.value} suffix={s.suffix} />
                   </div>
                   <p className="mt-2 text-sm text-primary-foreground/60">{s.label}</p>
@@ -169,7 +169,7 @@ export default function Home() {
           <ScrollReveal>
             <div className="text-center max-w-2xl mx-auto mb-16">
               <span className="text-sm font-semibold text-gold uppercase tracking-widest">Depoimentos</span>
-              <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground">
+              <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
                 O que dizem sobre nós
               </h2>
             </div>
@@ -198,7 +198,7 @@ export default function Home() {
         <div className="section-container">
           <ScrollReveal>
             <div className="gradient-navy rounded-3xl p-10 md:p-16 text-center">
-              <h2 className="text-3xl md:text-4xl font-semibold text-primary-foreground mb-4" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+              <h2 className="text-3xl md:text-4xl font-semibold text-primary-foreground mb-4">
                 Precisa de atendimento imediato?
               </h2>
               <p className="text-primary-foreground/70 text-lg max-w-xl mx-auto mb-8">
