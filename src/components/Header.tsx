@@ -1,20 +1,22 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
 const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "Quem Somos", href: "#quem-somos" },
-  { label: "Serviços", href: "#servicos" },
-  { label: "Benefícios", href: "#beneficios" },
-  { label: "Plano", href: "#plano" },
-  { label: "Aplicativo", href: "#aplicativo" },
-  { label: "Contato", href: "#contato" },
+  { label: "Home", href: "/" },
+  { label: "Quem Somos", href: "/quem-somos" },
+  { label: "Serviços", href: "/servicos" },
+  { label: "Benefícios", href: "/beneficios" },
+  { label: "Plano", href: "/plano" },
+  { label: "Aplicativo", href: "/aplicativo" },
+  { label: "Contato", href: "/contato" },
 ];
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -22,39 +24,43 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
+
+  const isHome = location.pathname === "/";
+  const headerBg = scrolled || !isHome
+    ? "bg-card/90 backdrop-blur-xl shadow-lg border-b border-border/50"
+    : "bg-transparent";
+
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-card/90 backdrop-blur-xl shadow-lg border-b border-border/50"
-          : "bg-transparent"
-      }`}
-    >
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${headerBg}`}>
       <div className="section-container flex items-center justify-between h-16 md:h-20">
-        {/* Logo */}
-        <a href="#home" className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
           <span className="text-xl md:text-2xl font-serif font-bold text-primary">
             FUNSA
           </span>
           <span className="hidden sm:inline text-xs text-muted-foreground leading-tight max-w-[140px]">
             Funerária Nossa Senhora Aparecida
           </span>
-        </a>
+        </Link>
 
-        {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-1">
           {navLinks.map((l) => (
-            <a
+            <Link
               key={l.href}
-              href={l.href}
-              className="px-3 py-2 text-sm font-medium text-foreground/80 hover:text-primary transition-colors rounded-lg hover:bg-primary/5"
+              to={l.href}
+              className={`px-3 py-2 text-sm font-medium transition-colors rounded-lg hover:bg-primary/5 ${
+                location.pathname === l.href
+                  ? "text-primary font-semibold"
+                  : "text-foreground/80 hover:text-primary"
+              }`}
             >
               {l.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
-        {/* CTA + Mobile toggle */}
         <div className="flex items-center gap-3">
           <a
             href="tel:1437320202"
@@ -72,7 +78,6 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Nav */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -83,14 +88,17 @@ export default function Header() {
           >
             <nav className="section-container py-4 flex flex-col gap-1">
               {navLinks.map((l) => (
-                <a
+                <Link
                   key={l.href}
-                  href={l.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="px-4 py-3 text-sm font-medium text-foreground/80 hover:text-primary rounded-lg hover:bg-primary/5 transition-colors"
+                  to={l.href}
+                  className={`px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                    location.pathname === l.href
+                      ? "text-primary bg-primary/5 font-semibold"
+                      : "text-foreground/80 hover:text-primary hover:bg-primary/5"
+                  }`}
                 >
                   {l.label}
-                </a>
+                </Link>
               ))}
               <a
                 href="tel:1437320202"

@@ -1,10 +1,19 @@
 import { Phone, Mail, MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
+
+const quickLinks = [
+  { label: "Home", href: "/" },
+  { label: "Quem Somos", href: "/quem-somos" },
+  { label: "Nossos Serviços", href: "/servicos" },
+  { label: "Plano de Assistência", href: "/plano" },
+  { label: "Contato", href: "/contato" },
+];
 
 export default function Footer() {
   return (
     <footer className="bg-primary py-12">
       <div className="section-container">
-        <div className="grid md:grid-cols-3 gap-8 mb-8">
+        <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
             <span className="text-xl font-serif font-bold text-primary-foreground">FUNSA</span>
             <p className="mt-2 text-sm text-primary-foreground/60 leading-relaxed">
@@ -12,11 +21,31 @@ export default function Footer() {
             </p>
           </div>
           <div>
+            <h4 className="text-sm font-semibold text-primary-foreground mb-3">Links Rápidos</h4>
+            <div className="space-y-2">
+              {quickLinks.map((l) => (
+                <Link
+                  key={l.href}
+                  to={l.href}
+                  className="block text-sm text-primary-foreground/60 hover:text-primary-foreground transition-colors"
+                >
+                  {l.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+          <div>
             <h4 className="text-sm font-semibold text-primary-foreground mb-3">Contato</h4>
             <div className="space-y-2 text-sm text-primary-foreground/60">
-              <div className="flex items-center gap-2"><Phone className="w-4 h-4" /> (14) 3732-0202</div>
-              <div className="flex items-center gap-2"><Phone className="w-4 h-4" /> (14) 99779-2932</div>
-              <div className="flex items-center gap-2"><Mail className="w-4 h-4" /> contato@funsaavare.com.br</div>
+              <a href="tel:1437320202" className="flex items-center gap-2 hover:text-primary-foreground transition-colors">
+                <Phone className="w-4 h-4" /> (14) 3732-0202
+              </a>
+              <a href="https://wa.me/5514997792932" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary-foreground transition-colors">
+                <Phone className="w-4 h-4" /> (14) 99779-2932
+              </a>
+              <a href="mailto:contato@funsaavare.com.br" className="flex items-center gap-2 hover:text-primary-foreground transition-colors">
+                <Mail className="w-4 h-4" /> contato@funsaavare.com.br
+              </a>
             </div>
           </div>
           <div>
