@@ -69,7 +69,7 @@ export default function Footer() {
                 <IconSpan>📞</IconSpan> (14) 99779-2932
               </a>
               <a href="mailto:contato@funsaavare.com.br" style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} className="hover:!text-primary-foreground transition-colors">
-                <MailIcon /> contato@funsaavare.com.br
+                <IconSpan>✉️</IconSpan> contato@funsaavare.com.br
               </a>
             </div>
           </div>
