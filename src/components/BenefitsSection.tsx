@@ -17,7 +17,7 @@ export default function BenefitsSection() {
         <ScrollReveal>
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-sm font-semibold text-gold uppercase tracking-widest">Benefícios</span>
-            <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-foreground">
+            <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold text-foreground">
               Por que escolher a FUNSA?
             </h2>
           </div>
@@ -30,7 +30,7 @@ export default function BenefitsSection() {
                 <div className="w-14 h-14 rounded-2xl gradient-navy flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform duration-300">
                   <b.icon className="w-7 h-7 text-primary-foreground" />
                 </div>
-                <h3 className="text-lg font-serif font-bold text-foreground">{b.title}</h3>
+                <h3 className="text-lg font-bold text-foreground">{b.title}</h3>
                 <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{b.desc}</p>
               </div>
             </ScrollReveal>

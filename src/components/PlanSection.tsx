@@ -19,7 +19,7 @@ export default function PlanSection() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <ScrollReveal>
             <span className="text-sm font-semibold text-gold uppercase tracking-widest">Plano de Assistência</span>
-            <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-primary-foreground leading-tight">
+            <h2 className="mt-3 text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground leading-tight">
               Proteção e tranquilidade para toda a família
             </h2>
             <p className="mt-6 text-primary-foreground/70 text-lg leading-relaxed">
@@ -37,7 +37,7 @@ export default function PlanSection() {
 
           <ScrollReveal delay={0.2}>
             <div className="bg-card/10 backdrop-blur-sm border border-primary-foreground/10 rounded-2xl p-8">
-              <h3 className="text-xl font-serif font-bold text-primary-foreground mb-6">O que está incluído</h3>
+              <h3 className="text-xl font-bold text-primary-foreground mb-6">O que está incluído</h3>
               <div className="space-y-4">
                 {included.map((item) => (
                   <div key={item} className="flex items-start gap-3">

@@ -78,13 +78,13 @@ export default function Contato() {
           <div className="grid lg:grid-cols-2 gap-12">
             <ScrollReveal>
               <div className="p-8 rounded-2xl bg-card border border-border/50">
-                <h2 className="text-2xl font-serif font-bold text-foreground mb-6">Envie sua mensagem</h2>
+                <h2 className="text-2xl font-bold text-foreground mb-6">Envie sua mensagem</h2>
                 {submitted ? (
                   <div className="text-center py-12">
                     <div className="w-16 h-16 rounded-full gradient-gold flex items-center justify-center mx-auto mb-4">
                       <Send className="w-7 h-7 text-primary" />
                     </div>
-                    <h3 className="text-xl font-serif font-bold text-foreground">Mensagem enviada!</h3>
+                    <h3 className="text-xl font-bold text-foreground">Mensagem enviada!</h3>
                     <p className="mt-2 text-muted-foreground">Você foi redirecionado para o WhatsApp. Obrigado pelo contato!</p>
                     <button
                       onClick={() => { setSubmitted(false); setForm({ name: "", email: "", phone: "", subject: "", message: "" }); }}
@@ -132,7 +132,7 @@ export default function Contato() {
               <div className="space-y-6">
                 {/* Address */}
                 <div className="p-8 rounded-2xl bg-card border border-border/50">
-                  <h3 className="text-xl font-serif font-bold text-foreground mb-4">Endereço</h3>
+                  <h3 className="text-xl font-bold text-foreground mb-4">Endereço</h3>
                   <div className="flex items-start gap-3 text-muted-foreground">
                     <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5 text-gold" />
                     <div>

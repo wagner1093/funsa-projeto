@@ -37,7 +37,7 @@ export default function Header() {
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${headerBg}`}>
       <div className="section-container flex items-center justify-between h-16 md:h-20">
         <Link to="/" className="flex items-center gap-2">
-          <span className="text-xl md:text-2xl font-serif font-bold text-primary">
+          <span className="text-xl md:text-2xl font-bold text-primary">
             FUNSA
           </span>
           <span className="hidden sm:inline text-xs text-muted-foreground leading-tight max-w-[140px]">
