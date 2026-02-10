@@ -63,7 +63,7 @@ export default function Footer() {
             </h4>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               <a href="tel:1437320202" style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} className="hover:!text-primary-foreground transition-colors">
-                <PhoneIcon /> (14) 3732-0202
+                <IconSpan>📞</IconSpan> (14) 3732-0202
               </a>
               <a href="https://wa.me/5514997792932" target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} className="hover:!text-primary-foreground transition-colors">
                 <PhoneIcon /> (14) 99779-2932
