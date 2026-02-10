@@ -9,15 +9,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const features = [
-  { title: "Carteirinha Virtual", desc: "Tenha sua identificação sempre à mão, sem necessidade de documentos físicos." },
-  { title: "Informações do Plano", desc: "Acesse rapidamente detalhes da sua cobertura, benefícios e serviços inclusos." },
-  { title: "Guia Médico", desc: "Encontre profissionais e clínicas conveniadas próximas a você." },
-  { title: "Obituário", desc: "Consulte informações sobre velórios e sepultamentos de forma prática." },
-  { title: "Clube FUNSA", desc: "Descontos e benefícios exclusivos em parceiros comerciais da região." },
-  { title: "Promoções Exclusivas", desc: "Fique por dentro das novidades e ofertas especiais para associados." },
-];
-
 const highlights = [
   "Acesso rápido à carteirinha virtual",
   "Guia médico sempre atualizado",
@@ -25,11 +16,27 @@ const highlights = [
   "Promoções e novidades em tempo real",
 ];
 
-      {/* App Features — inspired layout */}
+const faqs = [
+  { q: "O aplicativo é gratuito?", a: "Sim, o aplicativo FUNSA é totalmente gratuito para download e uso por todos os associados." },
+  { q: "Onde posso baixar?", a: "O aplicativo está disponível na App Store (iOS) e Google Play (Android)." },
+  { q: "Preciso ter plano para usar?", a: "Algumas funcionalidades são exclusivas para associados, mas o download é aberto a todos." },
+  { q: "Como acessar minha carteirinha?", a: "Após o login com seus dados de associado, acesse a seção 'Carteirinha Virtual' no menu principal." },
+];
+
+export default function Aplicativo() {
+  return (
+    <>
+      <PageHero
+        title="Aplicativo FUNSA"
+        subtitle="Praticidade e acesso rápido a todos os serviços e informações do seu plano, na palma da sua mão."
+        breadcrumbs={[{ label: "Aplicativo", href: "/aplicativo" }]}
+      />
+
+      {/* App Features */}
       <section className="section-padding bg-background overflow-hidden">
         <div className="section-container">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            {/* Image — large, with soft bg accent */}
+            {/* Image with accent bg */}
             <ScrollReveal>
               <div className="relative flex justify-center">
                 <div className="absolute inset-0 rounded-[2rem] bg-primary/10 -rotate-3 scale-95" />
@@ -82,7 +89,7 @@ const highlights = [
       </section>
 
       {/* Download */}
-      <section className="py-16 gradient-navy">
+      <section id="download" className="py-16 gradient-navy">
         <div className="section-container text-center">
           <ScrollReveal>
             <h2 className="text-2xl md:text-3xl font-bold text-primary-foreground mb-4">
