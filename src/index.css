@@ -87,8 +87,14 @@
 }
 
 @layer base {
-  *:not(svg):not(svg *) {
+  * {
     @apply border-border;
+  }
+
+  svg,
+  svg * {
+    border: none !important;
+    border-width: 0 !important;
   }
 
   body {
