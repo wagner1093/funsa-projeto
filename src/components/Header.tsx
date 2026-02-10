@@ -46,7 +46,7 @@ export default function Header() {
           </span>
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav className="hidden lg:flex items-center gap-1" style={{ fontFamily: "'Sora', sans-serif" }}>
           {navLinks.map((l) => (
             <Link
               key={l.href}
