@@ -201,28 +201,40 @@ export default function Home() {
       <section className="section-padding bg-background">
         <div className="section-container">
           <ScrollReveal>
-            <div className="gradient-navy rounded-3xl p-10 md:p-16 text-center">
-              <h2 className="text-2xl md:text-3xl font-semibold text-primary-foreground mb-4">
-                Precisa de atendimento imediato?
-              </h2>
-              <p className="text-primary-foreground/70 text-lg max-w-xl mx-auto mb-8">
-                Nossa equipe está disponível 24 horas por dia, pronta para oferecer todo o suporte que sua família precisa.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link
-                  to="/contato"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full gradient-gold text-primary font-semibold hover-lift"
-                >
-                  Fale Conosco <ArrowRight className="w-4 h-4" />
-                </Link>
-                <a
-                  href="https://wa.me/5514997792932"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border-2 border-primary-foreground/30 text-primary-foreground font-semibold hover:bg-primary-foreground/10 transition-colors"
-                >
-                  WhatsApp 24h
-                </a>
+            <div className="relative overflow-hidden rounded-3xl bg-primary p-10 md:p-16 text-center">
+              {/* Decorative geometric shapes */}
+              <div className="absolute top-0 left-0 w-32 h-32 md:w-48 md:h-48">
+                <div className="absolute top-0 left-0 w-full h-full bg-gold/20 rounded-br-[3rem] transform -translate-x-4 -translate-y-4" />
+                <div className="absolute top-0 left-0 w-full h-full border border-gold/30 rounded-br-[3rem]" />
+              </div>
+              <div className="absolute bottom-0 right-0 w-32 h-32 md:w-48 md:h-48">
+                <div className="absolute bottom-0 right-0 w-full h-full bg-gold/20 rounded-tl-[3rem] transform translate-x-4 translate-y-4" />
+                <div className="absolute bottom-0 right-0 w-full h-full border border-gold/30 rounded-tl-[3rem]" />
+              </div>
+
+              <div className="relative z-10">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary-foreground mb-5 leading-tight">
+                  Precisa de atendimento<br className="hidden md:block" /> imediato?
+                </h2>
+                <p className="text-primary-foreground/60 text-lg max-w-xl mx-auto mb-10">
+                  Nossa equipe está disponível 24 horas por dia, pronta para oferecer todo o suporte que sua família precisa.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center items-center max-w-lg mx-auto">
+                  <Link
+                    to="/contato"
+                    className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-primary-foreground text-primary font-semibold hover:bg-primary-foreground/90 transition-colors hover-lift"
+                  >
+                    Fale Conosco <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  <a
+                    href="https://wa.me/5514997792932"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-primary-foreground/20 text-primary-foreground font-semibold hover:bg-primary-foreground/10 transition-colors"
+                  >
+                    WhatsApp 24h
+                  </a>
+                </div>
               </div>
             </div>
           </ScrollReveal>
