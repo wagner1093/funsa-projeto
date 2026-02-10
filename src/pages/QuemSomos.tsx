@@ -153,7 +153,7 @@ export default function QuemSomos() {
                 <div className={`relative flex items-start gap-8 mb-12 ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}>
                   <div className="hidden md:block md:w-1/2" />
                   <div className="absolute left-4 md:left-1/2 w-3 h-3 rounded-full bg-gold border-4 border-background -translate-x-1.5 md:-translate-x-1.5 mt-2" />
-                  <div className="ml-12 md:ml-0 md:w-1/2 p-6 rounded-2xl bg-card border border-border/50">
+                  <div className="ml-12 md:ml-0 md:w-1/2 p-8 rounded-2xl bg-card border border-border/50">
                     <span className="text-sm font-bold text-gold">{t.year}</span>
                     <h3 className="mt-1 text-lg font-bold text-foreground">{t.title}</h3>
                     <p className="mt-2 text-sm text-muted-foreground">{t.desc}</p>
