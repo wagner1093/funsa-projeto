@@ -93,7 +93,7 @@ export default function Home() {
               </Link>
               <Link
                 to="/plano"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border-2 border-primary-foreground/30 text-primary-foreground font-semibold text-base hover:bg-primary-foreground/10 transition-colors"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-white/10 backdrop-blur-xl border border-white/25 text-primary-foreground font-semibold text-base hover:bg-white/20 hover:border-white/40 shadow-[0_8px_32px_-4px_rgba(255,255,255,0.1)] transition-all duration-300"
               >
                 Conheça Nossos Planos
               </Link>
