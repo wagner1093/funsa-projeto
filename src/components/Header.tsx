@@ -29,18 +29,19 @@ export default function Header() {
   }, [location.pathname]);
 
   const isHome = location.pathname === "/";
-  const headerBg = scrolled || !isHome
-    ? "bg-card/90 backdrop-blur-xl shadow-lg border-b border-border/50"
-    : "bg-transparent";
+  const isTransparent = !scrolled && isHome;
+  const headerBg = isTransparent
+    ? "bg-transparent"
+    : "bg-card/90 backdrop-blur-xl shadow-lg border-b border-border/50";
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${headerBg}`}>
       <div className="section-container flex items-center justify-between h-16 md:h-20">
         <Link to="/" className="flex items-center gap-2">
-          <span className="text-xl md:text-2xl font-bold text-primary">
+          <span className={`text-xl md:text-2xl font-bold transition-colors duration-300 ${isTransparent ? "text-white" : "text-primary"}`}>
             FUNSA
           </span>
-          <span className="hidden sm:inline text-xs text-muted-foreground leading-tight max-w-[140px]">
+          <span className={`hidden sm:inline text-xs leading-tight max-w-[140px] transition-colors duration-300 ${isTransparent ? "text-white/70" : "text-muted-foreground"}`}>
             Funerária Nossa Senhora Aparecida
           </span>
         </Link>
@@ -50,10 +51,10 @@ export default function Header() {
             <Link
               key={l.href}
               to={l.href}
-              className={`px-3 py-2 text-sm font-medium transition-colors rounded-lg hover:bg-primary/5 ${
+              className={`px-3 py-2 text-sm font-medium transition-colors rounded-lg hover:bg-white/10 ${
                 location.pathname === l.href
-                  ? "text-primary font-semibold"
-                  : "text-foreground/80 hover:text-primary"
+                  ? isTransparent ? "text-white font-semibold" : "text-primary font-semibold"
+                  : isTransparent ? "text-white/80 hover:text-white" : "text-foreground/80 hover:text-primary"
               }`}
             >
               {l.label}
