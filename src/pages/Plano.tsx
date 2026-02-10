@@ -2,12 +2,7 @@ import PageHero from "@/components/PageHero";
 import ScrollReveal from "@/components/ScrollReveal";
 import { Check, ArrowRight, HelpCircle } from "lucide-react";
 import { Link } from "react-router-dom";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Collapse, CollapseGroup } from "@/components/ui/collapse";
 
 const included = [
   "Assistência funerária completa",
@@ -125,22 +120,13 @@ export default function Plano() {
           </ScrollReveal>
 
           <ScrollReveal delay={0.1}>
-            <Accordion type="single" collapsible className="space-y-3">
+            <CollapseGroup>
               {faqs.map((faq, i) => (
-                <AccordionItem
-                  key={i}
-                  value={`faq-${i}`}
-                  className="bg-card border border-border/50 rounded-xl px-6 data-[state=open]:shadow-md transition-shadow"
-                >
-                  <AccordionTrigger className="text-left font-semibold text-foreground hover:no-underline py-5">
-                    {faq.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground leading-relaxed">
-                    {faq.a}
-                  </AccordionContent>
-                </AccordionItem>
+                <Collapse key={i} title={faq.q}>
+                  <p className="text-muted-foreground leading-relaxed">{faq.a}</p>
+                </Collapse>
               ))}
-            </Accordion>
+            </CollapseGroup>
           </ScrollReveal>
 
           <ScrollReveal delay={0.2}>
