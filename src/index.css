@@ -87,28 +87,8 @@
 }
 
 @layer base {
-  *,
-  *::before,
-  *::after {
-    border-color: transparent;
-  }
-
-  /* Re-apply border-border only on elements that use Tailwind border utilities */
-  .border,
-  .border-t,
-  .border-b,
-  .border-l,
-  .border-r,
-  .border-x,
-  .border-y,
-  [class*="border-border"],
-  [class*="border-primary"],
-  [class*="border-muted"],
-  [class*="border-accent"],
-  [class*="border-input"],
-  [class*="border-white"],
-  [class*="border-gold"] {
-    border-color: hsl(var(--border));
+  * {
+    @apply border-border;
   }
 
   body {
