@@ -66,7 +66,7 @@ export default function Footer() {
                 <IconSpan>📞</IconSpan> (14) 3732-0202
               </a>
               <a href="https://wa.me/5514997792932" target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} className="hover:!text-primary-foreground transition-colors">
-                <PhoneIcon /> (14) 99779-2932
+                <IconSpan>📞</IconSpan> (14) 99779-2932
               </a>
               <a href="mailto:contato@funsaavare.com.br" style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} className="hover:!text-primary-foreground transition-colors">
                 <MailIcon /> contato@funsaavare.com.br
