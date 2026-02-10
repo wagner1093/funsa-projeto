@@ -43,7 +43,7 @@ export default function Aplicativo() {
                 <img
                   src={appMockup}
                   alt="Aplicativo FUNSA na tela do smartphone"
-                  className="w-80 md:w-96 rounded-3xl shadow-2xl"
+                  className="w-full max-w-md lg:max-w-lg rounded-3xl shadow-2xl"
                 />
               </div>
             </ScrollReveal>
