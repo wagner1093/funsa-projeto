@@ -9,6 +9,11 @@ import QuemSomos from "./pages/QuemSomos";
 import Servicos from "./pages/Servicos";
 import Beneficios from "./pages/Beneficios";
 import Plano from "./pages/Plano";
+import Funeraria from "./pages/Funeraria";
+import Falecidos from "./pages/Falecidos";
+import PrevSaude from "./pages/PrevSaude";
+import ClubeFunsa from "./pages/ClubeFunsa";
+import Blog from "./pages/Blog";
 import Aplicativo from "./pages/Aplicativo";
 import Contato from "./pages/Contato";
 import NotFound from "./pages/NotFound";
@@ -27,6 +32,11 @@ const App = () => (
           <Route path="/servicos" element={<Layout><Servicos /></Layout>} />
           <Route path="/beneficios" element={<Layout><Beneficios /></Layout>} />
           <Route path="/plano" element={<Layout><Plano /></Layout>} />
+          <Route path="/funeraria" element={<Layout><Funeraria /></Layout>} />
+          <Route path="/falecidos" element={<Layout><Falecidos /></Layout>} />
+          <Route path="/prevsaude" element={<Layout><PrevSaude /></Layout>} />
+          <Route path="/clube" element={<Layout><ClubeFunsa /></Layout>} />
+          <Route path="/blog" element={<Layout><Blog /></Layout>} />
           <Route path="/aplicativo" element={<Layout><Aplicativo /></Layout>} />
           <Route path="/contato" element={<Layout><Contato /></Layout>} />
           <Route path="*" element={<NotFound />} />
