@@ -56,7 +56,7 @@ export default function Home() {
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-xl border border-white/20 shadow-[0_4px_24px_-4px_rgba(255,255,255,0.08)] mb-8"
             >
               <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
-              <span className="text-sm font-medium text-primary-foreground/90">Desde 1943 · Tradição e Confiança</span>
+              <span className="text-sm font-medium text-primary-foreground/90">Grupo Funsa · Desde 1943</span>
             </motion.div>
 
             <motion.h1
@@ -65,7 +65,7 @@ export default function Home() {
               transition={{ duration: 0.7, delay: 0.4 }}
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6"
             >
-              Acolhimento e segurança para sua família
+              Cuidar é estar presente, com respeito e amor.
             </motion.h1>
 
             <motion.p

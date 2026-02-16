@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, Instagram, Facebook } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import logoFunsa from "@/assets/logo-funsa.png";
 
@@ -63,6 +63,26 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-2">
+            <a
+              href="https://www.instagram.com/clubefunsa/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`p-2 rounded-lg transition-colors ${isTransparent ? "text-white/70 hover:text-white hover:bg-white/10" : "text-muted-foreground hover:text-primary hover:bg-primary/5"}`}
+              aria-label="Instagram"
+            >
+              <Instagram className="w-4 h-4" />
+            </a>
+            <a
+              href="https://www.facebook.com/funsaavare"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`p-2 rounded-lg transition-colors ${isTransparent ? "text-white/70 hover:text-white hover:bg-white/10" : "text-muted-foreground hover:text-primary hover:bg-primary/5"}`}
+              aria-label="Facebook"
+            >
+              <Facebook className="w-4 h-4" />
+            </a>
+          </div>
           <a
             href="tel:1437320202"
             className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full gradient-navy text-primary-foreground text-sm font-medium hover-lift"
