@@ -7,10 +7,12 @@ import logoFunsa from "@/assets/logo-funsa.png";
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "Quem Somos", href: "/quem-somos" },
-  { label: "Serviços", href: "/servicos" },
-  { label: "Benefícios", href: "/beneficios" },
-  { label: "Plano", href: "/plano" },
-  { label: "Aplicativo", href: "/aplicativo" },
+  { label: "Funerária", href: "/funeraria" },
+  { label: "Planos", href: "/plano" },
+  { label: "Prev Saúde", href: "/prevsaude" },
+  { label: "Clube + FUNSA", href: "/clube" },
+  { label: "Falecimentos", href: "/falecidos" },
+  { label: "Blog", href: "/blog" },
   { label: "Contato", href: "/contato" },
 ];
 
