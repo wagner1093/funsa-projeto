@@ -7,7 +7,7 @@ import Counter from "@/components/Counter";
 
 const highlights = [
   { icon: Clock, title: "Atendimento 24h", desc: "Plantão permanente para atendimento imediato com dignidade.", link: "/servicos" },
-  { icon: Stethoscope, title: "PREV SAÚDE", desc: "Convênio médico com diversas especialidades para sua família.", link: "/servicos" },
+  { icon: Stethoscope, title: "PREV SAÚDE", desc: "Convênio médico com diversas especialidades para sua família.", link: "/prevsaude" },
   { icon: Trees, title: "Memorial Pôr do Sol", desc: "Espaço moderno e acolhedor para homenagear seus entes queridos.", link: "/servicos" },
   { icon: Shield, title: "Plano Familiar", desc: "Proteção completa e tranquilidade para toda a família.", link: "/plano" },
 ];
