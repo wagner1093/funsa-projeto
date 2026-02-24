@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronDown, Clock, Stethoscope, Trees, Shield, Users, Award, Star } from "lucide-react";
+import { ArrowRight, ChevronDown, Clock, Stethoscope, Gift, Shield, Users, Award, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
@@ -17,9 +17,9 @@ const heroSlides = [
 ];
 
 const highlights = [
-  { icon: Clock, title: "Atendimento 24h", desc: "Plantão permanente para atendimento imediato com dignidade.", link: "/servicos" },
   { icon: Stethoscope, title: "PREV SAÚDE", desc: "Convênio médico com diversas especialidades para sua família.", link: "/prevsaude" },
-  { icon: Trees, title: "Memorial Pôr do Sol", desc: "Espaço moderno e acolhedor para homenagear seus entes queridos.", link: "/servicos" },
+  { icon: Clock, title: "Atendimento 24h", desc: "Plantão permanente para atendimento imediato com dignidade.", link: "/servicos" },
+  { icon: Gift, title: "Clube + Funsa", desc: "Clube de vantagens com descontos exclusivos para associados.", link: "/clube-funsa" },
   { icon: Shield, title: "Plano Familiar", desc: "Proteção completa e tranquilidade para toda a família.", link: "/plano" },
 ];
 
@@ -101,7 +101,7 @@ export default function Home() {
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-xl border border-white/20 shadow-[0_4px_24px_-4px_rgba(255,255,255,0.08)] mb-8"
             >
               <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
-              <span className="text-sm font-medium text-primary-foreground/90">Grupo Funsa · Desde 1943</span>
+              <span className="text-sm font-medium text-primary-foreground/90">Funsa · Desde 1943</span>
             </motion.div>
 
             <motion.h1
