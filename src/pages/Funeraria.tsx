@@ -1,8 +1,78 @@
+import { useState, useEffect, useCallback } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 import PageHero from "@/components/PageHero";
 import ScrollReveal from "@/components/ScrollReveal";
-import { Shield, Clock, Users, Heart } from "lucide-react";
+import { Shield, Clock, Users, Heart, Truck, FileText, Flower2, CheckCircle } from "lucide-react";
+import heroImg from "@/assets/hero-bg.jpg";
+import clinicImg from "@/assets/clinic.jpg";
+import memorialImg from "@/assets/memorial.jpg";
+
+const bannerSlides = [
+  { img: heroImg, alt: "Funerária FUNSA – Estrutura completa" },
+  { img: clinicImg, alt: "Funerária FUNSA – Atendimento humanizado" },
+  { img: memorialImg, alt: "Funerária FUNSA – Tradição e respeito" },
+];
+
+const servicosFunerarios = [
+  {
+    icon: Clock,
+    title: "Atendimento Funerário 24h",
+    desc: "Plantão permanente com equipe especializada para atendimento imediato a qualquer hora do dia ou da noite.",
+  },
+  {
+    icon: Truck,
+    title: "Traslado Nacional e Internacional",
+    desc: "Transporte do corpo com segurança e agilidade, sem limite de quilometragem para associados.",
+  },
+  {
+    icon: Heart,
+    title: "Velório e Cerimônia",
+    desc: "Salas de velório climatizadas e confortáveis, com organização completa da cerimônia de despedida.",
+  },
+  {
+    icon: Flower2,
+    title: "Ornamentação e Floricultura",
+    desc: "Arranjos florais e ornamentação personalizada para homenagear com beleza e carinho.",
+  },
+  {
+    icon: FileText,
+    title: "Documentação e Legalização",
+    desc: "Cuidamos de toda a burocracia: atestado de óbito, registro em cartório e providências legais.",
+  },
+  {
+    icon: Shield,
+    title: "Cremação",
+    desc: "Orientação completa sobre o processo de cremação, documentação e cerimônia de despedida.",
+  },
+  {
+    icon: Users,
+    title: "Equipe Qualificada",
+    desc: "Profissionais treinados com sensibilidade, ética e profissionalismo em todas as etapas.",
+  },
+  {
+    icon: CheckCircle,
+    title: "Estrutura Completa",
+    desc: "Equipamentos e instalações modernas para cada etapa do serviço funerário.",
+  },
+];
 
 export default function Funeraria() {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 4000, stopOnInteraction: false })]);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setActiveIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+    return () => { emblaApi.off("select", onSelect); };
+  }, [emblaApi, onSelect]);
+
   return (
     <>
       <PageHero
@@ -11,6 +81,31 @@ export default function Funeraria() {
         breadcrumbs={[{ label: "Funerária", href: "/funeraria" }]}
       />
 
+      {/* Banner Rotativo */}
+      <section className="relative h-[50vh] md:h-[60vh] overflow-hidden">
+        <div className="absolute inset-0" ref={emblaRef}>
+          <div className="flex h-full">
+            {bannerSlides.map((slide, i) => (
+              <div key={i} className="min-w-0 shrink-0 grow-0 basis-full relative h-full">
+                <img src={slide.img} alt={slide.alt} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-primary/40" />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+          {bannerSlides.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => emblaApi?.scrollTo(i)}
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === activeIndex ? "bg-gold w-8" : "bg-white/40 hover:bg-white/60"}`}
+              aria-label={`Ir para slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* Texto institucional */}
       <section className="section-padding bg-background">
         <div className="section-container max-w-4xl">
           <ScrollReveal>
@@ -30,39 +125,31 @@ export default function Funeraria() {
         </div>
       </section>
 
+      {/* Listagem de Serviços */}
       <section className="section-padding bg-muted/30">
-        <div className="section-container max-w-4xl">
+        <div className="section-container">
           <ScrollReveal>
-            <div className="grid sm:grid-cols-2 gap-6 mb-16">
-              {[
-                { icon: Clock, title: "Plantão 24 horas", desc: "Equipe disponível a qualquer momento para oferecer suporte imediato." },
-                { icon: Shield, title: "Estrutura Completa", desc: "Equipamentos e instalações modernas para cada etapa do serviço." },
-                { icon: Users, title: "Equipe Qualificada", desc: "Profissionais treinados com sensibilidade, ética e profissionalismo." },
-                { icon: Heart, title: "Atendimento Humanizado", desc: "Cada família é tratada com respeito, empatia e cuidado." },
-              ].map((item) => (
-                <div key={item.title} className="p-6 rounded-2xl bg-card border border-border/50">
-                  <item.icon className="w-8 h-8 text-accent mb-4" />
-                  <h3 className="text-lg font-bold text-foreground mb-2">{item.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
+            <div className="text-center max-w-2xl mx-auto mb-16">
+              <span className="text-sm font-semibold text-gold uppercase tracking-widest">Nossos Serviços</span>
+              <h2 className="mt-3 text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">
+                Serviços Funerários Completos
+              </h2>
             </div>
           </ScrollReveal>
 
-          <ScrollReveal delay={0.1}>
-            <div className="p-8 rounded-2xl gradient-navy">
-              <h2 className="text-2xl font-bold text-primary-foreground mb-4">Tanatopraxia</h2>
-              <p className="text-primary-foreground/80 leading-relaxed mb-4">
-                A tanatopraxia é um procedimento que tem como objetivo preservar, higienizar e cuidar da aparência da pessoa falecida, proporcionando um aspecto sereno e natural para a despedida.
-              </p>
-              <p className="text-primary-foreground/80 leading-relaxed mb-4">
-                Na FUNSA, esse cuidado é realizado por profissionais capacitados, com técnica, respeito e total dignidade, garantindo que familiares e amigos possam se despedir com tranquilidade e conforto emocional.
-              </p>
-              <p className="text-primary-foreground/80 leading-relaxed">
-                Esse procedimento contribui para uma despedida mais acolhedora, respeitando a história, a memória e o amor de quem permanece.
-              </p>
-            </div>
-          </ScrollReveal>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {servicosFunerarios.map((s, i) => (
+              <ScrollReveal key={s.title} delay={i * 0.05}>
+                <div className="p-6 rounded-2xl bg-card border border-border/50 h-full hover:shadow-md transition-shadow">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                    <s.icon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground mb-2">{s.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{s.desc}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
         </div>
       </section>
     </>

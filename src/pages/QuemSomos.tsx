@@ -49,13 +49,13 @@ export default function QuemSomos() {
                 Uma história de cuidado e respeito
               </h2>
               <p className="mt-6 text-muted-foreground leading-relaxed text-lg">
-                A FUNSA Funerária construiu sua história ao longo de mais de 80 anos, cuidando de famílias com respeito, dignidade e acolhimento. Guiados por um propósito claro — cuidar de pessoas com amor, humanidade e empatia — acreditamos que cada vida é única e merece ser honrada com sensibilidade e respeito.
+                A FUNSA Funerária é referência em serviços funerários há mais de 80 anos, oferecendo atendimento humanizado, suporte completo e assistência funeral 24 horas. Com tradição, credibilidade e respeito, cuidamos de cada família com sensibilidade e profissionalismo, garantindo organização e tranquilidade em todos os momentos da despedida.
               </p>
               <p className="mt-4 text-muted-foreground leading-relaxed">
-                Nossa trajetória é marcada pelo atendimento humanizado, pela confiança construída ao longo do tempo e pela constante evolução. Em cada despedida, oferecemos estrutura, equipe preparada e atenção em todos os detalhes, proporcionando serenidade, organização e tranquilidade às famílias.
+                Especializada em serviços funerários completos, a FUNSA conta com estrutura moderna, equipe qualificada e soluções personalizadas para velórios, cerimônias e homenagens. Nosso compromisso é proporcionar acolhimento, orientação e apoio em cada etapa, assegurando um atendimento ágil, digno e respeitoso.
               </p>
               <p className="mt-4 text-muted-foreground leading-relaxed">
-                Mais do que serviços, entregamos presença, apoio e cuidado. Estamos ao lado das famílias 24 horas por dia, porque para a FUNSA, cuidar é um gesto de amor, e cada história merece ser lembrada com dignidade.
+                Mais do que uma funerária, somos um suporte presente e confiável. Trabalhamos com ética, empatia e responsabilidade para honrar cada história de vida, oferecendo assistência funeral 24h com cuidado, humanidade e dedicação em todos os detalhes.
               </p>
             </ScrollReveal>
 

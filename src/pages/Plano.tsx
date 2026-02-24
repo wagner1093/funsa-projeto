@@ -87,9 +87,9 @@ export default function Plano() {
   return (
     <>
       <PageHero
-        title="Plano de Assistência"
+        title="Planos de Assistência Familiar"
         subtitle="Proteção completa e tranquilidade para toda a família, com cobertura abrangente e benefícios exclusivos."
-        breadcrumbs={[{ label: "Plano de Assistência", href: "/plano" }]}
+        breadcrumbs={[{ label: "Planos de Assistência Familiar", href: "/plano" }]}
       />
 
       <section className="section-padding bg-background">
@@ -144,16 +144,21 @@ export default function Plano() {
 
                       <div className="mt-6 space-y-3">
                         <a
-                          href="https://wa.me/5514997792932"
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          href="tel:1437320202"
                           className={`w-full flex items-center justify-center gap-2 py-3 rounded-full font-semibold text-sm hover-lift ${plan.popular ? "gradient-gold text-primary" : "gradient-navy text-primary-foreground"}`}
                         >
-                          Quero Contratar
+                          📲 Quero Contratar
                         </a>
-                        <button className="w-full text-center text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4">
+                        <Link
+                          to="/plano"
+                          onClick={() => {
+                            const el = document.querySelector('[data-value="beneficios"]');
+                            if (el instanceof HTMLElement) el.click();
+                          }}
+                          className="w-full flex items-center justify-center text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
+                        >
                           Saber Mais
-                        </button>
+                        </Link>
                       </div>
                     </div>
                   </ScrollReveal>
@@ -165,8 +170,8 @@ export default function Plano() {
             <TabsContent value="beneficios" className="mt-10">
               <ScrollReveal>
                 <div className="max-w-3xl mx-auto">
-                  <p className="text-muted-foreground text-lg leading-relaxed mb-10">
-                    Um plano funerário não é apenas para o momento da morte: ele traz benefícios em vida como tranquilidade, economia financeira, apoio profissional e segurança para a família. Além de evitar gastos inesperados, garante que tudo seja planejado com dignidade e reduz o estresse emocional dos familiares.
+                   <p className="text-muted-foreground text-lg leading-relaxed mb-10">
+                     Um plano de assistência familiar não é apenas para o momento da despedida: ele traz benefícios em vida como tranquilidade, economia financeira, apoio profissional e segurança para toda a família. Além de evitar gastos inesperados, garante que tudo seja planejado com dignidade e reduz o estresse emocional dos familiares.
                   </p>
 
                   <h3 className="text-xl font-bold text-foreground mb-6">Principais Benefícios em Vida</h3>
@@ -210,14 +215,20 @@ export default function Plano() {
               <ScrollReveal>
                 <div className="max-w-3xl mx-auto">
                   {/* Emergency banner */}
-                  <div className="p-6 rounded-2xl gradient-navy text-primary-foreground mb-10 flex flex-col sm:flex-row items-center gap-4">
-                    <Phone className="w-10 h-10 flex-shrink-0" />
-                    <div className="text-center sm:text-left">
-                      <p className="font-bold text-lg">Em caso de falecimento ligue para:</p>
-                      <a href="tel:1437320202" className="text-2xl font-bold text-gold">(14) 3732-0202</a>
-                      <p className="text-primary-foreground/70 text-sm mt-1">Plantão 24 horas</p>
-                    </div>
-                  </div>
+                   <div className="p-6 rounded-2xl gradient-navy text-primary-foreground mb-10 flex flex-col sm:flex-row items-center gap-6">
+                     <Phone className="w-10 h-10 flex-shrink-0" />
+                     <div className="text-center sm:text-left flex-1">
+                       <p className="font-bold text-lg">Em caso de falecimento ligue para:</p>
+                       <a href="tel:1437320202" className="text-2xl font-bold text-gold">(14) 3732-0202</a>
+                       <p className="text-primary-foreground/70 text-sm mt-1">Plantão 24 horas</p>
+                     </div>
+                     <div className="text-center sm:text-left sm:border-l sm:border-primary-foreground/20 sm:pl-6">
+                       <p className="font-bold text-sm">WhatsApp Plantão 24h:</p>
+                       <a href="https://wa.me/5514997792932" target="_blank" rel="noopener noreferrer" className="text-xl font-bold text-gold hover:underline">
+                         📲 (14) 99779-2932
+                       </a>
+                     </div>
+                   </div>
 
                   <p className="text-muted-foreground leading-relaxed mb-8">
                     Em caso de falecimento de uma pessoa, é importante agir com calma e seguir alguns passos práticos e legais que garantem que tudo seja feito corretamente.
