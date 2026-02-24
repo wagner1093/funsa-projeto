@@ -277,7 +277,7 @@ export default function ClubeFunsa() {
                   whileHover={{ scale: 1.04, rotateY: 4 }}
                   transition={{ type: "spring", stiffness: 180 }}>
 
-                  <div className="relative w-72 md:w-80 lg:w-96">
+                  <div className="relative w-96 md:w-[28rem] lg:w-[32rem]">
                     {/* Phone frame */}
                     <div className="rounded-[2.5rem] border-[6px] border-foreground/10 bg-black/5 p-2 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.4)] backdrop-blur-sm">
                       {/* Notch */}
