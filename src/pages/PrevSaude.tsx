@@ -1,8 +1,60 @@
-import PageHero from "@/components/PageHero";
+import { useState, useCallback, useEffect } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import ScrollReveal from "@/components/ScrollReveal";
+import Counter from "@/components/Counter";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Phone, MapPin } from "lucide-react";
+import {
+  Phone, MapPin, Heart, Shield, Users, Stethoscope,
+  BadgePercent, Clock, Building2, ChevronDown, Brain,
+  Eye, Bone, Baby, Pill, Smile, Activity, Ear,
+} from "lucide-react";
 
+import heroImg1 from "@/assets/prevsaude-hero-1.jpg";
+import heroImg2 from "@/assets/prevsaude-hero-2.jpg";
+import heroImg3 from "@/assets/prevsaude-hero-3.jpg";
+
+/* ── hero slides ── */
+const heroSlides = [
+  { img: heroImg1, title: "Prev Saúde Avaré", sub: "Seu condomínio médico com mais de 20 especialidades" },
+  { img: heroImg2, title: "Consultas com até 50% off", sub: "Atendimento humanizado para toda a família" },
+  { img: heroImg3, title: "Saúde acessível", sub: "Há mais de 18 anos cuidando de você" },
+];
+
+/* ── benefits ── */
+const benefits = [
+  { icon: BadgePercent, title: "Até 50% de desconto", desc: "Em consultas médicas de mais de 20 especialidades" },
+  { icon: Stethoscope, title: "+20 especialidades", desc: "Rede completa de profissionais qualificados" },
+  { icon: Clock, title: "Agendamento fácil", desc: "Marque sua consulta com rapidez e praticidade" },
+  { icon: Shield, title: "Sem carência", desc: "Atendimento imediato após a adesão ao plano" },
+  { icon: Users, title: "Para toda a família", desc: "Planos que incluem todos os dependentes" },
+  { icon: Building2, title: "Estrutura moderna", desc: "Clínicas parceiras com equipamentos de ponta" },
+];
+
+/* ── stats ── */
+const stats = [
+  { value: 20, suffix: "+", label: "Especialidades" },
+  { value: 18, suffix: "+", label: "Anos de atuação" },
+  { value: 50, suffix: "%", label: "Desconto em consultas" },
+  { value: 30, suffix: "+", label: "Clínicas parceiras" },
+];
+
+/* ── specialty icons ── */
+const specIcons: Record<string, React.ElementType> = {
+  "Cardiologia": Heart,
+  "Dermatologia e estética": Smile,
+  "Ortopedia": Bone,
+  "Pediatria / Neuropediatria": Baby,
+  "Psiquiatria": Brain,
+  "Oftalmologia": Eye,
+  "Otorrinolaringologia": Ear,
+  "Pneumologia": Activity,
+  "Endocrinologia": Pill,
+};
+
+/* ── data (kept from original) ── */
 const especialidades: Record<string, string[]> = {
   "Cabeça e pescoço": ["Dr. Renato Nakamura"],
   "Cardiologia": ["Dr. Murillo De Melo Villen Favaro De Oliveira"],
@@ -71,37 +123,168 @@ const clinicasOutras: Clinica[] = [
 
 function ClinicaCard({ c }: { c: Clinica }) {
   return (
-    <div className="p-5 rounded-xl bg-card border border-border/50">
+    <div className="group p-5 rounded-xl bg-card border border-border/50 hover-lift transition-all duration-300">
       <h4 className="font-bold text-foreground">{c.nome}</h4>
       <p className="text-sm text-accent font-medium mt-1">{c.especialidade}</p>
       {c.profissional && <p className="text-sm text-muted-foreground mt-1">{c.profissional}</p>}
       <div className="mt-3 flex flex-col gap-1 text-xs text-muted-foreground">
         <span className="flex items-center gap-1.5"><MapPin className="w-3 h-3" /> {c.endereco}</span>
-        <span className="flex items-center gap-1.5"><Phone className="w-3 h-3" /> {c.telefone}</span>
+        <a href={`tel:${c.telefone.replace(/\D/g, "")}`} className="flex items-center gap-1.5 hover:text-accent transition-colors">
+          <Phone className="w-3 h-3" /> {c.telefone}
+        </a>
       </div>
     </div>
   );
 }
 
 export default function PrevSaude() {
+  /* carousel */
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 5000, stopOnInteraction: false })]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const onSelect = useCallback(() => { if (emblaApi) setActiveIndex(emblaApi.selectedScrollSnap()); }, [emblaApi]);
+  useEffect(() => { if (!emblaApi) return; onSelect(); emblaApi.on("select", onSelect); return () => { emblaApi.off("select", onSelect); }; }, [emblaApi, onSelect]);
+
   return (
     <>
-      <PageHero
-        title="Prev Saúde"
-        subtitle="Condomínio médico com mais de 20 especialidades e consultas com até 50% de desconto."
-        breadcrumbs={[{ label: "Prev Saúde", href: "/prevsaude" }]}
-      />
+      {/* ═══ HERO CAROUSEL ═══ */}
+      <section className="relative h-[85vh] min-h-[600px] overflow-hidden">
+        <div ref={emblaRef} className="h-full">
+          <div className="flex h-full">
+            {heroSlides.map((slide, i) => (
+              <div key={i} className="relative flex-[0_0_100%] min-w-0 h-full">
+                <img src={slide.img} alt={slide.title} className="absolute inset-0 w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
+                <div className="absolute inset-0 flex items-end pb-24 md:pb-32">
+                  <div className="section-container w-full">
+                    <motion.div
+                      key={`slide-${i}-${activeIndex}`}
+                      initial={{ opacity: 0, y: 40 }}
+                      animate={activeIndex === i ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+                      transition={{ duration: 0.7, ease: "easeOut" }}
+                    >
+                      <span className="inline-block px-4 py-1.5 rounded-full bg-accent/20 text-accent text-sm font-medium mb-4 backdrop-blur-sm border border-accent/20">
+                        Prev Saúde Avaré
+                      </span>
+                      <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight max-w-2xl">
+                        {slide.title}
+                      </h1>
+                      <p className="text-lg md:text-xl text-white/80 mt-4 max-w-xl">
+                        {slide.sub}
+                      </p>
+                      <div className="flex flex-wrap gap-4 mt-8">
+                        <a href="https://wa.me/551437320202" target="_blank" rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg bg-accent text-accent-foreground font-semibold hover:bg-accent/90 transition-colors">
+                          Agende sua consulta
+                        </a>
+                        <a href="#especialidades"
+                          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg border border-white/30 text-white font-semibold hover:bg-white/10 transition-colors backdrop-blur-sm">
+                          Ver especialidades
+                        </a>
+                      </div>
+                    </motion.div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
 
-      <section className="section-padding bg-background">
+        {/* dots */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+          {heroSlides.map((_, i) => (
+            <button key={i} onClick={() => emblaApi?.scrollTo(i)}
+              className={`h-2 rounded-full transition-all duration-500 ${activeIndex === i ? "w-10 bg-accent" : "w-2 bg-white/40 hover:bg-white/60"}`} />
+          ))}
+        </div>
+
+        {/* scroll indicator */}
+        <motion.div className="absolute bottom-8 right-8 z-10" animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2 }}>
+          <ChevronDown className="w-6 h-6 text-white/60" />
+        </motion.div>
+      </section>
+
+      {/* ═══ BENEFITS ═══ */}
+      <section className="section-padding bg-background relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,hsl(var(--accent)/0.05),transparent_60%)]" />
+        <div className="section-container relative z-10">
+          <ScrollReveal>
+            <div className="text-center max-w-2xl mx-auto mb-16">
+              <span className="text-accent font-semibold text-sm tracking-wider uppercase">Vantagens</span>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-3">
+                Por que escolher a Prev Saúde?
+              </h2>
+              <p className="text-muted-foreground mt-4 text-lg">
+                Cuidamos da saúde da sua família com qualidade, acessibilidade e atendimento humanizado.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {benefits.map((b, i) => (
+              <ScrollReveal key={b.title} delay={i * 0.1}>
+                <div className="group p-8 rounded-2xl bg-card border border-border/50 hover-lift transition-all duration-300 h-full">
+                  <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center mb-5 group-hover:bg-accent/20 transition-colors">
+                    <b.icon className="w-7 h-7 text-accent" />
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground">{b.title}</h3>
+                  <p className="text-muted-foreground mt-2 leading-relaxed">{b.desc}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ STATS ═══ */}
+      <section className="py-20 gradient-navy relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,hsl(var(--gold)/0.1),transparent_50%)]" />
+        <div className="section-container relative z-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((s, i) => (
+              <ScrollReveal key={s.label} delay={i * 0.15}>
+                <div className="text-center">
+                  <div className="text-4xl md:text-5xl font-bold text-white flex items-baseline justify-center">
+                    <Counter end={s.value} suffix={s.suffix} />
+                  </div>
+                  <p className="text-white/60 mt-2 text-sm font-medium">{s.label}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ ABOUT ═══ */}
+      <section className="section-padding bg-muted/30">
         <div className="section-container">
           <ScrollReveal>
-            <div className="max-w-3xl mx-auto mb-12">
-              <p className="text-muted-foreground text-lg leading-relaxed mb-4">
-                A Prev Saúde Avaré é o condomínio médico criado para cuidar da saúde das famílias com atenção, qualidade e acessibilidade. Reunindo mais de 20 especialidades médicas, oferece aos associados consultas com até 50% de desconto, além de exames laboratoriais e de imagem.
-              </p>
-              <p className="text-muted-foreground leading-relaxed">
-                Com mais de 18 anos de atuação, a Prev Saúde Avaré é referência em atendimento humanizado, estrutura moderna e foco na prevenção e no bem-estar. Mais do que um serviço, a Prev Saúde Avaré é um compromisso com quem confia na FUNSA para cuidar do que realmente importa: a vida.
-              </p>
+            <div className="max-w-4xl mx-auto text-center">
+              <span className="text-accent font-semibold text-sm tracking-wider uppercase">Sobre nós</span>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-3 mb-8">
+                Referência em saúde acessível
+              </h2>
+              <div className="space-y-6 text-muted-foreground text-lg leading-relaxed">
+                <p>
+                  A Prev Saúde Avaré é o condomínio médico criado para cuidar da saúde das famílias com atenção, qualidade e acessibilidade. Reunindo mais de 20 especialidades médicas, oferece aos associados consultas com até 50% de desconto, além de exames laboratoriais e de imagem.
+                </p>
+                <p>
+                  Com mais de 18 anos de atuação, a Prev Saúde Avaré é referência em atendimento humanizado, estrutura moderna e foco na prevenção e no bem-estar. Mais do que um serviço, a Prev Saúde Avaré é um compromisso com quem confia na FUNSA para cuidar do que realmente importa: a vida.
+                </p>
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* ═══ SPECIALTIES & CLINICS ═══ */}
+      <section id="especialidades" className="section-padding bg-background">
+        <div className="section-container">
+          <ScrollReveal>
+            <div className="text-center max-w-2xl mx-auto mb-12">
+              <span className="text-accent font-semibold text-sm tracking-wider uppercase">Nossa rede</span>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-3">
+                Especialidades & Clínicas
+              </h2>
             </div>
           </ScrollReveal>
 
@@ -116,16 +299,24 @@ export default function PrevSaude() {
             <TabsContent value="especialidades" className="mt-10">
               <ScrollReveal>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {Object.entries(especialidades).map(([esp, docs]) => (
-                    <div key={esp} className="p-5 rounded-xl bg-card border border-border/50">
-                      <h4 className="font-bold text-foreground text-sm">{esp}</h4>
-                      <div className="mt-2 space-y-1">
-                        {docs.map((d) => (
-                          <p key={d} className="text-sm text-muted-foreground">{d}</p>
-                        ))}
+                  {Object.entries(especialidades).map(([esp, docs]) => {
+                    const Icon = specIcons[esp] || Stethoscope;
+                    return (
+                      <div key={esp} className="group p-5 rounded-xl bg-card border border-border/50 hover-lift transition-all duration-300">
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className="w-9 h-9 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
+                            <Icon className="w-4.5 h-4.5 text-accent" />
+                          </div>
+                          <h4 className="font-bold text-foreground text-sm">{esp}</h4>
+                        </div>
+                        <div className="space-y-1 pl-12">
+                          {docs.map((d) => (
+                            <p key={d} className="text-sm text-muted-foreground">{d}</p>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </ScrollReveal>
             </TabsContent>
@@ -149,6 +340,31 @@ export default function PrevSaude() {
               </ScrollReveal>
             </TabsContent>
           </Tabs>
+        </div>
+      </section>
+
+      {/* ═══ CTA FINAL ═══ */}
+      <section className="py-24 gradient-navy relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--gold)/0.08),transparent_60%)]" />
+        <div className="section-container relative z-10 text-center">
+          <ScrollReveal>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+              Cuide da saúde de quem você ama
+            </h2>
+            <p className="text-white/70 text-lg max-w-xl mx-auto mb-10">
+              Agende sua consulta e aproveite os benefícios exclusivos da Prev Saúde Avaré para toda a família.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <a href="https://wa.me/551437320202" target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-10 py-4 rounded-lg bg-accent text-accent-foreground font-semibold hover:bg-accent/90 transition-colors text-lg">
+                <Phone className="w-5 h-5" /> Agendar consulta
+              </a>
+              <Link to="/plano"
+                className="inline-flex items-center gap-2 px-10 py-4 rounded-lg border border-white/30 text-white font-semibold hover:bg-white/10 transition-colors text-lg backdrop-blur-sm">
+                Conhecer planos
+              </Link>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
     </>
