@@ -265,85 +265,48 @@ export default function ClubeFunsa() {
       </section>
 
       {/* ═══ APP HIGHLIGHT ═══ */}
-      <section className="py-24 md:py-32 bg-background overflow-hidden relative">
-        {/* Decorative blobs */}
-        <div className="absolute top-20 -left-32 w-80 h-80 rounded-full bg-navy/20 blur-[100px]" />
-        <div className="absolute bottom-10 left-1/4 w-64 h-64 rounded-full bg-gold/15 blur-[80px]" />
-        <div className="absolute top-1/2 right-0 w-72 h-72 rounded-full bg-navy/15 blur-[90px]" />
+      <section className="py-24 md:py-32 gradient-navy overflow-hidden relative">
+        {/* Decorative glows */}
+        <div className="absolute top-0 left-0 w-96 h-96 rounded-full bg-gold/10 blur-[120px]" />
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full bg-gold/8 blur-[100px]" />
 
         <div className="section-container relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            {/* Phone mockup - large, tilted */}
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+            {/* Content side - LEFT */}
             <ScrollReveal>
-              <div className="flex justify-center relative py-8">
-                <motion.div
-                  className="relative"
-                  initial={{ rotate: -6 }}
-                  whileHover={{ rotate: -2, scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 150, damping: 20 }}>
-
-                  <div className="relative w-[22rem] md:w-[26rem] lg:w-[30rem]">
-                    {/* Phone body */}
-                    <div className="rounded-[3rem] bg-foreground/90 p-3 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.5)]">
-                      {/* Dynamic Island */}
-                      <div className="absolute top-5 left-1/2 -translate-x-1/2 w-28 h-7 bg-black rounded-full z-20" />
-                      {/* Screen */}
-                      <div className="rounded-[2.4rem] overflow-hidden bg-white">
-                        <img
-                          src={appMockup}
-                          alt="Aplicativo FUNSA - Clube de benefícios"
-                          className="w-full object-contain" />
-                      </div>
-                    </div>
-
-                    {/* Floating card - top right */}
-                    <motion.div
-                      className="absolute -right-6 md:-right-10 top-16 px-5 py-3 rounded-2xl bg-card border border-border/50 shadow-2xl"
-                      animate={{ y: [0, -10, 0] }}
-                      transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}>
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl gradient-navy flex items-center justify-center">
-                          <BadgePercent className="w-5 h-5 text-gold" />
-                        </div>
-                        <div>
-                          <span className="text-xs text-muted-foreground">Desconto</span>
-                          <p className="text-sm font-bold text-foreground">Até 50% OFF</p>
-                        </div>
-                      </div>
-                    </motion.div>
-
-                    {/* Floating card - bottom left */}
-                    <motion.div
-                      className="absolute -left-6 md:-left-10 bottom-24 px-5 py-3 rounded-2xl bg-card border border-border/50 shadow-2xl"
-                      animate={{ y: [0, 10, 0] }}
-                      transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut", delay: 0.5 }}>
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl gradient-gold flex items-center justify-center">
-                          <Store className="w-5 h-5 text-primary" />
-                        </div>
-                        <div>
-                          <span className="text-xs text-muted-foreground">Rede</span>
-                          <p className="text-sm font-bold text-foreground">60+ Parceiros</p>
-                        </div>
-                      </div>
-                    </motion.div>
-                  </div>
-                </motion.div>
-              </div>
-            </ScrollReveal>
-
-            {/* Content side */}
-            <ScrollReveal delay={0.2}>
-              <div className="lg:pl-4">
-                <span className="text-gold font-semibold text-sm tracking-wider uppercase">Aplicativo FUNSA</span>
-                <h2 className="mt-4 text-4xl md:text-5xl font-bold text-foreground leading-[1.1]">
-                  Seus benefícios na palma da mão
+              <div>
+                <span className="inline-block px-4 py-1.5 rounded-full bg-gold/20 text-gold text-sm font-medium mb-6 backdrop-blur-sm border border-gold/20">
+                  Aplicativo FUNSA
+                </span>
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1]">
+                  Seus benefícios na{" "}
+                  <span className="text-gradient-gold">palma da mão.</span>
                 </h2>
-                <p className="mt-6 text-muted-foreground text-lg leading-relaxed max-w-lg">
+                <p className="mt-6 text-white/70 text-lg leading-relaxed max-w-lg">
                   Com o aplicativo FUNSA, consulte parceiros do Clube, acesse cupons de desconto, receba promoções exclusivas e gerencie seu plano de forma prática.
                 </p>
 
-                <div className="mt-10 border-t border-border/50 pt-10">
+                <p className="mt-8 text-white/50 text-sm font-semibold tracking-wider uppercase">Baixe agora:</p>
+                <div className="flex flex-wrap gap-3 mt-4">
+                  <Link to="/aplicativo"
+                    className="inline-flex items-center gap-3 px-6 py-3.5 rounded-xl bg-white text-primary font-semibold hover-lift transition-all">
+                    <Smartphone className="w-5 h-5" />
+                    <div className="text-left">
+                      <span className="text-[10px] block leading-none text-muted-foreground">Disponível na</span>
+                      <span className="text-sm font-bold">App Store</span>
+                    </div>
+                  </Link>
+                  <Link to="/aplicativo"
+                    className="inline-flex items-center gap-3 px-6 py-3.5 rounded-xl bg-white text-primary font-semibold hover-lift transition-all">
+                    <Smartphone className="w-5 h-5" />
+                    <div className="text-left">
+                      <span className="text-[10px] block leading-none text-muted-foreground">Disponível no</span>
+                      <span className="text-sm font-bold">Google Play</span>
+                    </div>
+                  </Link>
+                </div>
+
+                <div className="mt-12 border-t border-white/10 pt-8">
                   <div className="grid grid-cols-2 gap-6">
                     {[
                       { icon: BadgePercent, title: "Cupons exclusivos", desc: "Descontos direto no app" },
@@ -352,24 +315,54 @@ export default function ClubeFunsa() {
                       { icon: Gift, title: "Promoções e sorteios", desc: "Ofertas especiais" },
                     ].map((item) =>
                       <div key={item.title} className="flex items-start gap-3">
-                        <div className="w-12 h-12 rounded-xl bg-foreground flex items-center justify-center flex-shrink-0">
-                          <item.icon className="w-5 h-5 text-background" />
+                        <div className="w-11 h-11 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+                          <item.icon className="w-5 h-5 text-gold" />
                         </div>
                         <div>
-                          <h4 className="font-bold text-foreground text-sm">{item.title}</h4>
-                          <p className="text-xs text-muted-foreground mt-0.5">{item.desc}</p>
+                          <h4 className="font-bold text-white text-sm">{item.title}</h4>
+                          <p className="text-xs text-white/50 mt-0.5">{item.desc}</p>
                         </div>
                       </div>
                     )}
                   </div>
                 </div>
+              </div>
+            </ScrollReveal>
 
-                <div className="mt-10">
-                  <Link to="/aplicativo"
-                    className="inline-flex items-center gap-2 px-8 py-4 rounded-full gradient-gold text-primary font-semibold hover-lift text-lg">
-                    Baixar Aplicativo <ArrowRight className="w-5 h-5" />
-                  </Link>
-                </div>
+            {/* Phone mockup - RIGHT */}
+            <ScrollReveal delay={0.2}>
+              <div className="flex justify-center lg:justify-end relative">
+                <motion.div
+                  initial={{ y: 20 }}
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}>
+                  <img
+                    src={appMockup}
+                    alt="Aplicativo FUNSA - Clube de benefícios"
+                    className="w-[20rem] md:w-[24rem] lg:w-[28rem] drop-shadow-[0_30px_60px_rgba(0,0,0,0.4)]" />
+                </motion.div>
+
+                {/* Floating badge */}
+                <motion.div
+                  className="absolute left-0 lg:-left-4 top-16 px-4 py-2.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl"
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}>
+                  <div className="flex items-center gap-2">
+                    <BadgePercent className="w-5 h-5 text-gold" />
+                    <span className="text-sm font-bold text-white">Até 50% OFF</span>
+                  </div>
+                </motion.div>
+
+                {/* Floating badge 2 */}
+                <motion.div
+                  className="absolute right-0 lg:-right-4 bottom-32 px-4 py-2.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl"
+                  animate={{ y: [0, 8, 0] }}
+                  transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut", delay: 0.5 }}>
+                  <div className="flex items-center gap-2">
+                    <Store className="w-5 h-5 text-gold" />
+                    <span className="text-sm font-bold text-white">60+ Parceiros</span>
+                  </div>
+                </motion.div>
               </div>
             </ScrollReveal>
           </div>
