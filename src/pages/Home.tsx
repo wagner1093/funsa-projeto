@@ -1,9 +1,20 @@
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronDown, Clock, Stethoscope, Trees, Shield, Users, Award, Star } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useState, useEffect, useCallback } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 import heroImg from "@/assets/hero-bg.jpg";
+import clinicImg from "@/assets/clinic.jpg";
+import memorialImg from "@/assets/memorial.jpg";
 import ScrollReveal from "@/components/ScrollReveal";
 import Counter from "@/components/Counter";
+
+const heroSlides = [
+  { img: heroImg, alt: "FUNSA – Ambiente sereno e acolhedor" },
+  { img: clinicImg, alt: "FUNSA – Clínica e atendimento humanizado" },
+  { img: memorialImg, alt: "FUNSA – Memorial Pôr do Sol" },
+];
 
 const highlights = [
   { icon: Clock, title: "Atendimento 24h", desc: "Plantão permanente para atendimento imediato com dignidade.", link: "/servicos" },
@@ -38,13 +49,47 @@ const testimonials = [
 ];
 
 export default function Home() {
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 5000, stopOnInteraction: false })]);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setActiveIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+    return () => { emblaApi.off("select", onSelect); };
+  }, [emblaApi, onSelect]);
+
   return (
     <>
       {/* Hero */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={heroImg} alt="FUNSA – Ambiente sereno e acolhedor" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/40" />
+        {/* Carousel background */}
+        <div className="absolute inset-0" ref={emblaRef}>
+          <div className="flex h-full">
+            {heroSlides.map((slide, i) => (
+              <div key={i} className="min-w-0 shrink-0 grow-0 basis-full relative h-screen">
+                <img src={slide.img} alt={slide.alt} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/40" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Dots */}
+        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+          {heroSlides.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => emblaApi?.scrollTo(i)}
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === activeIndex ? "bg-gold w-8" : "bg-white/40 hover:bg-white/60"}`}
+              aria-label={`Ir para slide ${i + 1}`}
+            />
+          ))}
         </div>
 
         <div className="relative z-10 section-container w-full py-32 md:py-0">
