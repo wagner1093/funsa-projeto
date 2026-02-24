@@ -344,7 +344,7 @@ export default function ClubeFunsa() {
 
                 {/* Floating badge */}
                 <motion.div
-                  className="absolute -left-8 lg:-left-16 top-16 px-4 py-2.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl"
+                  className="absolute left-8 lg:left-4 top-16 px-4 py-2.5 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl"
                   animate={{ y: [0, -8, 0] }}
                   transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}>
                   <div className="flex items-center gap-2">
