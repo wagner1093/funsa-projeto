@@ -269,14 +269,49 @@ export default function ClubeFunsa() {
         <div className="section-container">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <ScrollReveal>
-              <div className="flex justify-center">
-                <motion.img
-                  src={appMockup}
-                  alt="Aplicativo FUNSA"
-                  className="w-64 md:w-72 rounded-3xl shadow-2xl"
-                  whileHover={{ scale: 1.03, rotateY: 5 }}
-                  transition={{ type: "spring", stiffness: 200 }}
-                />
+              <div className="flex justify-center relative">
+                {/* Glow background */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--gold)/0.15),transparent_70%)] blur-2xl scale-125" />
+                <motion.div
+                  className="relative"
+                  whileHover={{ scale: 1.04, rotateY: 4 }}
+                  transition={{ type: "spring", stiffness: 180 }}
+                >
+                  <div className="relative w-72 md:w-80 lg:w-96">
+                    {/* Phone frame */}
+                    <div className="rounded-[2.5rem] border-[6px] border-foreground/10 bg-black/5 p-2 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.4)] backdrop-blur-sm">
+                      {/* Notch */}
+                      <div className="absolute top-4 left-1/2 -translate-x-1/2 w-24 h-5 bg-foreground/10 rounded-full z-10" />
+                      <img
+                        src={appMockup}
+                        alt="Aplicativo FUNSA"
+                        className="w-full rounded-[2rem] object-cover"
+                      />
+                    </div>
+                    {/* Floating badge */}
+                    <motion.div
+                      className="absolute -right-4 top-1/4 px-4 py-2 rounded-xl bg-card border border-border/50 shadow-xl"
+                      animate={{ y: [0, -8, 0] }}
+                      transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <BadgePercent className="w-5 h-5 text-gold" />
+                        <span className="text-sm font-bold text-foreground">Até 50% OFF</span>
+                      </div>
+                    </motion.div>
+                    {/* Floating badge 2 */}
+                    <motion.div
+                      className="absolute -left-4 bottom-1/3 px-4 py-2 rounded-xl bg-card border border-border/50 shadow-xl"
+                      animate={{ y: [0, 8, 0] }}
+                      transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut", delay: 0.5 }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Store className="w-5 h-5 text-gold" />
+                        <span className="text-sm font-bold text-foreground">60+ Parceiros</span>
+                      </div>
+                    </motion.div>
+                  </div>
+                </motion.div>
               </div>
             </ScrollReveal>
 
