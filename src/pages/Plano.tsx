@@ -1,14 +1,17 @@
+import { useState } from "react";
 import PageHero from "@/components/PageHero";
 import ScrollReveal from "@/components/ScrollReveal";
-import { Check, X, ArrowRight, Phone, Shield, Heart, Users, Clock, FileText, AlertCircle } from "lucide-react";
+import { Check, X, ArrowRight, Phone, Shield, Heart, Users, Clock, FileText, AlertCircle, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Collapse, CollapseGroup } from "@/components/ui/collapse";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 const plans = [
   {
     name: "Básico Individual",
     price: "29,90",
+    description: "Plano individual com cobertura essencial para o titular. Inclui atendimento funerário personalizado, translado de até 160km, urna padrão, higienização simples e acesso ao Clube+ FUNSA com descontos exclusivos em saúde e comércio. Ideal para quem busca proteção acessível e tranquilidade.",
     items: [
       { label: "Atendimento Funerário Personalizado", value: true },
       { label: "Cobertura", value: "Somente o Titular até 65 anos" },
@@ -27,6 +30,7 @@ const plans = [
     name: "Básico Familiar",
     price: "49,90",
     popular: true,
+    description: "Plano familiar que protege titular, cônjuge e filhos solteiros até 21 anos. Inclui atendimento funerário personalizado, translado de até 160km, urna padrão, higienização simples e acesso ao Clube+ FUNSA. Permite adicionar dependentes extras com acréscimo de taxa conforme idade.",
     items: [
       { label: "Atendimento Funerário Personalizado", value: true },
       { label: "Cobertura", value: "Titular, cônjuge, filhos solteiros até 21 anos" },
@@ -44,6 +48,7 @@ const plans = [
   {
     name: "VIP",
     price: "89,90",
+    description: "Plano premium com cobertura completa para toda a família. Inclui translado de até 250km, urna semi-luxo, tanatopraxia, taxa de velório e sepultamento no Cemitério Municipal de Avaré, coroa de flores e 2 meses grátis de equipamento convalescente. A opção mais completa para quem busca o melhor atendimento.",
     items: [
       { label: "Atendimento Funerário Personalizado", value: true },
       { label: "Cobertura", value: "Titular, cônjuge e filhos solteiros até 21 anos" },
@@ -108,7 +113,7 @@ export default function Plano() {
               <div className="grid md:grid-cols-3 gap-6">
                 {plans.map((plan) => (
                   <ScrollReveal key={plan.name}>
-                    <div className={`relative flex flex-col rounded-2xl border bg-card p-6 h-full ${plan.popular ? "border-accent shadow-lg ring-2 ring-accent/30" : "border-border/50"}`}>
+                     <div className={`relative flex flex-col rounded-2xl border bg-card p-6 h-full ${plan.popular ? "border-accent shadow-lg ring-2 ring-accent/30" : "border-border/50"}`}>
                       {plan.popular && (
                         <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full gradient-gold text-primary text-xs font-bold uppercase tracking-wider">
                           Mais Popular
@@ -116,13 +121,7 @@ export default function Plano() {
                       )}
                       <h3 className="text-xl font-bold text-foreground text-center mt-2">{plan.name}</h3>
 
-                      <div className="my-6 text-center">
-                        <span className="text-sm text-muted-foreground">R$</span>
-                        <span className="text-4xl font-bold text-foreground mx-1">{plan.price}</span>
-                        <span className="text-sm text-muted-foreground">/mês</span>
-                      </div>
-
-                      <div className="space-y-3 flex-1">
+                      <div className="space-y-3 flex-1 mt-6">
                         {plan.items.map((item) => (
                           <div key={item.label} className="flex items-start gap-2.5 text-sm">
                             {item.value === true ? (
@@ -142,24 +141,62 @@ export default function Plano() {
                         ))}
                       </div>
 
-                      <div className="mt-6 space-y-3">
-                        <a
-                          href="tel:1437320202"
-                          className={`w-full flex items-center justify-center gap-2 py-3 rounded-full font-semibold text-sm hover-lift ${plan.popular ? "gradient-gold text-primary" : "gradient-navy text-primary-foreground"}`}
-                        >
-                          📲 Quero Contratar
-                        </a>
-                        <Link
-                          to="/plano"
-                          onClick={() => {
-                            const el = document.querySelector('[data-value="beneficios"]');
-                            if (el instanceof HTMLElement) el.click();
-                          }}
-                          className="w-full flex items-center justify-center text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
-                        >
-                          Saber Mais
-                        </Link>
+                      {/* Saber Mais */}
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <button className="w-full flex items-center justify-center gap-2 mt-6 text-sm text-accent hover:text-accent/80 font-semibold transition-colors underline underline-offset-4">
+                            <Info className="w-4 h-4" />
+                            Saber Mais
+                          </button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-lg">
+                          <DialogHeader>
+                            <DialogTitle className="text-xl">{plan.name}</DialogTitle>
+                          </DialogHeader>
+                          <div className="space-y-4">
+                            <p className="text-muted-foreground leading-relaxed">{plan.description}</p>
+                            <div className="space-y-2.5">
+                              {plan.items.map((item) => (
+                                <div key={item.label} className="flex items-start gap-2.5 text-sm">
+                                  {item.value === true ? (
+                                    <Check className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" />
+                                  ) : item.value === false ? (
+                                    <X className="w-4 h-4 text-muted-foreground/40 mt-0.5 flex-shrink-0" />
+                                  ) : (
+                                    <Check className="w-4 h-4 text-accent mt-0.5 flex-shrink-0" />
+                                  )}
+                                  <div>
+                                    <span className="font-medium text-foreground">{item.label}</span>
+                                    {typeof item.value === "string" && (
+                                      <p className="text-muted-foreground text-xs mt-0.5">{item.value}</p>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                            <div className="pt-4 border-t text-center">
+                              <span className="text-sm text-muted-foreground">R$</span>
+                              <span className="text-3xl font-bold text-foreground mx-1">{plan.price}</span>
+                              <span className="text-sm text-muted-foreground">/mês</span>
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+
+                      {/* Price */}
+                      <div className="my-5 text-center">
+                        <span className="text-sm text-muted-foreground">R$</span>
+                        <span className="text-4xl font-bold text-foreground mx-1">{plan.price}</span>
+                        <span className="text-sm text-muted-foreground">/mês</span>
                       </div>
+
+                      {/* CTA */}
+                      <a
+                        href="tel:1437320202"
+                        className={`w-full flex items-center justify-center gap-2 py-3 rounded-full font-semibold text-sm hover-lift ${plan.popular ? "gradient-gold text-primary" : "gradient-navy text-primary-foreground"}`}
+                      >
+                        📲 Quero Contratar
+                      </a>
                     </div>
                   </ScrollReveal>
                 ))}
