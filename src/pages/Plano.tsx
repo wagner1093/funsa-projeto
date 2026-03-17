@@ -48,6 +48,7 @@ const plans = [
   {
     name: "VIP",
     price: "89,90",
+    description: "Plano premium com cobertura completa para toda a família. Inclui translado de até 250km, urna semi-luxo, tanatopraxia, taxa de velório e sepultamento no Cemitério Municipal de Avaré, coroa de flores e 2 meses grátis de equipamento convalescente. A opção mais completa para quem busca o melhor atendimento.",
     items: [
       { label: "Atendimento Funerário Personalizado", value: true },
       { label: "Cobertura", value: "Titular, cônjuge e filhos solteiros até 21 anos" },
