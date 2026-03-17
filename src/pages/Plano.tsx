@@ -1,9 +1,11 @@
+import { useState } from "react";
 import PageHero from "@/components/PageHero";
 import ScrollReveal from "@/components/ScrollReveal";
-import { Check, X, ArrowRight, Phone, Shield, Heart, Users, Clock, FileText, AlertCircle } from "lucide-react";
+import { Check, X, ArrowRight, Phone, Shield, Heart, Users, Clock, FileText, AlertCircle, Info } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Collapse, CollapseGroup } from "@/components/ui/collapse";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 const plans = [
   {
