@@ -30,6 +30,7 @@ const plans = [
     name: "Básico Familiar",
     price: "49,90",
     popular: true,
+    description: "Plano familiar que protege titular, cônjuge e filhos solteiros até 21 anos. Inclui atendimento funerário personalizado, translado de até 160km, urna padrão, higienização simples e acesso ao Clube+ FUNSA. Permite adicionar dependentes extras com acréscimo de taxa conforme idade.",
     items: [
       { label: "Atendimento Funerário Personalizado", value: true },
       { label: "Cobertura", value: "Titular, cônjuge, filhos solteiros até 21 anos" },
