@@ -152,9 +152,6 @@ export default function ClubeFunsa() {
   const onSelect = useCallback(() => {if (emblaApi) setActiveIndex(emblaApi.selectedScrollSnap());}, [emblaApi]);
   useEffect(() => {if (!emblaApi) return;onSelect();emblaApi.on("select", onSelect);return () => {emblaApi.off("select", onSelect);};}, [emblaApi, onSelect]);
 
-  /* active category for tabs */
-  const [activeCat, setActiveCat] = useState(categoryKeys[0]);
-
   return (
     <>
       {/* ═══ HERO CAROUSEL ═══ */}
@@ -173,7 +170,7 @@ export default function ClubeFunsa() {
                     animate={activeIndex === i ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
                     transition={{ duration: 0.7, ease: "easeOut" }}>
 
-                      <span className="inline-block px-4 py-1.5 rounded-full bg-gold/20 text-gold text-sm font-medium mb-4 backdrop-blur-sm border border-gold/20">
+                      <span className="inline-block px-4 py-1.5 rounded-full bg-azure/20 text-azure text-sm font-medium mb-4 backdrop-blur-sm border border-azure/20">
                         Clube + FUNSA
                       </span>
                       <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight max-w-2xl">
@@ -184,11 +181,11 @@ export default function ClubeFunsa() {
                       </p>
                       <div className="flex flex-wrap gap-4 mt-8">
                         <Link to="/aplicativo"
-                      className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg gradient-gold text-primary font-semibold hover-lift transition-all">
+                      className="btn-primary-dark">
                           <Smartphone className="w-5 h-5" /> Baixar o App
                         </Link>
                         <a href="#parceiros"
-                      className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg border border-white/30 text-white font-semibold hover:bg-white/10 transition-colors backdrop-blur-sm">
+                      className="btn-outline-dark">
                           Ver parceiros
                         </a>
                       </div>
@@ -204,7 +201,7 @@ export default function ClubeFunsa() {
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-10">
           {heroSlides.map((_, i) =>
           <button key={i} onClick={() => emblaApi?.scrollTo(i)}
-          className={`h-2 rounded-full transition-all duration-500 ${activeIndex === i ? "w-10 bg-gold" : "w-2 bg-white/40 hover:bg-white/60"}`} />
+          className={`h-2 rounded-full transition-all duration-500 ${activeIndex === i ? "w-10 bg-azure" : "w-2 bg-white/40 hover:bg-white/60"}`} />
           )}
         </div>
 
@@ -215,11 +212,11 @@ export default function ClubeFunsa() {
 
       {/* ═══ BENEFITS ═══ */}
       <section className="section-padding bg-background relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,hsl(var(--gold)/0.05),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,hsl(var(--azure)/0.05),transparent_60%)]" />
         <div className="section-container relative z-10">
           <ScrollReveal>
             <div className="text-center max-w-2xl mx-auto mb-16">
-              <span className="text-gold font-semibold text-sm tracking-wider uppercase">Vantagens</span>
+              <span className="text-azure font-semibold text-sm tracking-wider uppercase">Vantagens</span>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-3">
                 Por que fazer parte do Clube?
               </h2>
@@ -233,8 +230,8 @@ export default function ClubeFunsa() {
             {benefits.map((b, i) =>
             <ScrollReveal key={b.title} delay={i * 0.1}>
                 <div className="group p-8 rounded-2xl bg-card border border-border/50 hover-lift transition-all duration-300 h-full">
-                  <div className="w-14 h-14 rounded-xl bg-gold/10 flex items-center justify-center mb-5 group-hover:bg-gold/20 transition-colors">
-                    <b.icon className="w-7 h-7 text-gold" />
+                  <div className="w-14 h-14 rounded-xl bg-azure/10 flex items-center justify-center mb-5 group-hover:bg-azure/20 transition-colors">
+                    <b.icon className="w-7 h-7 text-azure" />
                   </div>
                   <h3 className="text-lg font-bold text-foreground">{b.title}</h3>
                   <p className="text-muted-foreground mt-2 leading-relaxed">{b.desc}</p>
@@ -247,7 +244,7 @@ export default function ClubeFunsa() {
 
       {/* ═══ STATS ═══ */}
       <section className="py-20 gradient-navy relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,hsl(var(--gold)/0.1),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,hsl(var(--azure)/0.1),transparent_50%)]" />
         <div className="section-container relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((s, i) =>
@@ -267,20 +264,20 @@ export default function ClubeFunsa() {
       {/* ═══ APP HIGHLIGHT ═══ */}
       <section className="py-24 md:py-32 gradient-navy overflow-hidden relative">
         {/* Decorative glows */}
-        <div className="absolute top-0 left-0 w-96 h-96 rounded-full bg-gold/10 blur-[120px]" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full bg-gold/8 blur-[100px]" />
+        <div className="absolute top-0 left-0 w-96 h-96 rounded-full bg-azure/10 blur-[120px]" />
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full bg-azure/8 blur-[100px]" />
 
         <div className="section-container relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
             {/* Content side - LEFT */}
             <ScrollReveal>
               <div>
-                <span className="inline-block px-4 py-1.5 rounded-full bg-gold/20 text-gold text-sm font-medium mb-6 backdrop-blur-sm border border-gold/20">
+                <span className="inline-block px-4 py-1.5 rounded-full bg-azure/20 text-azure text-sm font-medium mb-6 backdrop-blur-sm border border-azure/20">
                   Aplicativo FUNSA
                 </span>
                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1]">
                   Seus benefícios na{" "}
-                  <span className="text-gradient-gold">palma da mão.</span>
+                  <span className="text-gradient-blue">palma da mão.</span>
                 </h2>
                 <p className="mt-6 text-white/70 text-lg leading-relaxed max-w-lg">
                   Com o aplicativo FUNSA, consulte parceiros do Clube, acesse cupons de desconto, receba promoções exclusivas e gerencie seu plano de forma prática.
@@ -316,7 +313,7 @@ export default function ClubeFunsa() {
                     ].map((item) =>
                       <div key={item.title} className="flex items-start gap-3">
                         <div className="w-11 h-11 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
-                          <item.icon className="w-5 h-5 text-gold" />
+                          <item.icon className="w-5 h-5 text-azure" />
                         </div>
                         <div>
                           <h4 className="font-bold text-white text-sm">{item.title}</h4>
@@ -348,7 +345,7 @@ export default function ClubeFunsa() {
                   animate={{ y: [0, -8, 0] }}
                   transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}>
                   <div className="flex items-center gap-2">
-                    <BadgePercent className="w-5 h-5 text-gold" />
+                    <BadgePercent className="w-5 h-5 text-azure" />
                     <span className="text-sm font-bold text-white">Até 50% OFF</span>
                   </div>
                 </motion.div>
@@ -359,7 +356,7 @@ export default function ClubeFunsa() {
                   animate={{ y: [0, 8, 0] }}
                   transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut", delay: 0.5 }}>
                   <div className="flex items-center gap-2">
-                    <Store className="w-5 h-5 text-gold" />
+                    <Store className="w-5 h-5 text-azure" />
                     <span className="text-sm font-bold text-white">60+ Parceiros</span>
                   </div>
                 </motion.div>
@@ -374,7 +371,7 @@ export default function ClubeFunsa() {
         <div className="section-container">
           <ScrollReveal>
             <div className="text-center max-w-2xl mx-auto mb-12">
-              <span className="text-gold font-semibold text-sm tracking-wider uppercase">Nossa rede</span>
+              <span className="text-azure font-semibold text-sm tracking-wider uppercase">Nossa rede</span>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-3">
                 Parceiros & Benefícios
               </h2>
@@ -384,65 +381,130 @@ export default function ClubeFunsa() {
             </div>
           </ScrollReveal>
 
-          {/* Category tabs - scrollable on mobile */}
-          <ScrollReveal delay={0.1}>
-            <div className="flex flex-wrap justify-center gap-2 mb-10">
-              {categoryKeys.map((cat) => {
-                const Icon = catIcons[cat] || Store;
-                const isActive = activeCat === cat;
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => setActiveCat(cat)}
-                    className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-                    isActive ?
-                    "gradient-navy text-white shadow-lg" :
-                    "bg-card border border-border/50 text-muted-foreground hover:text-foreground hover:border-gold/30"}`
-                    }>
-
-                    <Icon className="w-4 h-4" />
-                    <span className="hidden sm:inline">{cat}</span>
-                    <span className="sm:hidden">{cat.split(" ")[0]}</span>
-                  </button>);
-
-              })}
-            </div>
-          </ScrollReveal>
-
-          {/* Active category content */}
-          <motion.div
-            key={activeCat}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}>
-
+          {/* NOVOS PARCEIROS */}
+          <div className="mb-20">
+            <h3 className="text-2xl font-bold flex items-center gap-2 mb-6">
+              <Star className="text-azure" /> Destaque: Novos Parceiros
+            </h3>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {categorias[activeCat].map((p) =>
-              <div key={p.nome} className="group p-6 rounded-2xl bg-card border border-border/50 hover-lift transition-all duration-300">
+              {[
+                { nome: "Marguerita Pizzaria", beneficio: "5% de desconto em todas as pizzas", cat: "Alimentação e Lazer" },
+                { nome: "Academia Yama Harashi", beneficio: "50% de desconto na matrícula", cat: "Academias, Esporte" },
+                { nome: "Ótica Maria Gianni", beneficio: "25% de desconto em armações e solares", cat: "Óticas" },
+              ].map((p, idx) => (
+                <div key={idx} className="group p-6 rounded-2xl bg-gradient-to-br from-azure/10 to-transparent border border-azure/30 hover-lift transition-all duration-300 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 bg-azure text-primary-foreground text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-bl-lg">
+                    Novo
+                  </div>
                   <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center flex-shrink-0 group-hover:bg-gold/20 transition-colors">
-                      <Percent className="w-5 h-5 text-gold" />
+                    <div className="w-10 h-10 rounded-xl bg-azure/20 flex items-center justify-center flex-shrink-0">
+                      <Percent className="w-5 h-5 text-azure" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-foreground">{p.nome}</h4>
-                      <p className="text-sm text-muted-foreground mt-1 leading-relaxed">{p.beneficio}</p>
+                      <h4 className="font-bold text-foreground text-lg">{p.nome}</h4>
+                      <p className="text-sm text-foreground/50 mt-0.5">{p.cat}</p>
                     </div>
                   </div>
+                  <p className="text-sm text-muted-foreground mt-4 leading-relaxed font-medium">{p.beneficio}</p>
+                  <button className="mt-5 w-full flex items-center justify-center gap-1.5 py-2.5 rounded-lg bg-azure/20 text-azure font-semibold text-sm hover:bg-azure/30 transition-colors">
+                    <Eye className="w-4 h-4" /> Ver Benefício
+                  </button>
                 </div>
-              )}
+              ))}
             </div>
-          </motion.div>
+          </div>
+
+          {/* LISTAGEM DE CATEGORIAS EM GRID */}
+          <div className="space-y-16">
+            {categoryKeys.map((cat) => {
+              const Icon = catIcons[cat] || Store;
+              return (
+                <div key={cat} className="scroll-mt-24">
+                  <h3 className="text-2xl font-bold flex items-center gap-3 mb-6 pb-2 border-b border-border/50">
+                    <div className="w-10 h-10 rounded-lg bg-card flex items-center justify-center border border-border/50">
+                      <Icon className="w-5 h-5 text-azure" />
+                    </div>
+                    {cat}
+                  </h3>
+                  
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    {categorias[cat].map((p) => (
+                      <div key={p.nome} className="group flex flex-col p-6 rounded-2xl bg-card border border-border/50 hover:border-azure/30 hover:shadow-lg transition-all duration-300 h-full">
+                        <div className="flex items-start gap-4 flex-1">
+                          <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center flex-shrink-0 group-hover:bg-azure/10 transition-colors">
+                            <Store className="w-5 h-5 text-primary group-hover:text-azure transition-colors" />
+                          </div>
+                          <div>
+                            <h4 className="font-bold text-foreground">{p.nome}</h4>
+                            <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{p.beneficio}</p>
+                          </div>
+                        </div>
+                        <button className="mt-6 w-full flex items-center justify-center gap-1.5 py-2 rounded-lg bg-primary/5 text-primary font-semibold text-sm hover:bg-primary/10 transition-colors group-hover:bg-azure/10 group-hover:text-azure">
+                          <Eye className="w-4 h-4" /> Ver Benefício
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ FAQ ═══ */}
+      <section className="section-padding bg-muted/20">
+        <div className="section-container max-w-4xl mx-auto">
+          <ScrollReveal>
+            <div className="text-center mb-12">
+              <span className="text-azure font-semibold text-sm tracking-wider uppercase">Dúvidas Frequentes</span>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-3">FAQ - Clube+ FUNSA</h2>
+            </div>
+            
+            <div className="space-y-4">
+              {[
+                { 
+                  q: "Quem tem direito ao Clube+ FUNSA?", 
+                  a: "Todos os titulares e dependentes ativos nos planos de assistência familiar da FUNSA possuem direito irrestrito aos benefícios e descontos." 
+                },
+                { 
+                  q: "Preciso pagar algo a mais pelo Clube?", 
+                  a: "Não! O Clube+ FUNSA é um benefício incluso no seu plano sem custos adicionais." 
+                },
+                { 
+                  q: "Como utilizar os descontos nos parceiros?", 
+                  a: "Basta apresentar a sua carteirinha virtual (disponível no aplicativo) ou física acompanhada de um documento com foto no momento da compra." 
+                },
+                { 
+                  q: "Os descontos possuem limites de uso?", 
+                  a: "Na maioria dos parceiros o uso é ilimitado, mas algumas promoções especiais geradas pelo aplicativo podem ter um limite de utilizações ou prazo de validade." 
+                }
+              ].map((faq, i) => (
+                <details key={i} className="group bg-card rounded-2xl border border-border/50 overflow-hidden [&_summary::-webkit-details-marker]:hidden">
+                  <summary className="flex items-center justify-between p-6 cursor-pointer font-bold text-lg select-none hover:bg-muted/30 transition-colors">
+                    {faq.q}
+                    <span className="transition group-open:rotate-180">
+                      <ChevronDown className="w-5 h-5 text-azure" />
+                    </span>
+                  </summary>
+                  <p className="px-6 pb-6 pt-2 text-muted-foreground leading-relaxed border-t border-border/50">
+                    {faq.a}
+                  </p>
+                </details>
+              ))}
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* ═══ CTA FINAL ═══ */}
-      <section className="section-padding bg-muted/30">
+      <section className="section-padding bg-background">
         <div className="section-container">
           <ScrollReveal>
             <div className="p-10 md:p-16 rounded-3xl gradient-navy text-center relative overflow-hidden">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,hsl(var(--gold)/0.15),transparent_60%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,hsl(var(--azure)/0.15),transparent_60%)]" />
               <div className="relative z-10">
-                <Smartphone className="w-12 h-12 text-gold mx-auto mb-6" />
+                <Smartphone className="w-12 h-12 text-azure mx-auto mb-6" />
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                   Faça parte do Clube + FUNSA
                 </h2>
@@ -451,11 +513,11 @@ export default function ClubeFunsa() {
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">
                   <Link to="/aplicativo"
-                  className="inline-flex items-center gap-2 px-8 py-4 rounded-full gradient-gold text-primary font-semibold hover-lift">
+                  className="btn-primary-dark">
                     <Smartphone className="w-5 h-5" /> Baixar o App
                   </Link>
-                  <a href="https://wa.me/551437320202" target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-8 py-4 rounded-full border border-white/30 text-white font-semibold hover:bg-white/10 transition-colors backdrop-blur-sm">
+                  <a href="https://wa.me/5514997792932" target="_blank" rel="noopener noreferrer"
+                  className="btn-outline-dark">
                     Fale Conosco
                   </a>
                 </div>

@@ -16,7 +16,7 @@ export default function PageHero({
 }: Props) {
   return <section className="relative gradient-navy pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,hsl(var(--gold)/0.15),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,hsl(var(--azure)/0.15),transparent_60%)]" />
       </div>
       <div className="section-container relative z-10">
         {breadcrumbs && <motion.nav initial={{

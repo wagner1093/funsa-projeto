@@ -3,7 +3,8 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import PageHero from "@/components/PageHero";
 import ScrollReveal from "@/components/ScrollReveal";
-import { Shield, Clock, Users, Heart, Truck, FileText, Flower2, CheckCircle } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Shield, Clock, Users, Heart, Truck, FileText, Flower2, Sparkles } from "lucide-react";
 import heroImg from "@/assets/hero-bg.jpg";
 import clinicImg from "@/assets/clinic.jpg";
 import memorialImg from "@/assets/memorial.jpg";
@@ -22,18 +23,23 @@ const servicosFunerarios = [
   },
   {
     icon: Truck,
-    title: "Traslado Nacional e Internacional",
-    desc: "Transporte do corpo com segurança e agilidade, sem limite de quilometragem para associados.",
+    title: "Traslados Nacional e Internacional",
+    desc: "Transporte do corpo com segurança e agilidade, COM LIMITE DE QUILOMETRAGEM PARA ASSOCIADOS DE ACORDO COM PLANO CONTRATADO.",
   },
   {
     icon: Heart,
-    title: "Velório e Cerimônia",
-    desc: "Salas de velório climatizadas e confortáveis, com organização completa da cerimônia de despedida.",
+    title: "Tanatopraxia",
+    desc: "Técnica de preparação e conservação do corpo executada por profissionais qualificados, garantindo uma despedida mais serena.",
+  },
+  {
+    icon: Users,
+    title: "Cerimônias de Despedidas",
+    desc: "Homenagens focadas no respeito à memória de quem partiu, prestando todo o apoio aos familiares e amigos no momento da despedida.",
   },
   {
     icon: Flower2,
     title: "Ornamentação e Floricultura",
-    desc: "Arranjos florais e ornamentação personalizada para homenagear com beleza e carinho.",
+    desc: "Arranjos florais e ornamentação personalizada para homenagear e marcar a cerimônia com beleza e carinho.",
   },
   {
     icon: FileText,
@@ -44,16 +50,6 @@ const servicosFunerarios = [
     icon: Shield,
     title: "Cremação",
     desc: "Orientação completa sobre o processo de cremação, documentação e cerimônia de despedida.",
-  },
-  {
-    icon: Users,
-    title: "Equipe Qualificada",
-    desc: "Profissionais treinados com sensibilidade, ética e profissionalismo em todas as etapas.",
-  },
-  {
-    icon: CheckCircle,
-    title: "Estrutura Completa",
-    desc: "Equipamentos e instalações modernas para cada etapa do serviço funerário.",
   },
 ];
 
@@ -98,7 +94,7 @@ export default function Funeraria() {
             <button
               key={i}
               onClick={() => emblaApi?.scrollTo(i)}
-              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === activeIndex ? "bg-gold w-8" : "bg-white/40 hover:bg-white/60"}`}
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === activeIndex ? "bg-azure w-8" : "bg-white/40 hover:bg-white/60"}`}
               aria-label={`Ir para slide ${i + 1}`}
             />
           ))}
@@ -110,7 +106,7 @@ export default function Funeraria() {
         <div className="section-container max-w-4xl">
           <ScrollReveal>
             <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-              A Funerária FUNSA Avaré é referência em serviços funerários, oferecendo um atendimento humanizado e de qualidade em todos os momentos mais delicados.
+              A Funerária Nossa Senhora Aparecida é referência em serviços funerários, oferecendo um atendimento humanizado e de qualidade em todos os momentos mais delicados.
             </p>
             <p className="text-muted-foreground text-lg leading-relaxed mb-6">
               Com estrutura completa e especializada, a FUNSA está preparada para atender com excelência, garantindo conforto, dignidade e organização em cada detalhe do serviço prestado.
@@ -130,7 +126,7 @@ export default function Funeraria() {
         <div className="section-container">
           <ScrollReveal>
             <div className="text-center max-w-2xl mx-auto mb-16">
-              <span className="text-sm font-semibold text-gold uppercase tracking-widest">Nossos Serviços</span>
+              <span className="text-sm font-semibold text-azure uppercase tracking-widest">Nossos Serviços</span>
               <h2 className="mt-3 text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">
                 Serviços Funerários Completos
               </h2>
@@ -140,13 +136,13 @@ export default function Funeraria() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {servicosFunerarios.map((s, i) => (
               <ScrollReveal key={s.title} delay={i * 0.05}>
-                <div className="p-6 rounded-2xl bg-card border border-border/50 h-full hover:shadow-md transition-shadow">
+                <Link to="/servicos" className="block p-6 rounded-2xl bg-card border border-border/50 h-full hover:shadow-md transition-all hover:-translate-y-1">
                   <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
                     <s.icon className="w-6 h-6 text-primary" />
                   </div>
                   <h3 className="text-lg font-bold text-foreground mb-2">{s.title}</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">{s.desc}</p>
-                </div>
+                </Link>
               </ScrollReveal>
             ))}
           </div>

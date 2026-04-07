@@ -7,7 +7,7 @@ export default function ContactSection() {
       <div className="section-container">
         <ScrollReveal>
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-sm font-semibold text-gold uppercase tracking-widest">Contato</span>
+            <span className="text-sm font-semibold text-azure uppercase tracking-widest">Contato</span>
             <h2 className="mt-3 text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">
               Estamos aqui para ajudar
             </h2>
@@ -19,7 +19,7 @@ export default function ContactSection() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {[
-            { icon: MessageCircle, label: "WhatsApp", value: "(14) 99779-2932", href: "https://wa.me/5514997792932", color: "gradient-gold" },
+            { icon: MessageCircle, label: "WhatsApp", value: "(14) 99779-2932", href: "https://wa.me/5514997792932", color: "bg-azure" },
             { icon: Phone, label: "Telefone", value: "(14) 3732-0202", href: "tel:1437320202", color: "gradient-navy" },
             { icon: Mail, label: "E-mail", value: "contato@funsaavare.com.br", href: "mailto:contato@funsaavare.com.br", color: "gradient-navy" },
             { icon: Clock, label: "Horário", value: "Atendimento 24h", href: "#", color: "gradient-navy" },
@@ -61,7 +61,7 @@ export default function ContactSection() {
                   href="https://wa.me/5514997792932"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-8 inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full gradient-gold text-primary font-semibold hover-lift self-start"
+                  className="mt-8 btn-primary-dark self-start"
                 >
                   Fale pelo WhatsApp
                   <ArrowRight className="w-4 h-4" />

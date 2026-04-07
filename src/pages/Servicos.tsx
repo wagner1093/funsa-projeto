@@ -1,6 +1,6 @@
 import PageHero from "@/components/PageHero";
 import ScrollReveal from "@/components/ScrollReveal";
-import { Clock, ArrowRight, Phone, CheckCircle, Heart, FileText, Truck, Flower2, Users, Shield } from "lucide-react";
+import { Clock, ArrowRight, Phone, CheckCircle, Heart, FileText, Truck, Flower2, Users, Shield, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroImg from "@/assets/hero-bg.jpg";
 
@@ -21,10 +21,10 @@ const services = [
   },
   {
     icon: Truck,
-    title: "Traslado Nacional e Internacional",
-    description: "Realizamos o traslado do corpo com total segurança e agilidade, sem limite de quilometragem para associados, garantindo que a família tenha tranquilidade nesse momento.",
+    title: "Traslados Nacional e Internacional",
+    description: "Realizamos o traslado do corpo com total segurança e agilidade, COM LIMITE DE QUILOMETRAGEM PARA ASSOCIADOS DE ACORDO COM PLANO CONTRATADO.",
     details: [
-      "Traslado sem limite de quilometragem",
+      "Traslado conforme limite do plano",
       "Veículos preparados e higienizados",
       "Acompanhamento durante todo o percurso",
       "Cobertura nacional e internacional",
@@ -34,13 +34,27 @@ const services = [
     ctaHref: "/contato",
   },
   {
-    icon: Heart,
-    title: "Velório e Cerimônia",
-    description: "Organizamos velórios e cerimônias de despedida em ambientes acolhedores e preparados, respeitando os desejos da família e honrando a memória de quem partiu.",
+    icon: Sparkles,
+    title: "Tanatopraxia",
+    description: "Técnica de preparação e conservação do corpo executada por profissionais qualificados, garantindo uma aparência serena para um último adeus digno e tranquilo aos familiares.",
     details: [
-      "Salas de velório climatizadas e confortáveis",
-      "Organização completa da cerimônia",
-      "Apoio à família durante todo o evento",
+      "Preparação profissional e sanitária",
+      "Proporciona uma despedida mais tranquila",
+      "Exigência legal para traslados aéreos",
+      "Garantia de segurança para homenagens longas"
+    ],
+    image: heroImg,
+    cta: "Saiba Mais",
+    ctaHref: "/contato",
+  },
+  {
+    icon: Users,
+    title: "Cerimônias de Despedidas",
+    description: "Organizamos homenagens e cerimônias focadas no respeito à memória de quem partiu, prestando todo o apoio aos familiares e amigos no momento da despedida, alinhado às suas crenças.",
+    details: [
+      "Apoio completo à família durante o evento",
+      "Organização e coordenação da cerimônia",
+      "Respeito às crenças e desejos da família",
       "Opções personalizadas de homenagem",
     ],
     image: heroImg,
@@ -50,12 +64,12 @@ const services = [
   {
     icon: Flower2,
     title: "Ornamentação e Floricultura",
-    description: "Oferecemos serviços de floricultura e ornamentação para que a despedida seja marcada por beleza e carinho, com arranjos personalizados conforme a preferência da família.",
+    description: "Oferecemos serviços de floricultura e ornamentação para que a cerimônia de despedida seja marcada por beleza e carinho, com arranjos personalizados conforme a preferência da família.",
     details: [
-      "Coroas e arranjos florais sob encomenda",
-      "Ornamentação completa do velório",
-      "Flores naturais e artificiais",
-      "Personalização conforme desejo da família",
+      "Coroas e arranjos de flores selecionadas",
+      "Ornamentação caprichosa e elegante",
+      "Flores naturais com durabilidade",
+      "Personalização conforme o desejo da família",
     ],
     image: heroImg,
     cta: "Fale Conosco",
@@ -68,7 +82,7 @@ const services = [
     details: [
       "Emissão e registro de certidão de óbito",
       "Providências em cartórios e órgãos públicos",
-      "Orientação sobre inventário e pensão",
+      "Orientação completa e dedicada",
       "Acompanhamento jurídico especializado",
     ],
     image: heroImg,
@@ -123,7 +137,7 @@ export default function Servicos() {
                   <div className="mt-6 grid sm:grid-cols-2 gap-3">
                     {s.details.map((d) => (
                       <div key={d} className="flex items-start gap-2">
-                        <CheckCircle className="w-5 h-5 text-gold flex-shrink-0 mt-0.5" />
+                        <CheckCircle className="w-5 h-5 text-azure flex-shrink-0 mt-0.5" />
                         <span className="text-sm text-muted-foreground">{d}</span>
                       </div>
                     ))}
@@ -131,14 +145,14 @@ export default function Servicos() {
                   {s.ctaHref.startsWith("/") ? (
                     <Link
                       to={s.ctaHref}
-                      className="mt-8 inline-flex items-center gap-2 px-6 py-3 text-sm rounded-full gradient-gold text-primary font-semibold hover-lift"
+                      className="mt-8 btn-primary-light text-sm"
                     >
                       {s.cta} <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   ) : (
                     <a
                       href={s.ctaHref}
-                      className="mt-8 inline-flex items-center gap-2 px-6 py-3 text-sm rounded-full gradient-gold text-primary font-semibold hover-lift"
+                      className="mt-8 btn-primary-light text-sm"
                     >
                       {s.cta} <Phone className="w-3.5 h-3.5" />
                     </a>
@@ -163,13 +177,13 @@ export default function Servicos() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="tel:1437320202"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-full gradient-gold text-primary font-semibold hover-lift"
+                className="btn-primary-dark"
               >
                 <Phone className="w-4 h-4" /> (14) 3732-0202
               </a>
               <Link
                 to="/contato"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-full border-2 border-primary-foreground/30 text-primary-foreground font-semibold hover:bg-primary-foreground/10 transition-colors"
+                className="btn-outline-dark"
               >
                 Fale Conosco <ArrowRight className="w-4 h-4" />
               </Link>

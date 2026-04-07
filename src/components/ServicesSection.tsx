@@ -41,7 +41,7 @@ export default function ServicesSection() {
       <div className="section-container">
         <ScrollReveal>
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-sm font-semibold text-gold uppercase tracking-widest">Nossos Serviços</span>
+            <span className="text-sm font-semibold text-azure uppercase tracking-widest">Nossos Serviços</span>
             <h2 className="mt-3 text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">
               Cuidado completo para sua família
             </h2>
@@ -62,7 +62,7 @@ export default function ServicesSection() {
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent" />
-                  <div className="absolute bottom-4 left-4 w-12 h-12 rounded-xl gradient-gold flex items-center justify-center">
+                  <div className="absolute bottom-4 left-4 w-12 h-12 rounded-xl bg-azure flex items-center justify-center">
                     <s.icon className="w-6 h-6 text-primary" />
                   </div>
                 </div>
@@ -71,7 +71,7 @@ export default function ServicesSection() {
                   <p className="mt-3 text-muted-foreground leading-relaxed">{s.description}</p>
                   <a
                     href="#contato"
-                    className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-gold hover:text-gold-light transition-colors"
+                    className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-azure hover:text-azure-light transition-colors"
                   >
                     {s.cta}
                     <ArrowRight className="w-4 h-4" />

@@ -125,11 +125,11 @@ function ClinicaCard({ c }: { c: Clinica }) {
   return (
     <div className="group p-5 rounded-xl bg-card border border-border/50 hover-lift transition-all duration-300">
       <h4 className="font-bold text-foreground">{c.nome}</h4>
-      <p className="text-sm text-accent font-medium mt-1">{c.especialidade}</p>
+      <p className="text-sm text-azure font-medium mt-1">{c.especialidade}</p>
       {c.profissional && <p className="text-sm text-muted-foreground mt-1">{c.profissional}</p>}
       <div className="mt-3 flex flex-col gap-1 text-xs text-muted-foreground">
         <span className="flex items-center gap-1.5"><MapPin className="w-3 h-3" /> {c.endereco}</span>
-        <a href={`tel:${c.telefone.replace(/\D/g, "")}`} className="flex items-center gap-1.5 hover:text-accent transition-colors">
+        <a href={`tel:${c.telefone.replace(/\D/g, "")}`} className="flex items-center gap-1.5 hover:text-azure transition-colors">
           <Phone className="w-3 h-3" /> {c.telefone}
         </a>
       </div>
@@ -162,7 +162,7 @@ export default function PrevSaude() {
                       animate={activeIndex === i ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
                       transition={{ duration: 0.7, ease: "easeOut" }}
                     >
-                      <span className="inline-block px-4 py-1.5 rounded-full bg-accent/20 text-accent text-sm font-medium mb-4 backdrop-blur-sm border border-accent/20">
+                      <span className="inline-block px-4 py-1.5 rounded-full bg-azure/20 text-azure text-sm font-medium mb-4 backdrop-blur-sm border border-azure/30">
                         Prev Saúde Avaré
                       </span>
                       <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight max-w-2xl">
@@ -173,11 +173,11 @@ export default function PrevSaude() {
                       </p>
                       <div className="flex flex-wrap gap-4 mt-8">
                         <a href="https://wa.me/551437320202" target="_blank" rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg bg-accent text-accent-foreground font-semibold hover:bg-accent/90 transition-colors">
+                          className="btn-primary-dark">
                           Agende sua consulta
                         </a>
                         <a href="#especialidades"
-                          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-lg border border-white/30 text-white font-semibold hover:bg-white/10 transition-colors backdrop-blur-sm">
+                          className="btn-outline-dark">
                           Ver especialidades
                         </a>
                       </div>
@@ -193,7 +193,7 @@ export default function PrevSaude() {
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-10">
           {heroSlides.map((_, i) => (
             <button key={i} onClick={() => emblaApi?.scrollTo(i)}
-              className={`h-2 rounded-full transition-all duration-500 ${activeIndex === i ? "w-10 bg-accent" : "w-2 bg-white/40 hover:bg-white/60"}`} />
+              className={`h-2 rounded-full transition-all duration-500 ${activeIndex === i ? "w-10 bg-azure" : "w-2 bg-white/40 hover:bg-white/60"}`} />
           ))}
         </div>
 
@@ -205,11 +205,11 @@ export default function PrevSaude() {
 
       {/* ═══ BENEFITS ═══ */}
       <section className="section-padding bg-background relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,hsl(var(--accent)/0.05),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,hsl(var(--azure)/0.05),transparent_60%)]" />
         <div className="section-container relative z-10">
           <ScrollReveal>
             <div className="text-center max-w-2xl mx-auto mb-16">
-              <span className="text-accent font-semibold text-sm tracking-wider uppercase">Vantagens</span>
+              <span className="text-azure font-semibold text-sm tracking-wider uppercase">Vantagens</span>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-3">
                 Por que escolher a Prev Saúde?
               </h2>
@@ -223,8 +223,8 @@ export default function PrevSaude() {
             {benefits.map((b, i) => (
               <ScrollReveal key={b.title} delay={i * 0.1}>
                 <div className="group p-8 rounded-2xl bg-card border border-border/50 hover-lift transition-all duration-300 h-full">
-                  <div className="w-14 h-14 rounded-xl bg-accent/10 flex items-center justify-center mb-5 group-hover:bg-accent/20 transition-colors">
-                    <b.icon className="w-7 h-7 text-accent" />
+                  <div className="w-14 h-14 rounded-xl bg-azure/10 flex items-center justify-center mb-5 group-hover:bg-azure/20 transition-colors">
+                    <b.icon className="w-7 h-7 text-azure" />
                   </div>
                   <h3 className="text-lg font-bold text-foreground">{b.title}</h3>
                   <p className="text-muted-foreground mt-2 leading-relaxed">{b.desc}</p>
@@ -237,7 +237,7 @@ export default function PrevSaude() {
 
       {/* ═══ STATS ═══ */}
       <section className="py-20 gradient-navy relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,hsl(var(--gold)/0.1),transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,hsl(var(--azure)/0.1),transparent_50%)]" />
         <div className="section-container relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((s, i) => (
@@ -259,7 +259,7 @@ export default function PrevSaude() {
         <div className="section-container">
           <ScrollReveal>
             <div className="max-w-4xl mx-auto text-center">
-              <span className="text-accent font-semibold text-sm tracking-wider uppercase">Sobre nós</span>
+              <span className="text-azure font-semibold text-sm tracking-wider uppercase">Sobre nós</span>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-3 mb-8">
                 Referência em saúde acessível
               </h2>
@@ -281,7 +281,7 @@ export default function PrevSaude() {
         <div className="section-container">
           <ScrollReveal>
             <div className="text-center max-w-2xl mx-auto mb-12">
-              <span className="text-accent font-semibold text-sm tracking-wider uppercase">Nossa rede</span>
+              <span className="text-azure font-semibold text-sm tracking-wider uppercase">Nossa rede</span>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-3">
                 Especialidades & Clínicas
               </h2>
@@ -304,8 +304,8 @@ export default function PrevSaude() {
                     return (
                       <div key={esp} className="group p-5 rounded-xl bg-card border border-border/50 hover-lift transition-all duration-300">
                         <div className="flex items-center gap-3 mb-3">
-                          <div className="w-9 h-9 rounded-lg bg-accent/10 flex items-center justify-center group-hover:bg-accent/20 transition-colors">
-                            <Icon className="w-4.5 h-4.5 text-accent" />
+                          <div className="w-9 h-9 rounded-lg bg-azure/10 flex items-center justify-center group-hover:bg-azure/20 transition-colors">
+                            <Icon className="w-4.5 h-4.5 text-azure" />
                           </div>
                           <h4 className="font-bold text-foreground text-sm">{esp}</h4>
                         </div>
@@ -345,7 +345,7 @@ export default function PrevSaude() {
 
       {/* ═══ CTA FINAL ═══ */}
       <section className="py-24 gradient-navy relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--gold)/0.08),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,hsl(var(--azure)/0.08),transparent_60%)]" />
         <div className="section-container relative z-10 text-center">
           <ScrollReveal>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
@@ -356,11 +356,11 @@ export default function PrevSaude() {
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <a href="https://wa.me/551437320202" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-10 py-4 rounded-lg bg-accent text-accent-foreground font-semibold hover:bg-accent/90 transition-colors text-lg">
+                className="btn-primary-dark text-lg">
                 <Phone className="w-5 h-5" /> Agendar consulta
               </a>
               <Link to="/plano"
-                className="inline-flex items-center gap-2 px-10 py-4 rounded-lg border border-white/30 text-white font-semibold hover:bg-white/10 transition-colors text-lg backdrop-blur-sm">
+                className="btn-outline-dark text-lg">
                 Conhecer planos
               </Link>
             </div>

@@ -44,19 +44,20 @@ export default function QuemSomos() {
         <div className="section-container">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <ScrollReveal>
-              <span className="text-sm font-semibold text-gold uppercase tracking-widest">Nossa História</span>
+              <span className="text-sm font-semibold text-azure uppercase tracking-widest">Nossa História</span>
               <h2 className="mt-3 text-2xl md:text-3xl font-bold text-foreground leading-tight">
                 Uma história de cuidado e respeito
               </h2>
-              <p className="mt-6 text-muted-foreground leading-relaxed text-lg">
+              <p className="mt-6 text-muted-foreground leading-relaxed text-base">
                 A FUNSA Funerária é referência em serviços funerários há mais de 80 anos, oferecendo atendimento humanizado, suporte completo e assistência funeral 24 horas. Com tradição, credibilidade e respeito, cuidamos de cada família com sensibilidade e profissionalismo, garantindo organização e tranquilidade em todos os momentos da despedida.
               </p>
-              <p className="mt-4 text-muted-foreground leading-relaxed">
+              <p className="mt-4 text-muted-foreground leading-relaxed text-base">
                 Especializada em serviços funerários completos, a FUNSA conta com estrutura moderna, equipe qualificada e soluções personalizadas para velórios, cerimônias e homenagens. Nosso compromisso é proporcionar acolhimento, orientação e apoio em cada etapa, assegurando um atendimento ágil, digno e respeitoso.
               </p>
-              <p className="mt-4 text-muted-foreground leading-relaxed">
+              <p className="mt-4 text-muted-foreground leading-relaxed text-base">
                 Mais do que uma funerária, somos um suporte presente e confiável. Trabalhamos com ética, empatia e responsabilidade para honrar cada história de vida, oferecendo assistência funeral 24h com cuidado, humanidade e dedicação em todos os detalhes.
               </p>
+
             </ScrollReveal>
 
             <ScrollReveal delay={0.2}>
@@ -81,7 +82,7 @@ export default function QuemSomos() {
         <div className="section-container">
           <ScrollReveal>
             <div className="text-center max-w-2xl mx-auto mb-16">
-              <span className="text-sm font-semibold text-gold uppercase tracking-widest">Propósito</span>
+              <span className="text-sm font-semibold text-azure uppercase tracking-widest">Propósito</span>
               <h2 className="mt-3 text-2xl font-bold text-foreground md:text-4xl">
                 Missão, Visão e Valores
               </h2>
@@ -134,7 +135,7 @@ export default function QuemSomos() {
             </p>
             <Link
               to="/contato"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full gradient-gold text-primary font-semibold hover-lift"
+              className="btn-primary-dark"
             >
               Entre em Contato <ArrowRight className="w-4 h-4" />
             </Link>

@@ -38,7 +38,7 @@ export default function Aplicativo() {
 
             {/* Content */}
             <ScrollReveal delay={0.15}>
-              <span className="inline-flex items-center gap-2 text-sm font-semibold text-gold uppercase tracking-widest mb-4">
+              <span className="inline-flex items-center gap-2 text-sm font-semibold text-azure uppercase tracking-widest mb-4">
                 Aplicativo FUNSA
               </span>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground leading-tight lg:text-4xl">
@@ -62,7 +62,7 @@ export default function Aplicativo() {
 
               {/* CTA */}
               <div className="mt-10">
-                <a href="#download" className="inline-flex items-center gap-2 px-8 py-4 rounded-full gradient-gold text-primary font-semibold hover-lift text-base">
+                <a href="#download" className="btn-primary-light text-base">
                   Quero baixar o aplicativo <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
@@ -106,7 +106,7 @@ export default function Aplicativo() {
         <div className="section-container max-w-3xl">
           <ScrollReveal>
             <div className="text-center mb-12">
-              <span className="text-sm font-semibold text-gold uppercase tracking-widest">FAQ</span>
+              <span className="text-sm font-semibold text-azure uppercase tracking-widest">FAQ</span>
               <h2 className="mt-3 text-2xl md:text-3xl font-bold text-foreground">
                 Dúvidas sobre o aplicativo
               </h2>

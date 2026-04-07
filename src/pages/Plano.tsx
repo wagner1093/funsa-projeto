@@ -115,7 +115,7 @@ export default function Plano() {
                   <ScrollReveal key={plan.name}>
                      <div className={`relative flex flex-col rounded-2xl border bg-card p-6 h-full ${plan.popular ? "border-accent shadow-lg ring-2 ring-accent/30" : "border-border/50"}`}>
                       {plan.popular && (
-                        <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full gradient-gold text-primary text-xs font-bold uppercase tracking-wider">
+                        <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-azure text-white text-xs font-bold uppercase tracking-wider shadow-lg">
                           Mais Popular
                         </span>
                       )}
@@ -192,8 +192,7 @@ export default function Plano() {
 
                       {/* CTA */}
                       <a
-                        href="tel:1437320202"
-                        className={`w-full flex items-center justify-center gap-2 py-3 rounded-full font-semibold text-sm hover-lift ${plan.popular ? "gradient-gold text-primary" : "gradient-navy text-primary-foreground"}`}
+                        className={`w-full flex items-center justify-center gap-2 py-3 rounded-full font-semibold text-sm transition-all duration-200 bg-primary text-primary-foreground hover:bg-secondary`}
                       >
                         📲 Quero Contratar
                       </a>
@@ -216,8 +215,8 @@ export default function Plano() {
                   <div className="space-y-5 mb-10">
                     {beneficiosVida.map((b) => (
                       <div key={b.title} className="flex items-start gap-3">
-                        <div className="w-6 h-6 rounded-full gradient-gold flex items-center justify-center flex-shrink-0 mt-1">
-                          <Check className="w-3.5 h-3.5 text-primary" />
+                        <div className="w-6 h-6 rounded-full bg-azure flex items-center justify-center flex-shrink-0 mt-1">
+                          <Check className="w-3.5 h-3.5 text-primary-foreground" />
                         </div>
                         <div>
                           <span className="font-semibold text-foreground">{b.title}:</span>{" "}
@@ -256,12 +255,12 @@ export default function Plano() {
                      <Phone className="w-10 h-10 flex-shrink-0" />
                      <div className="text-center sm:text-left flex-1">
                        <p className="font-bold text-lg">Em caso de falecimento ligue para:</p>
-                       <a href="tel:1437320202" className="text-2xl font-bold text-gold">(14) 3732-0202</a>
+                       <a href="tel:1437320202" className="text-2xl font-bold text-azure">(14) 3732-0202</a>
                        <p className="text-primary-foreground/70 text-sm mt-1">Plantão 24 horas</p>
                      </div>
                      <div className="text-center sm:text-left sm:border-l sm:border-primary-foreground/20 sm:pl-6">
                        <p className="font-bold text-sm">WhatsApp Plantão 24h:</p>
-                       <a href="https://wa.me/5514997792932" target="_blank" rel="noopener noreferrer" className="text-xl font-bold text-gold hover:underline">
+                       <a href="https://wa.me/5514997792932" target="_blank" rel="noopener noreferrer" className="text-xl font-bold text-azure hover:underline">
                          📲 (14) 99779-2932
                        </a>
                      </div>
@@ -275,7 +274,7 @@ export default function Plano() {
                   <div className="space-y-4 mb-10">
                     {passosImediatos.map((p, i) => (
                       <div key={i} className="flex items-start gap-3">
-                        <span className="w-7 h-7 rounded-full gradient-gold flex items-center justify-center flex-shrink-0 text-primary font-bold text-sm">
+                        <span className="w-7 h-7 rounded-full bg-azure flex items-center justify-center flex-shrink-0 text-white font-bold text-sm">
                           {i + 1}
                         </span>
                         <p className="text-muted-foreground leading-relaxed">{p}</p>

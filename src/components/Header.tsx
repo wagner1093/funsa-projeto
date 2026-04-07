@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, Instagram, Facebook } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import logoFunsa from "@/assets/logo-funsa.png";
+import logoCor from "@/assets/logo-cor.png";
+import logoBranco from "@/assets/logo-branco.png";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -11,6 +12,7 @@ const navLinks = [
   { label: "Planos", href: "/plano" },
   { label: "Prev Saúde", href: "/prevsaude" },
   { label: "Clube + FUNSA", href: "/clube" },
+  { label: "Área do Cliente", href: "/area-cliente" },
   { label: "Falecimentos", href: "/falecidos" },
   { label: "Blog", href: "/blog" },
   { label: "Contato", href: "/contato" },
@@ -42,13 +44,13 @@ export default function Header() {
       <div className="section-container flex items-center justify-between h-16 md:h-20">
         <Link to="/" className="flex items-center gap-2">
           <img
-            src={logoFunsa}
-            alt="FUNSA – Funerária Nossa Senhora Aparecida"
-            className={`h-10 md:h-12 w-auto transition-all duration-300 ${isTransparent ? "brightness-0 invert" : ""}`}
+            src={isTransparent ? logoBranco : logoCor}
+            alt="Funsa Funerária"
+            className="h-10 md:h-14 w-auto transition-all duration-300"
           />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-1" style={{ fontFamily: "'Sora', sans-serif" }}>
+        <nav className="hidden lg:flex items-center gap-1 font-sans">
           {navLinks.map((l) => (
             <Link
               key={l.href}
@@ -87,7 +89,7 @@ export default function Header() {
           </div>
           <a
             href="tel:1437320202"
-            className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full gradient-navy text-primary-foreground text-sm font-medium hover-lift"
+            className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-primary-foreground text-sm font-medium hover-lift"
           >
             <Phone className="w-4 h-4" />
             (14) 3732-0202
@@ -125,7 +127,7 @@ export default function Header() {
               ))}
               <a
                 href="tel:1437320202"
-                className="mt-2 flex items-center justify-center gap-2 px-4 py-3 rounded-full gradient-navy text-primary-foreground text-sm font-medium"
+                className="mt-2 flex items-center justify-center gap-2 px-4 py-3 rounded-full bg-primary text-primary-foreground text-sm font-medium"
               >
                 <Phone className="w-4 h-4" />
                 (14) 3732-0202

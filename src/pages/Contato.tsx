@@ -37,7 +37,7 @@ export default function Contato() {
     setSubmitted(true);
   };
 
-  const inputClass = "w-full px-4 py-3 rounded-xl border border-border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors";
+  const inputClass = "w-full px-4 py-3 rounded-xl border border-border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-azure/50 focus:border-azure transition-colors";
 
   return (
     <>
@@ -52,7 +52,7 @@ export default function Contato() {
         <div className="section-container">
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
             {[
-              { icon: MessageCircle, label: "WhatsApp", value: "(14) 99779-2932", href: "https://wa.me/5514997792932", color: "gradient-gold" },
+              { icon: MessageCircle, label: "WhatsApp", value: "(14) 99779-2932", href: "https://wa.me/5514997792932", color: "bg-azure" },
               { icon: Phone, label: "Telefone", value: "(14) 3732-0202", href: "tel:1437320202", color: "gradient-navy" },
               { icon: Mail, label: "E-mail", value: "contato@funsaavare.com.br", href: "mailto:contato@funsaavare.com.br", color: "gradient-navy" },
               { icon: Clock, label: "Horário", value: "Atendimento 24h", href: "#", color: "gradient-navy" },
@@ -81,14 +81,14 @@ export default function Contato() {
                 <h2 className="text-xl font-bold text-foreground mb-6">Envie sua mensagem</h2>
                 {submitted ? (
                   <div className="text-center py-12">
-                    <div className="w-16 h-16 rounded-full gradient-gold flex items-center justify-center mx-auto mb-4">
-                      <Send className="w-7 h-7 text-primary" />
+                    <div className="w-16 h-16 rounded-full bg-azure flex items-center justify-center mx-auto mb-4">
+                      <Send className="w-7 h-7 text-primary-foreground" />
                     </div>
                     <h3 className="text-xl font-bold text-foreground">Mensagem enviada!</h3>
                     <p className="mt-2 text-muted-foreground">Você foi redirecionado para o WhatsApp. Obrigado pelo contato!</p>
                     <button
                       onClick={() => { setSubmitted(false); setForm({ name: "", email: "", phone: "", subject: "", message: "" }); }}
-                      className="mt-6 text-sm font-semibold text-gold hover:underline"
+                      className="mt-6 text-sm font-semibold text-azure hover:underline"
                     >
                       Enviar outra mensagem
                     </button>
@@ -119,7 +119,7 @@ export default function Contato() {
                     </div>
                     <button
                       type="submit"
-                      className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full gradient-gold text-primary font-semibold hover-lift"
+                      className="w-full btn-primary-light"
                     >
                       Enviar Mensagem <ArrowRight className="w-4 h-4" />
                     </button>
@@ -134,17 +134,17 @@ export default function Contato() {
                 <div className="p-8 rounded-2xl bg-card border border-border/50">
                   <h3 className="text-xl font-bold text-foreground mb-4">Endereço</h3>
                   <div className="flex items-start gap-3 text-muted-foreground">
-                    <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5 text-gold" />
+                    <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5 text-azure" />
                     <div>
                       <p>Rua Piauí, 1.467 – Centro</p>
                       <p>Avaré/SP</p>
                     </div>
                   </div>
                   <div className="mt-4 flex items-center gap-4">
-                    <a href="#" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center hover:bg-gold/20 transition-colors">
+                    <a href="#" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center hover:bg-azure/20 transition-colors">
                       <Facebook className="w-5 h-5 text-muted-foreground" />
                     </a>
-                    <a href="#" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center hover:bg-gold/20 transition-colors">
+                    <a href="#" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center hover:bg-azure/20 transition-colors">
                       <Instagram className="w-5 h-5 text-muted-foreground" />
                     </a>
                   </div>

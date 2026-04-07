@@ -1,53 +1,69 @@
 import PageHero from "@/components/PageHero";
 import ScrollReveal from "@/components/ScrollReveal";
-import { Cross } from "lucide-react";
-import { useState } from "react";
-
-const falecimentos = [
-  {
-    nome: "Maria Aparecida dos Santos",
-    data: "15/02/2026",
-    velorio: "Sala 1 – Das 14h às 20h",
-    sepultamento: "16/02/2026 às 10h",
-  },
-  {
-    nome: "José Carlos de Oliveira",
-    data: "14/02/2026",
-    velorio: "Sala 2 – Das 18h às 08h",
-    sepultamento: "15/02/2026 às 16h",
-  },
-  {
-    nome: "Ana Paula Ferreira",
-    data: "13/02/2026",
-    velorio: "Capela Principal – Das 09h às 15h",
-    sepultamento: "13/02/2026 às 17h",
-  },
-  {
-    nome: "Antônio Pereira da Silva",
-    data: "12/02/2026",
-    velorio: "Sala 3 – Das 10h às 16h",
-    sepultamento: "13/02/2026 às 09h",
-  },
-  {
-    nome: "Francisca de Souza Lima",
-    data: "11/02/2026",
-    velorio: "Sala 1 – Das 08h às 14h",
-    sepultamento: "12/02/2026 às 10h",
-  },
-];
+import { Cross, MessageCircle, Heart, Send, PhoneCall } from "lucide-react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function Falecidos() {
+  const [falecimentos, setFalecimentos] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadFalecidos() {
+      const { data } = await supabase
+        .from('falecidos')
+        .select('*, mensagens:falecidos_homenagens(*)')
+        .order('created_at', { ascending: false });
+      
+      if (data) setFalecimentos(data);
+      setLoading(false);
+    }
+    loadFalecidos();
+  }, []);
+
   const [mensagem, setMensagem] = useState("");
   const [nome, setNome] = useState("");
   const [enviado, setEnviado] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent, falecidoId: string) => {
     e.preventDefault();
     if (mensagem.trim() && nome.trim()) {
-      setEnviado(true);
-      setMensagem("");
-      setNome("");
-      setTimeout(() => setEnviado(false), 3000);
+      const { error } = await supabase.from('falecidos_homenagens').insert([
+        { falecido_id: falecidoId, nome, mensagem }
+      ]);
+
+      if (!error) {
+        setEnviado(true);
+        setFalecimentos(prev => prev.map(f => {
+          if (f.id === falecidoId) {
+            return {
+              ...f,
+              mensagens: [...(f.mensagens || []), { nome, mensagem, created_at: new Date().toISOString() }]
+            };
+          }
+          return f;
+        }));
+        setMensagem("");
+        setNome("");
+        setTimeout(() => {
+          setEnviado(false);
+          setDialogOpen(null);
+        }, 3000);
+      } else {
+        alert("Erro ao enviar homenagem. Tente novamente.");
+      }
     }
   };
 
@@ -60,83 +76,174 @@ export default function Falecidos() {
       />
 
       <section className="section-padding bg-background">
-        <div className="section-container max-w-3xl">
+        <div className="container max-w-4xl mx-auto text-center mb-12">
           <ScrollReveal>
-            <div className="space-y-4">
-              {falecimentos.map((f, i) => (
-                <div
-                  key={i}
-                  className="p-5 rounded-2xl bg-card border border-border/50 flex items-start gap-4 hover:shadow-md transition-shadow"
-                >
-                  {/* Icon */}
-                  <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center flex-shrink-0 mt-1">
-                    <Cross className="w-5 h-5 text-accent" />
-                  </div>
+            <p className="text-xl text-muted-foreground font-serif">
+              Prestamos nossas condolências às famílias e convidamos a participar das cerimônias de despedida.
+            </p>
+          </ScrollReveal>
+        </div>
 
-                  {/* Info */}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-bold text-lg text-foreground">{f.nome}</h3>
-                    <div className="flex flex-wrap gap-x-6 gap-y-1 mt-2 text-sm">
-                      <p>
-                        <span className="font-semibold text-accent">Velório:</span>{" "}
-                        <span className="text-muted-foreground">{f.velorio}</span>
-                      </p>
-                      <p>
-                        <span className="font-semibold text-accent">Sepultamento:</span>{" "}
-                        <span className="text-muted-foreground">{f.sepultamento}</span>
-                      </p>
+        <div className="section-container max-w-5xl mx-auto">
+          <ScrollReveal>
+            <div className="space-y-6">
+              {falecimentos.map((f, i) => {
+                const mensagens = f.mensagens || [];
+                return (
+                  <div
+                    key={f.id || i}
+                    className="p-6 md:p-8 rounded-2xl bg-card border border-border/50 flex flex-col md:flex-row relative gap-4 sm:gap-6 hover:shadow-md transition-shadow"
+                  >
+                    <div className="flex flex-1 items-start gap-4">
+                      {/* Icon or Image */}
+                      {f.imagem ? (
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden flex-shrink-0 mt-1 shadow-sm border border-border">
+                          <img src={f.imagem} alt={f.nome} className="w-full h-full object-cover" />
+                        </div>
+                      ) : (
+                        <div className="w-14 h-14 rounded-full bg-azure/10 flex items-center justify-center flex-shrink-0 mt-1 shadow-sm">
+                          <Cross className="w-6 h-6 text-azure" />
+                        </div>
+                      )}
+
+                      {/* Info */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-4 mb-2">
+                          <h3 className="font-serif text-2xl font-medium text-foreground break-words">
+                            {f.nome}
+                          </h3>
+                          <div className="md:absolute md:top-6 md:right-8">
+                            <span className="text-sm font-medium text-muted-foreground border border-border bg-white rounded-full px-4 py-1.5 flex-shrink-0 whitespace-nowrap shadow-sm">
+                              {f.data}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="mb-4">
+                          <span className="inline-block px-2 py-0.5 bg-azure/10 text-azure text-xs font-medium rounded-md">
+                            {f.local}
+                          </span>
+                        </div>
+
+                        <div className="flex flex-wrap gap-x-6 gap-y-2 mt-2 text-sm text-foreground/80">
+                          <p>
+                            <span className="font-medium text-muted-foreground">Velório:</span>{" "}
+                            <span>{f.velorio}</span>
+                          </p>
+                          <p>
+                            <span className="font-medium text-muted-foreground">Sepultamento:</span>{" "}
+                            <span>{f.sepultamento}</span>
+                          </p>
+                          {f.contato_medico && (
+                            <p className="w-full mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 bg-muted/50 border border-border/50 rounded-md text-primary font-medium">
+                              <PhoneCall className="w-4 h-4" /> Contato Médico: {f.contato_medico}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right side buttons container */}
+                    <div className="flex flex-row flex-wrap items-center justify-start md:justify-end gap-3 mt-4 md:mt-0 md:absolute md:bottom-6 md:right-8 pt-4 md:pt-0 border-t md:border-t-0 border-border/30">
+                      
+                      {/* Ver Homenagens Dialog */}
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <button className="flex items-center gap-1.5 bg-white hover:bg-muted transition-colors border border-border/80 px-4 py-2 rounded-full text-sm text-primary font-medium shadow-sm">
+                            <MessageCircle className="w-4 h-4 opacity-70" />
+                            <span>
+                              {mensagens.length} {mensagens.length === 1 ? "homenagem" : "homenagens"}
+                            </span>
+                          </button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-md bg-card p-8 border-border max-h-[80vh] overflow-y-auto">
+                          <DialogHeader className="mb-4">
+                            <DialogTitle className="text-xl font-serif text-foreground">
+                              Homenagens para {f.nome}
+                            </DialogTitle>
+                          </DialogHeader>
+                          <div className="space-y-4">
+                            {mensagens.length > 0 ? (
+                              mensagens.map((msg: any, idx: number) => (
+                                <div key={idx} className="bg-muted/30 p-4 rounded-xl border border-border/50">
+                                  <p className="text-sm font-semibold text-foreground mb-1">{msg.nome}</p>
+                                  <p className="text-sm text-muted-foreground">{msg.mensagem}</p>
+                                </div>
+                              ))
+                            ) : (
+                              <p className="text-center text-muted-foreground text-sm py-4">
+                                Nenhuma homenagem registrada ainda. Seja o primeiro a deixar uma mensagem de carinho.
+                              </p>
+                            )}
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+
+                      {/* Deixar Homenagem Dialog */}
+                      <Dialog
+                        open={dialogOpen === f.id}
+                        onOpenChange={(isOpen) => setDialogOpen(isOpen ? f.id : null)}
+                      >
+                        <DialogTrigger asChild>
+                          <Button className="btn-primary-light flex items-center gap-2 px-5 py-5 rounded-full shadow-sm text-sm">
+                            <Heart className="w-4 h-4" />
+                            Quero homenagear
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-xl bg-card p-8 border-border">
+                          <DialogHeader className="mb-4">
+                            <DialogTitle className="text-2xl font-serif text-foreground">
+                              Homenagear {f.nome}
+                            </DialogTitle>
+                            <DialogDescription className="text-base text-muted-foreground">
+                              Deixe uma mensagem de carinho para a família.
+                            </DialogDescription>
+                          </DialogHeader>
+
+                          {enviado && (
+                            <div className="mb-4 p-4 rounded-lg bg-green-50 text-green-800 text-center text-sm font-medium border border-green-200">
+                              Sua homenagem foi enviada com carinho. Obrigado!
+                            </div>
+                          )}
+
+                          <form
+                            onSubmit={(e) => handleSubmit(e, f.id)}
+                            className="space-y-5"
+                          >
+                            <div>
+                              <Input
+                                type="text"
+                                placeholder="Seu nome"
+                                value={nome}
+                                onChange={(e) => setNome(e.target.value)}
+                                className="w-full rounded-xl border-border border-2 bg-white px-4 py-6 text-base shadow-sm focus-visible:ring-primary"
+                                required
+                              />
+                            </div>
+                            <div>
+                              <Textarea
+                                placeholder="Sua mensagem de homenagem..."
+                                value={mensagem}
+                                onChange={(e) => setMensagem(e.target.value)}
+                                rows={5}
+                                className="w-full rounded-xl border-border border-2 bg-white px-4 py-4 text-base shadow-sm resize-none focus-visible:ring-primary"
+                                required
+                              />
+                            </div>
+                            <Button
+                              type="submit"
+                              className="w-full py-6 btn-primary-light font-semibold shadow-md flex items-center justify-center gap-2 mt-2"
+                            >
+                              <Send className="w-5 h-5" />
+                              Enviar homenagem
+                            </Button>
+                          </form>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   </div>
-
-                  {/* Date badge */}
-                  <span className="text-xs font-medium text-muted-foreground border border-border rounded-full px-3 py-1 flex-shrink-0 whitespace-nowrap">
-                    {f.data}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </ScrollReveal>
-
-          {/* Homenagem */}
-          <ScrollReveal>
-            <div className="mt-16 p-8 rounded-2xl bg-card border border-border/50">
-              <h2 className="text-2xl font-bold text-foreground mb-2 text-center">
-                Quero homenagear
-              </h2>
-              <p className="text-muted-foreground text-center mb-6">
-                Deixe uma frase de consolação em memória de quem partiu.
-              </p>
-
-              {enviado && (
-                <div className="mb-4 p-3 rounded-lg bg-accent/10 text-accent text-center text-sm font-medium">
-                  Sua homenagem foi enviada com carinho. Obrigado!
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-4 max-w-lg mx-auto">
-                <input
-                  type="text"
-                  placeholder="Seu nome"
-                  value={nome}
-                  onChange={(e) => setNome(e.target.value)}
-                  className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/50"
-                  required
-                />
-                <textarea
-                  placeholder="Escreva sua mensagem de consolação..."
-                  value={mensagem}
-                  onChange={(e) => setMensagem(e.target.value)}
-                  rows={4}
-                  className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/50 resize-none"
-                  required
-                />
-                <button
-                  type="submit"
-                  className="w-full py-3 rounded-xl bg-accent text-accent-foreground font-semibold hover:opacity-90 transition-opacity"
-                >
-                  Enviar homenagem
-                </button>
-              </form>
+                );
+              })}
             </div>
           </ScrollReveal>
         </div>

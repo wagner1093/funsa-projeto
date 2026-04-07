@@ -17,9 +17,9 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold/30 bg-gold/10 mb-8"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-azure/30 bg-azure/10 mb-8"
           >
-            <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-azure animate-pulse" />
             <span className="text-sm font-medium text-primary-foreground/90">Desde 1943 · Tradição e Confiança</span>
           </motion.div>
 
@@ -50,14 +50,14 @@ export default function HeroSection() {
           >
             <a
               href="#contato"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full gradient-gold text-primary font-semibold text-base hover-lift"
+              className="btn-primary-dark text-base"
             >
               Fale Conosco
               <ArrowRight className="w-4 h-4" />
             </a>
             <a
               href="#plano"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border-2 border-primary-foreground/30 text-primary-foreground font-semibold text-base hover:bg-primary-foreground/10 transition-colors"
+              className="btn-outline-dark text-base"
             >
               Conheça Nossos Planos
             </a>

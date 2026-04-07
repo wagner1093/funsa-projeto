@@ -24,7 +24,7 @@ export default function AboutSection() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Text */}
           <ScrollReveal>
-            <span className="text-sm font-semibold text-gold uppercase tracking-widest">Quem Somos</span>
+            <span className="text-sm font-semibold text-azure uppercase tracking-widest">Quem Somos</span>
             <h2 className="mt-3 text-2xl md:text-3xl lg:text-4xl font-bold text-foreground leading-tight">
               Uma história de cuidado e respeito
             </h2>
@@ -43,7 +43,7 @@ export default function AboutSection() {
             <div className="mt-8 grid grid-cols-2 gap-4">
               {values.map((v) => (
                 <div key={v.label} className="flex items-center gap-3 p-3 rounded-xl bg-muted/50">
-                  <div className="w-10 h-10 rounded-lg gradient-navy flex items-center justify-center">
+                  <div className="absolute bottom-4 left-4 w-12 h-12 rounded-xl bg-azure flex items-center justify-center">
                     <v.icon className="w-5 h-5 text-primary-foreground" />
                   </div>
                   <span className="font-medium text-foreground">{v.label}</span>

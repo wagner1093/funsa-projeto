@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logoFunsa from "@/assets/logo-funsa.png";
+import logoBranco from "@/assets/logo-branco.png";
 
 const quickLinks = [
   { label: "Home", href: "/" },
@@ -30,17 +30,17 @@ export default function Footer() {
         <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem", marginBottom: "2rem" }}>
           <div style={{ flex: "1 1 220px", minWidth: 200 }}>
             <img
-              src={logoFunsa}
-              alt="FUNSA"
-              style={{ height: 48, width: "auto", marginBottom: 16, filter: "brightness(0) invert(1)", display: "block", border: "none" }}
+              src={logoBranco}
+              alt="Funsa Funerária"
+              style={{ height: 48, width: "auto", marginBottom: 16, display: "block", border: "none" }}
             />
-            <p style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", lineHeight: 1.6, margin: 0 }}>
+            <p style={{ fontSize: 14, color: "rgba(230,240,255,0.6)", lineHeight: 1.6, margin: 0 }}>
               Funerária Nossa Senhora Aparecida. Desde 1943 cuidando de quem você ama.
             </p>
           </div>
 
           <div style={{ flex: "1 1 180px", minWidth: 160 }}>
-            <h4 style={{ fontSize: 14, fontWeight: 600, color: "hsl(40,30%,95%)", marginBottom: 12, marginTop: 0 }}>
+            <h4 style={{ fontSize: 14, fontWeight: 600, color: "hsl(210,20%,98%)", marginBottom: 12, marginTop: 0 }}>
               Links Rápidos
             </h4>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -58,7 +58,7 @@ export default function Footer() {
           </div>
 
           <div style={{ flex: "1 1 220px", minWidth: 200 }}>
-            <h4 style={{ fontSize: 14, fontWeight: 600, color: "hsl(40,30%,95%)", marginBottom: 12, marginTop: 0 }}>
+            <h4 style={{ fontSize: 14, fontWeight: 600, color: "hsl(210,20%,98%)", marginBottom: 12, marginTop: 0 }}>
               Contato
             </h4>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -75,7 +75,7 @@ export default function Footer() {
           </div>
 
           <div style={{ flex: "1 1 220px", minWidth: 200 }}>
-            <h4 style={{ fontSize: 14, fontWeight: 600, color: "hsl(40,30%,95%)", marginBottom: 12, marginTop: 0 }}>
+            <h4 style={{ fontSize: 14, fontWeight: 600, color: "hsl(210,20%,98%)", marginBottom: 12, marginTop: 0 }}>
               Endereço
             </h4>
             <div style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", display: "flex", alignItems: "flex-start", gap: 8 }}>
@@ -92,7 +92,7 @@ export default function Footer() {
             href="https://www.instagram.com/clubefunsa/"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: "rgba(245,240,230,0.5)", transition: "color 0.2s" }}
+            style={{ color: "rgba(230,240,255,0.5)", transition: "color 0.2s" }}
             className="hover:!text-primary-foreground"
             aria-label="Instagram"
           >
@@ -102,7 +102,7 @@ export default function Footer() {
             href="https://www.facebook.com/funsaavare"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: "rgba(245,240,230,0.5)", transition: "color 0.2s" }}
+            style={{ color: "rgba(230,240,255,0.5)", transition: "color 0.2s" }}
             className="hover:!text-primary-foreground"
             aria-label="Facebook"
           >
@@ -110,7 +110,7 @@ export default function Footer() {
           </a>
         </div>
 
-        <p style={{ paddingTop: 16, textAlign: "center", fontSize: 14, color: "rgba(245,240,230,0.4)", margin: 0 }}>
+        <p style={{ paddingTop: 16, textAlign: "center", fontSize: 14, color: "rgba(230,240,255,0.4)", margin: 0 }}>
           © {new Date().getFullYear()} FUNSA – Funerária Nossa Senhora Aparecida. Todos os direitos reservados.
         </p>
       </div>
