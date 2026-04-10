@@ -12,7 +12,7 @@ const navLinks = [
   { label: "Planos", href: "/plano" },
   { label: "Prev Saúde", href: "/prevsaude" },
   { label: "Clube + FUNSA", href: "/clube" },
-  { label: "Área do Cliente", href: "/area-cliente" },
+  { label: "Área do Cliente", href: "https://apps.mssistemas.com.br/areacliente.php/?codigo=136" },
   { label: "Falecimentos", href: "/falecidos" },
   { label: "Blog", href: "/blog" },
   { label: "Contato", href: "/contato" },
@@ -51,19 +51,38 @@ export default function Header() {
         </Link>
 
         <nav className="hidden lg:flex items-center gap-1 font-sans">
-          {navLinks.map((l) => (
-            <Link
-              key={l.href}
-              to={l.href}
-              className={`px-2 py-2 text-[15px] transition-colors rounded-lg hover:bg-white/10 whitespace-nowrap ${
+          {navLinks.map((l) => {
+            const isExternal = l.href.startsWith("http");
+            const content = (
+              <span className={`px-2 py-2 text-[15px] transition-colors rounded-lg hover:bg-white/10 whitespace-nowrap ${
                 location.pathname === l.href
                   ? isTransparent ? "text-white font-medium" : "text-primary font-medium"
                   : isTransparent ? "text-white/80 hover:text-white font-light" : "text-foreground/80 hover:text-primary font-light"
-              }`}
-            >
-              {l.label}
-            </Link>
-          ))}
+              }`}>
+                {l.label}
+              </span>
+            );
+
+            if (isExternal) {
+              return (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block"
+                >
+                  {content}
+                </a>
+              );
+            }
+
+            return (
+              <Link key={l.href} to={l.href}>
+                {content}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="flex items-center gap-3">
@@ -112,19 +131,34 @@ export default function Header() {
             className="lg:hidden bg-card/95 backdrop-blur-xl border-t border-border/50"
           >
             <nav className="section-container py-4 flex flex-col gap-1">
-              {navLinks.map((l) => (
-                <Link
-                  key={l.href}
-                  to={l.href}
-                  className={`px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
-                    location.pathname === l.href
-                      ? "text-primary bg-primary/5 font-semibold"
-                      : "text-foreground/80 hover:text-primary hover:bg-primary/5"
-                  }`}
-                >
-                  {l.label}
-                </Link>
-              ))}
+              {navLinks.map((l) => {
+                const isExternal = l.href.startsWith("http");
+                const className = `px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
+                  location.pathname === l.href
+                    ? "text-primary bg-primary/5 font-semibold"
+                    : "text-foreground/80 hover:text-primary hover:bg-primary/5"
+                }`;
+
+                if (isExternal) {
+                  return (
+                    <a
+                      key={l.href}
+                      href={l.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={className}
+                    >
+                      {l.label}
+                    </a>
+                  );
+                }
+
+                return (
+                  <Link key={l.href} to={l.href} className={className}>
+                    {l.label}
+                  </Link>
+                );
+              })}
               <a
                 href="tel:1437320202"
                 className="mt-2 flex items-center justify-center gap-2 px-4 py-3 rounded-full bg-primary text-primary-foreground text-sm font-medium"
