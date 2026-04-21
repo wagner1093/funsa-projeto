@@ -239,7 +239,7 @@ export default function Home() {
                   Expresse seu carinho e respeito através de arranjos florais cuidadosamente preparados.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <a href="#" className="btn-primary-dark">
+                  <a href="/catalogo-flores.pdf" target="_blank" rel="noopener noreferrer" className="btn-primary-dark py-2 px-6 text-sm">
                     Ver Catálogo
                   </a>
                   <a
