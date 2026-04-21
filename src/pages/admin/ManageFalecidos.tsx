@@ -45,7 +45,7 @@ export default function ManageFalecidos() {
 
   async function fetchFalecidos() {
     setLoading(true);
-    const { data } = await supabase.from('falecidos').select('*').order('created_at', { ascending: false });
+    const { data } = await supabase.from('funsa_falecidos').select('*').order('created_at', { ascending: false });
     if (data) setFalecidos(data);
     setLoading(false);
   }
@@ -58,7 +58,7 @@ export default function ManageFalecidos() {
 
   async function handleDelete(id: string) {
     if (confirm('Tem certeza que deseja apagar este obituário?')) {
-      const { error } = await supabase.from('falecidos').delete().eq('id', id);
+      const { error } = await supabase.from('funsa_falecidos').delete().eq('id', id);
       if (!error) {
         toast({ title: 'Obituário removido' });
         fetchFalecidos();
@@ -71,11 +71,11 @@ export default function ManageFalecidos() {
     const payload = { nome, data, local, velorio, sepultamento, imagem, contato_medico: contatoMedico };
 
     if (editingId) {
-      const { error } = await supabase.from('falecidos').update(payload).eq('id', editingId);
+      const { error } = await supabase.from('funsa_falecidos').update(payload).eq('id', editingId);
       if (error) toast({ title: 'Erro ao atualizar', variant: 'destructive' });
       else { toast({ title: 'Registro atualizado' }); setIsOpen(false); fetchFalecidos(); }
     } else {
-      const { error } = await supabase.from('falecidos').insert([payload]);
+      const { error } = await supabase.from('funsa_falecidos').insert([payload]);
       if (error) toast({ title: 'Erro ao criar', variant: 'destructive' });
       else { toast({ title: 'Registro criado' }); setIsOpen(false); fetchFalecidos(); }
     }

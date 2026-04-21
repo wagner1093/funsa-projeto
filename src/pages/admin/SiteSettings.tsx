@@ -47,7 +47,7 @@ export default function SiteSettings() {
 
   useEffect(() => {
     async function load() {
-      const { data } = await supabase.from('site_config').select('*').eq('id', 1).single();
+      const { data } = await supabase.from('funsa_site_config').select('*').eq('id', 1).single();
       if (data) {
         setSiteName(data.site_name || '');
         setSiteDescription(data.site_description || '');
@@ -68,7 +68,7 @@ export default function SiteSettings() {
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
-    const { error } = await supabase.from('site_config').update({
+    const { error } = await supabase.from('funsa_site_config').update({
       site_name: siteName,
       site_description: siteDescription,
       favicon_url: faviconUrl,

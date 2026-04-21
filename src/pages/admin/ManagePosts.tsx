@@ -45,7 +45,7 @@ export default function ManagePosts() {
 
   async function fetchPosts() {
     setLoading(true);
-    const { data } = await supabase.from('posts').select('id, titulo, categoria, created_at, featured').order('created_at', { ascending: false });
+    const { data } = await supabase.from('funsa_posts').select('id, titulo, categoria, created_at, featured').order('created_at', { ascending: false });
     if (data) setPosts(data);
     setLoading(false);
   }
@@ -63,7 +63,7 @@ export default function ManagePosts() {
   }
 
   async function handleEdit(id: string) {
-    const { data } = await supabase.from('posts').select('*').eq('id', id).single();
+    const { data } = await supabase.from('funsa_posts').select('*').eq('id', id).single();
     if (data) {
       setTitulo(data.titulo);
       setResumo(data.resumo);
@@ -79,7 +79,7 @@ export default function ManagePosts() {
 
   async function handleDelete(id: string) {
     if (confirm('Tem certeza que deseja apagar este post?')) {
-      const { error } = await supabase.from('posts').delete().eq('id', id);
+      const { error } = await supabase.from('funsa_posts').delete().eq('id', id);
       if (!error) {
         toast({ title: 'Post movido para a lixeira' });
         fetchPosts();
@@ -92,11 +92,11 @@ export default function ManagePosts() {
     const payload = { titulo, resumo, categoria, imagem, tempo_leitura: tempoLeitura, conteudo, featured };
 
     if (editingId) {
-      const { error } = await supabase.from('posts').update(payload).eq('id', editingId);
+      const { error } = await supabase.from('funsa_posts').update(payload).eq('id', editingId);
       if (error) toast({ title: 'Erro ao atualizar', variant: 'destructive' });
       else { toast({ title: 'Post atualizado' }); setIsOpen(false); fetchPosts(); }
     } else {
-      const { error } = await supabase.from('posts').insert([payload]);
+      const { error } = await supabase.from('funsa_posts').insert([payload]);
       if (error) toast({ title: 'Erro ao criar', variant: 'destructive' });
       else { toast({ title: 'Post publicado' }); setIsOpen(false); fetchPosts(); }
     }

@@ -21,11 +21,11 @@ export default function BlogPost() {
       setLoading(true);
       if (!id) return;
       
-      const { data: postData } = await supabase.from('posts').select('*').eq('id', id).single();
+      const { data: postData } = await supabase.from('funsa_posts').select('*').eq('id', id).single();
       
       if (postData) {
         setPost(postData);
-        const { data: relatedData } = await supabase.from('posts').select('*').neq('id', postData.id).limit(4);
+        const { data: relatedData } = await supabase.from('funsa_posts').select('*').neq('id', postData.id).limit(4);
         if (relatedData) setRelatedPosts(relatedData);
       }
       setLoading(false);

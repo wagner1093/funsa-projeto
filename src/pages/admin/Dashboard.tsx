@@ -14,9 +14,9 @@ export default function Dashboard() {
   useEffect(() => {
     async function loadStats() {
       const [{ count: postsCount }, { count: falecidosCount }, { count: medicosCount }] = await Promise.all([
-        supabase.from('posts').select('*', { count: 'exact', head: true }),
-        supabase.from('falecidos').select('*', { count: 'exact', head: true }),
-        supabase.from('medicos').select('*', { count: 'exact', head: true })
+        supabase.from('funsa_posts').select('*', { count: 'exact', head: true }),
+        supabase.from('funsa_falecidos').select('*', { count: 'exact', head: true }),
+        supabase.from('funsa_medicos').select('*', { count: 'exact', head: true })
       ]);
 
       setStats({

@@ -47,7 +47,7 @@ export default function ManageMedicos() {
 
   async function fetchMedicos() {
     setLoading(true);
-    const { data } = await supabase.from('medicos').select('*').order('nome', { ascending: true });
+    const { data } = await supabase.from('funsa_medicos').select('*').order('nome', { ascending: true });
     if (data) setMedicos(data);
     setLoading(false);
   }
@@ -61,7 +61,7 @@ export default function ManageMedicos() {
 
   async function handleDelete(id: string) {
     if (confirm('Tem certeza que deseja apagar este registro da rede PrevSaúde?')) {
-      const { error } = await supabase.from('medicos').delete().eq('id', id);
+      const { error } = await supabase.from('funsa_medicos').delete().eq('id', id);
       if (!error) {
         toast({ title: 'Registro apagado com sucesso', description: 'A base de dados foi atualizada.' });
         fetchMedicos();
@@ -74,11 +74,11 @@ export default function ManageMedicos() {
     const payload = { nome, especialidade, crm, contato, imagem, endereco, profissional, categoria };
 
     if (editingId) {
-      const { error } = await supabase.from('medicos').update(payload).eq('id', editingId);
+      const { error } = await supabase.from('funsa_medicos').update(payload).eq('id', editingId);
       if (error) toast({ title: 'Erro ao atualizar', variant: 'destructive' });
       else { toast({ title: 'Registro atualizado' }); setIsOpen(false); fetchMedicos(); }
     } else {
-      const { error } = await supabase.from('medicos').insert([payload]);
+      const { error } = await supabase.from('funsa_medicos').insert([payload]);
       if (error) toast({ title: 'Erro ao cadastrar', variant: 'destructive' });
       else { toast({ title: 'Registro cadastrado' }); setIsOpen(false); fetchMedicos(); }
     }

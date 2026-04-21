@@ -22,8 +22,8 @@ export default function Falecidos() {
   useEffect(() => {
     async function loadFalecidos() {
       const { data } = await supabase
-        .from('falecidos')
-        .select('*, mensagens:falecidos_homenagens(*)')
+        .from('funsa_falecidos')
+        .select('*, mensagens:funsa_falecidos_homenagens(*)')
         .order('created_at', { ascending: false });
       
       if (data) setFalecimentos(data);
@@ -40,7 +40,7 @@ export default function Falecidos() {
   const handleSubmit = async (e: React.FormEvent, falecidoId: string) => {
     e.preventDefault();
     if (mensagem.trim() && nome.trim()) {
-      const { error } = await supabase.from('falecidos_homenagens').insert([
+      const { error } = await supabase.from('funsa_falecidos_homenagens').insert([
         { falecido_id: falecidoId, nome, mensagem }
       ]);
 

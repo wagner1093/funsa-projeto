@@ -21,7 +21,7 @@ export default function Blog() {
 
   useEffect(() => {
     async function loadPosts() {
-      const { data } = await supabase.from('posts').select('*').order('created_at', { ascending: false });
+      const { data } = await supabase.from('funsa_posts').select('*').order('created_at', { ascending: false });
       if (data) setArtigos(data);
       setLoading(false);
     }
@@ -33,7 +33,7 @@ export default function Blog() {
     if (!newsName.trim() || !newsEmail.trim()) return;
     
     setNewsLoading(true);
-    const { error } = await supabase.from('newsletter_leads').insert([
+    const { error } = await supabase.from('funsa_newsletter_leads').insert([
       { nome: newsName, email: newsEmail }
     ]);
     

@@ -38,7 +38,7 @@ export default function ManageIntegrations() {
 
   async function fetchIntegracoes() {
     setLoading(true);
-    const { data } = await supabase.from('site_integracoes').select('*').order('created_at', { ascending: false });
+    const { data } = await supabase.from('funsa_site_integracoes').select('*').order('created_at', { ascending: false });
     if (data) setIntegracoes(data);
     setLoading(false);
   }
@@ -51,7 +51,7 @@ export default function ManageIntegrations() {
 
   async function handleDelete(id: string) {
     if (confirm('Tem certeza que deseja apagar esta integração (Pixel/Tag)?')) {
-      const { error } = await supabase.from('site_integracoes').delete().eq('id', id);
+      const { error } = await supabase.from('funsa_site_integracoes').delete().eq('id', id);
       if (!error) {
         toast({ title: 'Integração removida' });
         fetchIntegracoes();
@@ -60,7 +60,7 @@ export default function ManageIntegrations() {
   }
 
   async function toggleStatus(id: string, currentStatus: boolean) {
-    const { error } = await supabase.from('site_integracoes').update({ status: !currentStatus }).eq('id', id);
+    const { error } = await supabase.from('funsa_site_integracoes').update({ status: !currentStatus }).eq('id', id);
     if (!error) {
       toast({ title: !currentStatus ? 'Integração Ativada' : 'Integração Pausada' });
       fetchIntegracoes();
@@ -77,11 +77,11 @@ export default function ManageIntegrations() {
     };
 
     if (editingId) {
-      const { error } = await supabase.from('site_integracoes').update(payload).eq('id', editingId);
+      const { error } = await supabase.from('funsa_site_integracoes').update(payload).eq('id', editingId);
       if (error) toast({ title: 'Erro ao atualizar', variant: 'destructive' });
       else { toast({ title: 'Integração atualizada' }); setIsOpen(false); fetchIntegracoes(); }
     } else {
-      const { error } = await supabase.from('site_integracoes').insert([payload]);
+      const { error } = await supabase.from('funsa_site_integracoes').insert([payload]);
       if (error) toast({ title: 'Erro ao cadastrar', variant: 'destructive' });
       else { toast({ title: 'Integração cadastrada' }); setIsOpen(false); fetchIntegracoes(); }
     }

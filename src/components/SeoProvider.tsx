@@ -5,7 +5,7 @@ export function SeoProvider() {
   useEffect(() => {
     async function loadSeo() {
       const { data, error } = await supabase
-        .from('site_config')
+        .from('funsa_site_config')
         .select('site_name, site_description, favicon_url')
         .eq('id', 1)
         .single();

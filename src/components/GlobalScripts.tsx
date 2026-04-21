@@ -5,7 +5,7 @@ export function GlobalScripts() {
   useEffect(() => {
     async function loadScripts() {
       const { data, error } = await supabase
-        .from('site_integracoes')
+        .from('funsa_site_integracoes')
         .select('head_code, body_code')
         .eq('status', true);
       
