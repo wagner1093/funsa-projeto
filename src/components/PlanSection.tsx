@@ -6,7 +6,7 @@ const included = [
   "Atendimento 24 horas",
   "Cobertura em todo o estado de SP",
   "Traslado sem limite de quilometragem",
-  "Assistência médica PREV SAÚDE",
+  "Assistência médica PrevSaúde",
   "Acesso ao Clube FUNSA de vantagens",
   "Carteirinha virtual pelo aplicativo",
   "Suporte humanizado e dedicado",

@@ -10,7 +10,7 @@ const navLinks = [
   { label: "Quem Somos", href: "/quem-somos" },
   { label: "Funerária", href: "/funeraria" },
   { label: "Planos", href: "/plano" },
-  { label: "Prev Saúde", href: "/prevsaude" },
+  { label: "PrevSaúde", href: "/prevsaude" },
   { label: "Clube + FUNSA", href: "/clube" },
   { label: "Área do Cliente", href: "https://apps.mssistemas.com.br/areacliente.php/?codigo=136" },
   { label: "Falecimentos", href: "/falecidos" },

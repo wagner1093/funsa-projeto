@@ -10,7 +10,7 @@ import {
   ChevronDown, Smartphone, BadgePercent, ShoppingBag, Utensils,
   GraduationCap, Dumbbell, Heart, Car, Eye, Scissors, Gift,
   Store, Building2, Flower2, ArrowRight, Star, Users, Percent,
-  Wrench, BookOpen, Hotel } from
+  Wrench, BookOpen, Hotel, Search } from
 "lucide-react";
 
 import heroImg1 from "@/assets/clube-hero-1.jpg";
@@ -149,8 +149,14 @@ export default function ClubeFunsa() {
   /* carousel */
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 5000, stopOnInteraction: false })]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
   const onSelect = useCallback(() => {if (emblaApi) setActiveIndex(emblaApi.selectedScrollSnap());}, [emblaApi]);
   useEffect(() => {if (!emblaApi) return;onSelect();emblaApi.on("select", onSelect);return () => {emblaApi.off("select", onSelect);};}, [emblaApi, onSelect]);
+
+  const filteredCategories = Object.entries(categorias).filter(([cat, partners]) => {
+    const searchLower = searchTerm.toLowerCase();
+    return cat.toLowerCase().includes(searchLower) || partners.some(p => p.nome.toLowerCase().includes(searchLower));
+  });
 
   return (
     <>
@@ -208,6 +214,21 @@ export default function ClubeFunsa() {
         <motion.div className="absolute bottom-8 right-8 z-10" animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2 }}>
           <ChevronDown className="w-6 h-6 text-white/60" />
         </motion.div>
+      </section>
+
+      {/* ═══ LOGO HIGHLIGHT ═══ */}
+      <section className="py-20 bg-muted/30">
+        <div className="section-container">
+          <ScrollReveal>
+             <div className="flex flex-col items-center text-center">
+                <div className="w-32 h-32 md:w-48 md:h-48 rounded-3xl bg-white shadow-2xl flex items-center justify-center p-6 mb-8 hover:scale-105 transition-transform">
+                   <img src="/src/assets/logo-cor.png" alt="Clube + FUNSA" className="w-full h-full object-contain" />
+                </div>
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground">Clube de Vantagens + FUNSA</h2>
+                <div className="w-20 h-1.5 bg-azure rounded-full mt-4" />
+             </div>
+          </ScrollReveal>
+        </div>
       </section>
 
       {/* ═══ BENEFITS ═══ */}
@@ -375,9 +396,21 @@ export default function ClubeFunsa() {
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-3">
                 Parceiros & Benefícios
               </h2>
-              <p className="text-muted-foreground mt-4">
+              <p className="text-muted-foreground mt-4 mb-10">
                 Explore nossas categorias e descubra todos os descontos disponíveis para associados.
               </p>
+
+              {/* SEARCH BAR */}
+              <div className="relative max-w-xl mx-auto">
+                <input
+                  type="text"
+                  placeholder="Pesquisar categoria ou parceiro... (ex: Alimentação)"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full px-6 py-4 rounded-full bg-card border border-border focus:ring-2 focus:ring-azure/50 outline-none transition-all shadow-sm pl-12"
+                />
+                <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+              </div>
             </div>
           </ScrollReveal>
 
@@ -416,7 +449,7 @@ export default function ClubeFunsa() {
 
           {/* LISTAGEM DE CATEGORIAS EM GRID */}
           <div className="space-y-16">
-            {categoryKeys.map((cat) => {
+            {filteredCategories.map(([cat, partners]) => {
               const Icon = catIcons[cat] || Store;
               return (
                 <div key={cat} className="scroll-mt-24">
@@ -428,7 +461,7 @@ export default function ClubeFunsa() {
                   </h3>
                   
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    {categorias[cat].map((p) => (
+                    {partners.map((p) => (
                       <div key={p.nome} className="group flex flex-col p-6 rounded-2xl bg-card border border-border/50 hover:border-azure/30 hover:shadow-lg transition-all duration-300 h-full">
                         <div className="flex items-start gap-4 flex-1">
                           <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center flex-shrink-0 group-hover:bg-azure/10 transition-colors">
@@ -448,6 +481,12 @@ export default function ClubeFunsa() {
                 </div>
               );
             })}
+            {filteredCategories.length === 0 && (
+              <div className="py-20 text-center text-muted-foreground">
+                <p className="text-lg">Nenhuma categoria ou parceiro encontrado para "{searchTerm}".</p>
+                <button onClick={() => setSearchTerm("")} className="mt-4 text-azure font-semibold hover:underline">Limpar pesquisa</button>
+              </div>
+            )}
           </div>
         </div>
       </section>

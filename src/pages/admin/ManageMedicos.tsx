@@ -58,7 +58,7 @@ export default function ManageMedicos() {
   }
 
   async function handleDelete(id: string) {
-    if (confirm('Tem certeza que deseja apagar este registro da rede Prev Saúde?')) {
+    if (confirm('Tem certeza que deseja apagar este registro da rede PrevSaúde?')) {
       const { error } = await supabase.from('medicos').delete().eq('id', id);
       if (!error) {
         toast({ title: 'Registro apagado' });
@@ -86,7 +86,7 @@ export default function ManageMedicos() {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-[23px] font-normal text-[#1d2327] flex items-center gap-4">
-          Rede Prev Saúde
+          Rede PrevSaúde
           <Button onClick={handleOpenNew} className="h-7 px-3 py-0 text-[13px] bg-white text-[#2271b1] border border-[#2271b1] hover:bg-[#f6f7f7] hover:text-[#135e96] font-medium rounded-sm">
             Adicionar novo
           </Button>

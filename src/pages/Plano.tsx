@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 const plans = [
   {
     name: "Básico Individual",
-    price: "29,90",
+    price: "33,90",
     description: "Plano individual com cobertura essencial para o titular. Inclui atendimento funerário personalizado, translado de até 160km, urna padrão, higienização simples e acesso ao Clube+ FUNSA com descontos exclusivos em saúde e comércio. Ideal para quem busca proteção acessível e tranquilidade.",
     items: [
       { label: "Atendimento Funerário Personalizado", value: true },

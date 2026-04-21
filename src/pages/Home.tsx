@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronDown, Clock, Stethoscope, Gift, Shield, Users, Award, Star, Heart, Truck, FileText, Flower2, Sparkles } from "lucide-react";
+import { ArrowRight, ChevronDown, Clock, Stethoscope, Gift, Shield, Users, Award, Star, Heart, Truck, FileText, Flower2, Sparkles, Smartphone } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
@@ -17,10 +17,10 @@ const heroSlides = [
 ];
 
 const highlights = [
-  { icon: Stethoscope, title: "PREV SAÚDE", desc: "Convênio médico com diversas especialidades para sua família.", link: "/prevsaude" },
-  { icon: Clock, title: "Atendimento 24h", desc: "Plantão permanente para atendimento imediato com dignidade.", link: "/servicos" },
-  { icon: Gift, title: "Clube + Funsa", desc: "Clube de vantagens com descontos exclusivos para associados.", link: "/clube" },
+  { icon: Stethoscope, title: "PrevSaúde", desc: "Convênio médico com diversas especialidades para sua família.", link: "/prevsaude" },
   { icon: Shield, title: "Plano Familiar", desc: "Proteção completa e tranquilidade para toda a família.", link: "/plano" },
+  { icon: Gift, title: "Clube + Funsa", desc: "Clube de vantagens com descontos exclusivos para associados.", link: "/clube" },
+  { icon: Clock, title: "Atendimento 24h", desc: "Plantão permanente para atendimento imediato com dignidade.", link: "/servicos" },
 ];
 
 const stats = [
@@ -225,6 +225,36 @@ export default function Home() {
               </ScrollReveal>
             ))}
           </div>
+
+          {/* Highlight: Coroa de Flores */}
+          <ScrollReveal delay={0.4}>
+            <div className="mt-16 gradient-navy rounded-3xl p-8 md:p-12 text-center relative overflow-hidden group">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,hsl(var(--azure)/0.15),transparent_60%)]" />
+              <div className="relative z-10">
+                <Flower2 className="w-12 h-12 text-azure mx-auto mb-6 group-hover:scale-110 transition-transform duration-300" />
+                <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                  Quer homenagear? Envie sua coroa de flores
+                </h2>
+                <p className="text-white/70 text-lg max-w-2xl mx-auto mb-8">
+                  Expresse seu carinho e respeito através de arranjos florais cuidadosamente preparados.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <a href="#" className="btn-primary-dark">
+                    Ver Catálogo
+                  </a>
+                  <a
+                    href="https://wa.me/5514997792932"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-outline-dark"
+                  >
+                    <Smartphone className="w-4 h-4 mr-2" />
+                    Solicitar via WhatsApp
+                  </a>
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 

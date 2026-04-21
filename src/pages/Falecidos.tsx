@@ -1,6 +1,6 @@
 import PageHero from "@/components/PageHero";
 import ScrollReveal from "@/components/ScrollReveal";
-import { Cross, MessageCircle, Heart, Send, PhoneCall } from "lucide-react";
+import { Cross, MessageCircle, Heart, Send, PhoneCall, Flower2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import {
@@ -81,6 +81,35 @@ export default function Falecidos() {
             <p className="text-xl text-muted-foreground font-serif">
               Prestamos nossas condolências às famílias e convidamos a participar das cerimônias de despedida.
             </p>
+          </ScrollReveal>
+
+          {/* Highlight: Coroa de Flores */}
+          <ScrollReveal delay={0.2}>
+            <div className="mt-12 gradient-navy rounded-3xl p-8 md:p-10 text-center relative overflow-hidden group">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,hsl(var(--azure)/0.15),transparent_60%)]" />
+              <div className="relative z-10">
+                <Flower2 className="w-10 h-10 text-azure mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
+                <h2 className="text-xl md:text-2xl font-bold text-white mb-3">
+                  Quer homenagear? Envie sua coroa de flores
+                </h2>
+                <p className="text-white/70 text-base max-w-xl mx-auto mb-6">
+                  Expresse seu carinho através de arranjos florais. Visualize nosso catálogo e faça seu pedido.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <a href="#" className="btn-primary-dark py-2 px-6 text-sm">
+                    Ver Catálogo
+                  </a>
+                  <a
+                    href="https://wa.me/5514997792932"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-outline-dark py-2 px-6 text-sm"
+                  >
+                    Solicitar via WhatsApp
+                  </a>
+                </div>
+              </div>
+            </div>
           </ScrollReveal>
         </div>
 

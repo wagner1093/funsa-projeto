@@ -15,7 +15,7 @@ const services = [
   {
     icon: Stethoscope,
     title: "Assistência Médica",
-    description: "Convênio PREV SAÚDE com diversas especialidades disponíveis. Agendamento facilitado e atendimento de qualidade para toda a família.",
+    description: "Convênio PrevSaúde com diversas especialidades disponíveis. Agendamento facilitado e atendimento de qualidade para toda a família.",
     image: clinicImg,
     cta: "Agendar Consulta",
   },

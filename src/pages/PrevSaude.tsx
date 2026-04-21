@@ -9,7 +9,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Phone, MapPin, Heart, Shield, Users, Stethoscope,
   BadgePercent, Clock, Building2, ChevronDown, Brain,
-  Eye, Bone, Baby, Pill, Smile, Activity, Ear,
+  Eye, Bone, Baby, Pill, Smile, Activity, Ear, ArrowRight, FileText,
 } from "lucide-react";
 
 import heroImg1 from "@/assets/prevsaude-hero-1.jpg";
@@ -18,14 +18,14 @@ import heroImg3 from "@/assets/prevsaude-hero-3.jpg";
 
 /* ── hero slides ── */
 const heroSlides = [
-  { img: heroImg1, title: "Prev Saúde Avaré", sub: "Seu condomínio médico com mais de 20 especialidades" },
+  { img: heroImg1, title: "PrevSaúde Avaré", sub: "Seu condomínio médico com mais de 20 especialidades" },
   { img: heroImg2, title: "Consultas com até 50% off", sub: "Atendimento humanizado para toda a família" },
   { img: heroImg3, title: "Saúde acessível", sub: "Há mais de 18 anos cuidando de você" },
 ];
 
 /* ── benefits ── */
 const benefits = [
-  { icon: BadgePercent, title: "Até 50% de desconto", desc: "Em consultas médicas de mais de 20 especialidades" },
+  { icon: BadgePercent, title: "Até 50% de desconto", desc: "Até 50% de desconto em consultas médicas e exames" },
   { icon: Stethoscope, title: "+20 especialidades", desc: "Rede completa de profissionais qualificados" },
   { icon: Clock, title: "Agendamento fácil", desc: "Marque sua consulta com rapidez e praticidade" },
   { icon: Shield, title: "Sem carência", desc: "Atendimento imediato após a adesão ao plano" },
@@ -64,7 +64,7 @@ const especialidades: Record<string, string[]> = {
   "Fisioterapia": ["Maria Eduarda F. Moreira", "Yago Aparecido Camargo"],
   "Gastrocirurgia / Coloproctologia": ["Dr. Hélio José Fragoso", "Dr. Zimar Tavares Borges Júnior"],
   "Geriatria": ["Dra. Juliana Armando Rosa"],
-  "Ginecologia e obstetrícia": ["Dra. Maria Eduarda Grassi Novaes", "Dra. Ângela Storino Das Chagas"],
+  "Ginecologia e obstetrícia": ["Dra. Ângela Storino Das Chagas", "Dra. Maria Eduarda Grassi Novaes"],
   "Nutrição": ["Milena Nespeca"],
   "Ortopedia": ["Dr. Jun Ricardo Fujji", "Dr. Thales Martins"],
   "Otorrinolaringologia": ["Dr. Renato Nakamura"],
@@ -112,6 +112,8 @@ const clinicasExames: Clinica[] = [
   { nome: "Clínica Radiodoctor", especialidade: "Exames de Imagem", endereco: "Largo Santa Cruz, nº 808 – Centro", telefone: "(14) 3732-4316" },
   { nome: "CROD", especialidade: "Radiologia Odontológica Digital", endereco: "Rua Goiás, nº 1.351 – Centro", telefone: "(14) 3733-1418" },
   { nome: "UDI – Ressonância Magnética", especialidade: "Ressonância", endereco: "Rua Mato Grosso, nº 800 – Centro", telefone: "(14) 3732-3264" },
+  { nome: "Laboratório Ivan Garcia", especialidade: "Análises Clínicas", endereco: "Consultar no agendamento", telefone: "(14) 3732-0202" },
+  { nome: "Clínica Imagem", especialidade: "Exames de Imagem", endereco: "Consultar no agendamento", telefone: "(14) 3732-0202" },
 ];
 
 const clinicasOutras: Clinica[] = [
@@ -141,8 +143,14 @@ export default function PrevSaude() {
   /* carousel */
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 5000, stopOnInteraction: false })]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
   const onSelect = useCallback(() => { if (emblaApi) setActiveIndex(emblaApi.selectedScrollSnap()); }, [emblaApi]);
   useEffect(() => { if (!emblaApi) return; onSelect(); emblaApi.on("select", onSelect); return () => { emblaApi.off("select", onSelect); }; }, [emblaApi, onSelect]);
+
+  const filteredEspecialidades = Object.entries(especialidades).filter(([esp, docs]) => {
+    const searchLower = searchTerm.toLowerCase();
+    return esp.toLowerCase().includes(searchLower) || docs.some(d => d.toLowerCase().includes(searchLower));
+  });
 
   return (
     <>
@@ -163,7 +171,7 @@ export default function PrevSaude() {
                       transition={{ duration: 0.7, ease: "easeOut" }}
                     >
                       <span className="inline-block px-4 py-1.5 rounded-full bg-azure/20 text-azure text-sm font-medium mb-4 backdrop-blur-sm border border-azure/30">
-                        Prev Saúde Avaré
+                        PrevSaúde Avaré
                       </span>
                       <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight max-w-2xl">
                         {slide.title}
@@ -211,7 +219,7 @@ export default function PrevSaude() {
             <div className="text-center max-w-2xl mx-auto mb-16">
               <span className="text-azure font-semibold text-sm tracking-wider uppercase">Vantagens</span>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-3">
-                Por que escolher a Prev Saúde?
+                Por que escolher a PrevSaúde?
               </h2>
               <p className="text-muted-foreground mt-4 text-lg">
                 Cuidamos da saúde da sua família com qualidade, acessibilidade e atendimento humanizado.
@@ -231,6 +239,41 @@ export default function PrevSaude() {
                 </div>
               </ScrollReveal>
             ))}
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6 mt-12">
+            {/* Dica de Saúde */}
+            <ScrollReveal delay={0.1}>
+              <div className="p-8 rounded-2xl gradient-navy text-primary-foreground h-full relative overflow-hidden group">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,hsl(var(--azure)/0.1),transparent_60%)]" />
+                <div className="relative z-10">
+                  <Activity className="w-10 h-10 text-azure mb-4 group-hover:scale-110 transition-transform" />
+                  <h3 className="text-2xl font-bold mb-3">Dica de Saúde</h3>
+                  <p className="text-primary-foreground/80 leading-relaxed mb-6">
+                    Mantenha seus exames em dia e cultive hábitos saudáveis. A prevenção é o melhor caminho para uma vida longa e feliz.
+                  </p>
+                  <Link to="/blog" className="inline-flex items-center gap-2 text-azure font-semibold hover:underline">
+                    Ler mais dicas <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </div>
+            </ScrollReveal>
+
+            {/* Resultados de Exames */}
+            <ScrollReveal delay={0.2}>
+              <div className="p-8 rounded-2xl bg-card border border-border/50 h-full relative overflow-hidden group">
+                <div className="relative z-10">
+                  <FileText className="w-10 h-10 text-azure mb-4 group-hover:scale-110 transition-transform" />
+                  <h3 className="text-2xl font-bold text-foreground mb-3">Resultados de Exames</h3>
+                  <p className="text-muted-foreground leading-relaxed mb-6">
+                    Acesse os resultados de seus exames realizados em nossos laboratórios parceiros de forma rápida e segura.
+                  </p>
+                  <a href="#" className="btn-primary flex items-center justify-center gap-2">
+                    Acessar Resultados <ArrowRight className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -265,10 +308,10 @@ export default function PrevSaude() {
               </h2>
               <div className="space-y-6 text-muted-foreground text-lg leading-relaxed">
                 <p>
-                  A Prev Saúde Avaré é o condomínio médico criado para cuidar da saúde das famílias com atenção, qualidade e acessibilidade. Reunindo mais de 20 especialidades médicas, oferece aos associados consultas com até 50% de desconto, além de exames laboratoriais e de imagem.
+                  A PrevSaúde Avaré é o condomínio médico criado para cuidar da saúde das famílias com atenção, qualidade e acessibilidade. Reunindo mais de 20 especialidades médicas, oferece aos associados consultas com até 50% de desconto, além de exames laboratoriais e de imagem.
                 </p>
                 <p>
-                  Com mais de 18 anos de atuação, a Prev Saúde Avaré é referência em atendimento humanizado, estrutura moderna e foco na prevenção e no bem-estar. Mais do que um serviço, a Prev Saúde Avaré é um compromisso com quem confia na FUNSA para cuidar do que realmente importa: a vida.
+                  Com mais de 18 anos de atuação, a PrevSaúde Avaré é referência em atendimento humanizado, estrutura moderna e foco na prevenção e no bem-estar. Mais do que um serviço, a PrevSaúde Avaré é um compromisso com quem confia na FUNSA para cuidar do que realmente importa: a vida.
                 </p>
               </div>
             </div>
@@ -298,8 +341,21 @@ export default function PrevSaude() {
 
             <TabsContent value="especialidades" className="mt-10">
               <ScrollReveal>
+                <div className="max-w-xl mx-auto mb-10">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Pesquisar especialidade ou médico..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full px-6 py-4 rounded-full bg-card border border-border focus:ring-2 focus:ring-azure/50 outline-none transition-all shadow-sm pl-12"
+                    />
+                    <Stethoscope className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  </div>
+                </div>
+
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {Object.entries(especialidades).map(([esp, docs]) => {
+                  {filteredEspecialidades.map(([esp, docs]) => {
                     const Icon = specIcons[esp] || Stethoscope;
                     return (
                       <div key={esp} className="group p-5 rounded-xl bg-card border border-border/50 hover-lift transition-all duration-300">
@@ -317,6 +373,11 @@ export default function PrevSaude() {
                       </div>
                     );
                   })}
+                  {filteredEspecialidades.length === 0 && (
+                    <div className="col-span-full py-12 text-center text-muted-foreground">
+                      Nenhuma especialidade ou médico encontrado para "{searchTerm}".
+                    </div>
+                  )}
                 </div>
               </ScrollReveal>
             </TabsContent>
@@ -352,17 +413,13 @@ export default function PrevSaude() {
               Cuide da saúde de quem você ama
             </h2>
             <p className="text-white/70 text-lg max-w-xl mx-auto mb-10">
-              Agende sua consulta e aproveite os benefícios exclusivos da Prev Saúde Avaré para toda a família.
+              Agende sua consulta e aproveite os benefícios exclusivos da PrevSaúde Avaré para toda a família.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <a href="https://wa.me/551437320202" target="_blank" rel="noopener noreferrer"
                 className="btn-primary-dark text-lg">
                 <Phone className="w-5 h-5" /> Agendar consulta
               </a>
-              <Link to="/plano"
-                className="btn-outline-dark text-lg">
-                Conhecer planos
-              </Link>
             </div>
           </ScrollReveal>
         </div>
