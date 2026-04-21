@@ -183,7 +183,7 @@
     background-color: hsl(0 0% 100% / 0.1);
   }
 
-  /* Secondary/outline on light backgrounds */
+  /* ── Secondary/outline on light backgrounds ── */
   .btn-outline-light {
     @apply inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold transition-all duration-200;
     background-color: transparent;
@@ -192,6 +192,27 @@
   }
   .btn-outline-light:hover {
     background-color: hsl(var(--primary) / 0.06);
+  }
+
+  /* ── Admin Dashboard UI ── */
+  .admin-glass {
+    @apply bg-[#1d2327]/95 backdrop-blur-xl border-r border-[#ffffff]/10;
+  }
+
+  .admin-card {
+    @apply bg-white border border-[#c3c4c7]/50 rounded-2xl shadow-sm transition-all duration-300;
+  }
+
+  .admin-card:hover {
+    @apply border-[#2271b1]/30 shadow-md transform -translate-y-1;
+  }
+
+  .admin-gradient-stats {
+    background: linear-gradient(135deg, hsl(var(--navy)) 0%, hsl(var(--azure)) 100%);
+  }
+
+  .admin-table-header {
+    @apply bg-[#f0f0f1]/80 backdrop-blur-md border-b border-[#c3c4c7]/50;
   }
 
 }

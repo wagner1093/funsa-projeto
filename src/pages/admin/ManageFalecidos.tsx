@@ -3,13 +3,14 @@ import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Edit, Trash2 } from 'lucide-react';
+import { Plus, Edit, Trash2, Cross, Calendar, MapPin, Clock, Search, ExternalLink } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { motion } from "framer-motion";
 
 type Falecido = {
   id: string;
@@ -26,6 +27,7 @@ export default function ManageFalecidos() {
   const [falecidos, setFalecidos] = useState<Falecido[]>([]);
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const { toast } = useToast();
 
   const [nome, setNome] = useState('');
@@ -58,7 +60,7 @@ export default function ManageFalecidos() {
     if (confirm('Tem certeza que deseja apagar este obituário?')) {
       const { error } = await supabase.from('falecidos').delete().eq('id', id);
       if (!error) {
-        toast({ title: 'Obituário apagado' });
+        toast({ title: 'Obituário removido' });
         fetchFalecidos();
       }
     }
@@ -79,90 +81,172 @@ export default function ManageFalecidos() {
     }
   }
 
+  const filteredFalecidos = falecidos.filter(f => 
+    f.nome.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <div>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-[23px] font-normal text-[#1d2327] flex items-center gap-4">
-          Obituários
-          <Button onClick={handleOpenNew} className="h-7 px-3 py-0 text-[13px] bg-white text-[#2271b1] border border-[#2271b1] hover:bg-[#f6f7f7] hover:text-[#135e96] font-medium rounded-sm">
-            Adicionar novo
-          </Button>
-        </h1>
+    <div className="space-y-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-navy flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center">
+              <Cross className="w-6 h-6 text-navy" />
+            </div>
+            Registros de Obituário
+          </h1>
+          <p className="text-gray-500 text-sm mt-1">Gestão de comunicados de falecimento e homenagens.</p>
+        </div>
+        <Button onClick={handleOpenNew} className="bg-navy hover:bg-black text-white rounded-xl px-6 py-5 shadow-lg transition-all flex items-center gap-2">
+          <Plus className="w-5 h-5" />
+          Novo Registro
+        </Button>
       </div>
 
-      <div className="bg-white border border-[#c3c4c7] relative">
-        <table className="w-full text-left text-[13px] text-[#3c434a]">
-          <thead className="bg-[#f0f0f1]/50 border-b border-[#c3c4c7]">
-            <tr>
-              <th className="p-3 font-semibold text-[#2c3338]">Nome</th>
-              <th className="p-3 font-semibold text-[#2c3338]">Data</th>
-              <th className="p-3 font-semibold text-[#2c3338]">Sepultamento</th>
-              <th className="p-3 font-semibold text-[#2c3338] text-right">Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr><td colSpan={4} className="p-3 text-center">Carregando...</td></tr>
-            ) : falecidos.length === 0 ? (
-              <tr><td colSpan={4} className="p-3 text-center text-[#3c434a]">Nenhum registro encontrado.</td></tr>
-            ) : (
-              falecidos.map(item => (
-                <tr key={item.id} className="border-b border-[#c3c4c7] last:border-0 hover:bg-[#f6f7f7] transition-colors group">
-                  <td className="p-3 font-semibold text-[#2271b1]">{item.nome}</td>
-                  <td className="p-3 text-[#a7aaad]">{item.data}</td>
-                  <td className="p-3 text-[#a7aaad]">{item.sepultamento}</td>
-                  <td className="p-3 flex gap-2 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button onClick={() => {
-                        setNome(item.nome); setData(item.data); setLocal(item.local); 
-                        setVelorio(item.velorio); setSepultamento(item.sepultamento); 
-                        setImagem(item.imagem || ''); setContatoMedico(item.contato_medico || '');
-                        setEditingId(item.id); setIsOpen(true);
-                      }} className="text-[#2271b1] hover:text-[#135e96] text-[13px]">
-                      Editar
-                    </button>
-                    <span className="text-[#c3c4c7]">|</span>
-                    <button onClick={() => handleDelete(item.id)} className="text-[#d63638] hover:text-[#d63638] text-[13px]">
-                      Lixeira
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+      <div className="relative">
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+        <input 
+          type="text" 
+          placeholder="Buscar por nome..."
+          className="w-full pl-11 pr-4 py-3 rounded-xl border border-gray-200 focus:border-navy focus:ring-1 focus:ring-navy outline-none transition-all text-sm"
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+        />
+      </div>
+
+      <div className="admin-card overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-sm text-navy">
+            <thead className="admin-table-header">
+              <tr>
+                <th className="px-6 py-4 font-bold uppercase tracking-wider text-[11px] text-gray-500">Falecido(a)</th>
+                <th className="px-6 py-4 font-bold uppercase tracking-wider text-[11px] text-gray-500">Data</th>
+                <th className="px-6 py-4 font-bold uppercase tracking-wider text-[11px] text-gray-500">Informações de Cerimônia</th>
+                <th className="px-6 py-4 font-bold uppercase tracking-wider text-[11px] text-gray-500 text-right">Ações</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-100">
+              {loading ? (
+                <tr><td colSpan={4} className="px-6 py-10 text-center text-gray-400 font-medium">Sincronizando registros...</td></tr>
+              ) : filteredFalecidos.length === 0 ? (
+                <tr><td colSpan={4} className="px-6 py-10 text-center text-gray-400">Nenhum registro encontrado.</td></tr>
+              ) : (
+                filteredFalecidos.map(item => (
+                  <tr key={item.id} className="hover:bg-gray-50/50 transition-colors group">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center shrink-0 border border-gray-100 overflow-hidden ring-2 ring-transparent group-hover:ring-navy/5 transition-all">
+                          {item.imagem ? <img src={item.imagem} className="w-full h-full object-cover" /> : <Cross className="w-4 h-4 text-gray-300" />}
+                        </div>
+                        <span className="font-bold text-navy">{item.nome}</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-gray-500">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="w-3.5 h-3.5 text-navy/40" />
+                        {item.data}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                       <div className="space-y-1">
+                          <div className="flex items-center gap-2 text-xs text-gray-600">
+                            <Clock className="w-3 h-3 text-navy/30" />
+                            <span className="font-medium">Velório:</span> {item.velorio}
+                          </div>
+                          <div className="flex items-center gap-2 text-xs text-gray-600">
+                            <MapPin className="w-3 h-3 text-navy/30" />
+                            <span className="font-medium">Sultamento:</span> {item.sepultamento}
+                          </div>
+                       </div>
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      <div className="flex gap-1 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button 
+                          onClick={() => {
+                            setNome(item.nome); setData(item.data); setLocal(item.local); 
+                            setVelorio(item.velorio); setSepultamento(item.sepultamento); 
+                            setImagem(item.imagem || ''); setContatoMedico(item.contato_medico || '');
+                            setEditingId(item.id); setIsOpen(true);
+                          }} 
+                          className="p-2 text-azure hover:bg-azure/10 rounded-lg transition-colors"
+                        >
+                          <Edit className="w-4 h-4" />
+                        </button>
+                        <button 
+                          onClick={() => handleDelete(item.id)} 
+                          className="p-2 text-destructive hover:bg-destructive/10 rounded-lg transition-colors"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-xl bg-[#f0f0f1] border-[#c3c4c7] p-0">
-          <DialogHeader className="p-5 bg-white border-b border-[#c3c4c7]">
-            <DialogTitle className="text-[23px] font-normal text-[#1d2327]">{editingId ? 'Editar Registro' : 'Novo Obituário'}</DialogTitle>
-          </DialogHeader>
-          <form onSubmit={handleSave} className="p-5 space-y-4">
-            <div className="bg-white border border-[#c3c4c7] p-4 rounded-sm grid md:grid-cols-2 gap-4">
+        <DialogContent className="max-w-2xl bg-white rounded-3xl p-0 overflow-hidden border-none shadow-2xl">
+          <div className="bg-navy h-24 p-8 flex items-center justify-between relative overflow-hidden text-white leading-none">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl" />
+            <DialogTitle className="text-xl font-bold flex items-center gap-3">
+               <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+                  <Cross className="w-5 h-5 text-white" />
+               </div>
+               {editingId ? 'Editar Registro' : 'Novo Obituário'}
+            </DialogTitle>
+          </div>
+          
+          <form onSubmit={handleSave} className="p-8 space-y-6">
+            <div className="grid md:grid-cols-2 gap-5">
               <div className="md:col-span-2">
-                <label className="block text-[13px] font-semibold text-[#1d2327] mb-1">Nome Completo</label>
-                <Input required value={nome} onChange={e => setNome(e.target.value)} className="h-8 border-[#8c8f94] rounded-sm text-[13px] focus-visible:ring-[#2271b1]" />
+                <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">Nome Completo do Falecido(a)</label>
+                <Input required value={nome} onChange={e => setNome(e.target.value)} placeholder="Ex: João da Silva" className="h-12 border-gray-200 rounded-xl text-sm focus-visible:ring-navy" />
               </div>
+              
               <div>
-                <label className="block text-[13px] font-semibold text-[#1d2327] mb-1">Data do Falecimento</label>
-                <Input required value={data} onChange={e => setData(e.target.value)} placeholder="Ex: 15/02/2026" className="h-8 border-[#8c8f94] rounded-sm text-[13px] focus-visible:ring-[#2271b1]" />
+                <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">Data do Falecimento</label>
+                <Input required value={data} onChange={e => setData(e.target.value)} placeholder="Ex: 15/02/2026" className="h-12 border-gray-200 rounded-xl text-sm focus-visible:ring-navy" />
               </div>
+              
               <div>
-                <label className="block text-[13px] font-semibold text-[#1d2327] mb-1">Local (Sala)</label>
-                <Input required value={local} onChange={e => setLocal(e.target.value)} placeholder="Ex: Sala Memorial" className="h-8 border-[#8c8f94] rounded-sm text-[13px] focus-visible:ring-[#2271b1]" />
+                <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">Local/Sala do Velório</label>
+                <Input required value={local} onChange={e => setLocal(e.target.value)} placeholder="Ex: Sala Memorial 01" className="h-12 border-gray-200 rounded-xl text-sm focus-visible:ring-navy" />
               </div>
-              <div>
-                <label className="block text-[13px] font-semibold text-[#1d2327] mb-1">Horário/Local Velório</label>
-                <Input required value={velorio} onChange={e => setVelorio(e.target.value)} className="h-8 border-[#8c8f94] rounded-sm text-[13px] focus-visible:ring-[#2271b1]" />
+              
+              <div className="md:col-span-2">
+                <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">Horário e Local do Velório</label>
+                <Input required value={velorio} onChange={e => setVelorio(e.target.value)} placeholder="Ex: Hoje às 14:00 no Velório Municipal" className="h-12 border-gray-200 rounded-xl text-sm focus-visible:ring-navy" />
               </div>
-              <div>
-                <label className="block text-[13px] font-semibold text-[#1d2327] mb-1">Data/Local Sepultamento</label>
-                <Input required value={sepultamento} onChange={e => setSepultamento(e.target.value)} className="h-8 border-[#8c8f94] rounded-sm text-[13px] focus-visible:ring-[#2271b1]" />
+              
+              <div className="md:col-span-2">
+                <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">Informações de Sepultamento</label>
+                <Input required value={sepultamento} onChange={e => setSepultamento(e.target.value)} placeholder="Ex: Amanhã às 09:00 no Cemitério de Avaré" className="h-12 border-gray-200 rounded-xl text-sm focus-visible:ring-navy" />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">URL da Foto (URL Pública)</label>
+                <Input value={imagem} onChange={e => setImagem(e.target.value)} placeholder="https://..." className="h-12 border-gray-200 rounded-xl text-sm focus-visible:ring-navy" />
               </div>
             </div>
-            <div className="flex justify-end pt-2 gap-2">
-              <button type="button" onClick={() => setIsOpen(false)} className="px-3 py-1.5 border border-[#2271b1] text-[#2271b1] rounded-sm hover:bg-[#f6f7f7] text-[13px]">Cancelar</button>
-              <button type="submit" className="px-4 py-1.5 bg-[#2271b1] text-white rounded-sm hover:bg-[#135e96] text-[13px]">Salvar</button>
+            
+            <div className="flex justify-end gap-3 pt-4">
+              <button 
+                type="button" 
+                onClick={() => setIsOpen(false)} 
+                className="px-6 py-3 border border-gray-200 text-gray-400 rounded-xl hover:bg-gray-50 transition-colors text-sm font-bold"
+              >
+                Cancelar
+              </button>
+              <button 
+                type="submit" 
+                className="px-8 py-3 bg-navy text-white rounded-xl hover:bg-black transition-all text-sm font-bold shadow-lg shadow-navy/20"
+              >
+                {editingId ? 'Salvar Alterações' : 'Publicar Registro'}
+              </button>
             </div>
           </form>
         </DialogContent>

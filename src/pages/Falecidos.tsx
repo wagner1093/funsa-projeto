@@ -96,7 +96,7 @@ export default function Falecidos() {
                   Expresse seu carinho através de arranjos florais. Visualize nosso catálogo e faça seu pedido.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <a href="/catalogo-flores.pdf" target="_blank" rel="noopener noreferrer" className="btn-primary-dark py-2 px-6 text-sm">
+                  <a href="/catalogo-homenagem.pdf" target="_blank" rel="noopener noreferrer" className="btn-primary-dark py-2 px-6 text-sm">
                     Ver Catálogo
                   </a>
                   <a
