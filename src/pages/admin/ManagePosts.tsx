@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Edit, Trash2, Search, FileText, Calendar, Eye, Star, ChevronRight, Globe, Image as ImageIcon } from 'lucide-react';
+import { Plus, Edit, Trash2, Search, FileText, Calendar, Eye, Star, ChevronRight, Globe, Image as ImageIcon, Settings } from 'lucide-react';
 import {
   Dialog,
   DialogContent,

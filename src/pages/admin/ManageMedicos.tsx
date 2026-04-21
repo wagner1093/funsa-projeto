@@ -3,7 +3,7 @@ import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { Plus, Edit, Trash2, Search, Filter, Phone, MapPin, BadgeCheck, MoreVertical } from 'lucide-react';
+import { Plus, Edit, Trash2, Search, Filter, Phone, MapPin, BadgeCheck, MoreVertical, HeartPulse } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
