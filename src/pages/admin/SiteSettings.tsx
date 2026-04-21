@@ -267,7 +267,4 @@ export default function SiteSettings() {
       </form>
     </div>
   );
-}form>
-    </div>
-  );
 }
