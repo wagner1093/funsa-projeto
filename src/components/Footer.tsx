@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import logoBranco from "@/assets/logo-branco.png";
 
+import { useSiteConfig } from "@/hooks/useSiteConfig";
+
 const quickLinks = [
   { label: "Home", href: "/" },
   { label: "Quem Somos", href: "/quem-somos" },
@@ -14,6 +16,8 @@ const IconSpan = ({ children }: { children: string }) => (
 );
 
 export default function Footer() {
+  const { config } = useSiteConfig();
+
   return (
     <div
       style={{
@@ -62,15 +66,21 @@ export default function Footer() {
               Contato
             </h4>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <a href="tel:1437320202" style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} className="hover:!text-primary-foreground transition-colors">
-                <IconSpan>📞</IconSpan> (14) 3732-0202
-              </a>
-              <a href="https://wa.me/5514997792932" target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} className="hover:!text-primary-foreground transition-colors">
-                <IconSpan>📞</IconSpan> (14) 99779-2932
-              </a>
-              <a href="mailto:contato@funsaavare.com.br" style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} className="hover:!text-primary-foreground transition-colors">
-                <IconSpan>✉️</IconSpan> contato@funsaavare.com.br
-              </a>
+              {config?.telefone && (
+                <a href={`tel:${config.telefone.replace(/\D/g, '')}`} style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} className="hover:!text-primary-foreground transition-colors">
+                  <IconSpan>📞</IconSpan> {config.telefone}
+                </a>
+              )}
+              {config?.whatsapp && (
+                <a href={`https://wa.me/55${config.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} className="hover:!text-primary-foreground transition-colors">
+                  <IconSpan>📞</IconSpan> {config.whatsapp}
+                </a>
+              )}
+              {config?.email && (
+                <a href={`mailto:${config.email}`} style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} className="hover:!text-primary-foreground transition-colors">
+                  <IconSpan>✉️</IconSpan> {config.email}
+                </a>
+              )}
             </div>
           </div>
 
@@ -80,7 +90,7 @@ export default function Footer() {
             </h4>
             <div style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", display: "flex", alignItems: "flex-start", gap: 8 }}>
               <IconSpan>📍</IconSpan>
-              <span>Rua Piauí, 1.467 – Centro, Avaré/SP</span>
+              <span>{config?.endereco || 'Rua Piauí, 1.467 – Centro, Avaré/SP'}</span>
             </div>
           </div>
         </div>
@@ -88,30 +98,34 @@ export default function Footer() {
         <div style={{ height: 1, backgroundColor: "rgba(255,255,255,0.1)" }} aria-hidden="true" />
 
         <div style={{ paddingTop: 24, display: "flex", justifyContent: "center", gap: 16 }}>
-          <a
-            href="https://www.instagram.com/clubefunsa/"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: "rgba(230,240,255,0.5)", transition: "color 0.2s" }}
-            className="hover:!text-primary-foreground"
-            aria-label="Instagram"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-          </a>
-          <a
-            href="https://www.facebook.com/funsaavare"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: "rgba(230,240,255,0.5)", transition: "color 0.2s" }}
-            className="hover:!text-primary-foreground"
-            aria-label="Facebook"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-          </a>
+          {config?.instagram_url && (
+            <a
+              href={config.instagram_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "rgba(230,240,255,0.5)", transition: "color 0.2s" }}
+              className="hover:!text-primary-foreground"
+              aria-label="Instagram"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+            </a>
+          )}
+          {config?.facebook_url && (
+            <a
+              href={config.facebook_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "rgba(230,240,255,0.5)", transition: "color 0.2s" }}
+              className="hover:!text-primary-foreground"
+              aria-label="Facebook"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+          )}
         </div>
 
         <p style={{ paddingTop: 16, textAlign: "center", fontSize: 14, color: "rgba(230,240,255,0.4)", margin: 0 }}>
-          © {new Date().getFullYear()} FUNSA – Funerária Nossa Senhora Aparecida. Todos os direitos reservados.
+          © {new Date().getFullYear()} {config?.site_name || 'FUNSA – Funerária Nossa Senhora Aparecida'}. Todos os direitos reservados.
         </p>
       </div>
     </div>

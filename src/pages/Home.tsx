@@ -9,6 +9,7 @@ import clinicImg from "@/assets/clinic.jpg";
 import memorialImg from "@/assets/memorial.jpg";
 import ScrollReveal from "@/components/ScrollReveal";
 import Counter from "@/components/Counter";
+import MemorialSection from "@/components/MemorialSection";
 
 const heroSlides = [
   { img: heroImg, alt: "FUNSA – Ambiente sereno e acolhedor" },
@@ -257,6 +258,9 @@ export default function Home() {
           </ScrollReveal>
         </div>
       </section>
+
+      <MemorialSection />
+
 
       {/* Listagem de Serviços (Geral) */}
       <section className="section-padding bg-muted/30">

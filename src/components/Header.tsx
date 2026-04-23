@@ -18,7 +18,10 @@ const navLinks = [
   { label: "Contato", href: "/contato" },
 ];
 
+import { useSiteConfig } from "@/hooks/useSiteConfig";
+
 export default function Header() {
+  const { config } = useSiteConfig();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
@@ -45,7 +48,7 @@ export default function Header() {
         <Link to="/" className="flex items-center gap-2">
           <img
             src={isTransparent ? logoBranco : logoCor}
-            alt="Funsa Funerária"
+            alt={config?.site_name || "Funsa Funerária"}
             className="h-10 md:h-14 w-auto transition-all duration-300"
           />
         </Link>
@@ -87,32 +90,38 @@ export default function Header() {
 
         <div className="flex items-center gap-3">
           <div className="hidden md:flex items-center gap-2">
-            <a
-              href="https://www.instagram.com/clubefunsa/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`p-2 rounded-lg transition-colors ${isTransparent ? "text-white/70 hover:text-white hover:bg-white/10" : "text-muted-foreground hover:text-primary hover:bg-primary/5"}`}
-              aria-label="Instagram"
-            >
-              <Instagram className="w-4 h-4" />
-            </a>
-            <a
-              href="https://www.facebook.com/funsaavare"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`p-2 rounded-lg transition-colors ${isTransparent ? "text-white/70 hover:text-white hover:bg-white/10" : "text-muted-foreground hover:text-primary hover:bg-primary/5"}`}
-              aria-label="Facebook"
-            >
-              <Facebook className="w-4 h-4" />
-            </a>
+            {config?.instagram_url && (
+              <a
+                href={config.instagram_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`p-2 rounded-lg transition-colors ${isTransparent ? "text-white/70 hover:text-white hover:bg-white/10" : "text-muted-foreground hover:text-primary hover:bg-primary/5"}`}
+                aria-label="Instagram"
+              >
+                <Instagram className="w-4 h-4" />
+              </a>
+            )}
+            {config?.facebook_url && (
+              <a
+                href={config.facebook_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`p-2 rounded-lg transition-colors ${isTransparent ? "text-white/70 hover:text-white hover:bg-white/10" : "text-muted-foreground hover:text-primary hover:bg-primary/5"}`}
+                aria-label="Facebook"
+              >
+                <Facebook className="w-4 h-4" />
+              </a>
+            )}
           </div>
-          <a
-            href="tel:1437320202"
-            className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-primary-foreground text-sm font-medium hover-lift"
-          >
-            <Phone className="w-4 h-4" />
-            (14) 3732-0202
-          </a>
+          {config?.telefone && (
+            <a
+              href={`tel:${config.telefone.replace(/\D/g, '')}`}
+              className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-primary-foreground text-sm font-medium hover-lift"
+            >
+              <Phone className="w-4 h-4" />
+              {config.telefone}
+            </a>
+          )}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="lg:hidden p-2 rounded-lg hover:bg-muted transition-colors"
@@ -159,13 +168,15 @@ export default function Header() {
                   </Link>
                 );
               })}
-              <a
-                href="tel:1437320202"
-                className="mt-2 flex items-center justify-center gap-2 px-4 py-3 rounded-full bg-primary text-primary-foreground text-sm font-medium"
-              >
-                <Phone className="w-4 h-4" />
-                (14) 3732-0202
-              </a>
+              {config?.telefone && (
+                <a
+                  href={`tel:${config.telefone.replace(/\D/g, '')}`}
+                  className="mt-2 flex items-center justify-center gap-2 px-4 py-3 rounded-full bg-primary text-primary-foreground text-sm font-medium"
+                >
+                  <Phone className="w-4 h-4" />
+                  {config.telefone}
+                </a>
+              )}
             </nav>
           </motion.div>
         )}
