@@ -127,6 +127,9 @@ export default function Footer() {
         <p style={{ paddingTop: 16, textAlign: "center", fontSize: 14, color: "rgba(230,240,255,0.4)", margin: 0 }}>
           © {new Date().getFullYear()} {config?.site_name || 'FUNSA – Funerária Nossa Senhora Aparecida'}. Todos os direitos reservados.
         </p>
+        <p style={{ textAlign: "center", fontSize: 12, color: "rgba(230,240,255,0.3)", margin: "4px 0 0 0" }}>
+          Funerais Nossa Senhora Aparecida Ltda - 45.556.511/0001-22
+        </p>
       </div>
     </div>
   );

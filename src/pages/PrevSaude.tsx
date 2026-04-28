@@ -9,8 +9,9 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Phone, MapPin, Heart, Shield, Users, Stethoscope,
   BadgePercent, Clock, Building2, ChevronDown, Brain,
-  Eye, Bone, Baby, Pill, Smile, Activity, Ear, ArrowRight, FileText,
+  Eye, Bone, Baby, Pill, Smile, Activity, Ear, ArrowRight, FileText, FlaskConical
 } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 import heroImg1 from "@/assets/prevsaude-hero-1.jpg";
 import heroImg2 from "@/assets/prevsaude-hero-2.jpg";
@@ -86,7 +87,54 @@ interface Clinica {
   telefone: string;
 }
 
+function ResultsDialog({ children, className }: { children: React.ReactNode, className?: string }) {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        {children}
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle className="text-center">Acessar Resultados</DialogTitle>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <a
+            href="https://www.ultrasis.life/exame"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-between p-4 rounded-xl border border-border hover:bg-muted transition-colors group"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-azure/10 flex items-center justify-center">
+                <Activity className="w-5 h-5 text-azure" />
+              </div>
+              <span className="font-semibold text-foreground">PrevSaúde</span>
+            </div>
+            <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-azure transition-colors" />
+          </a>
+          <a
+            href="https://www.labivangarcia.com.br"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-between p-4 rounded-xl border border-border hover:bg-muted transition-colors group"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-azure/10 flex items-center justify-center">
+                <FlaskConical className="w-5 h-5 text-azure" />
+              </div>
+              <span className="font-semibold text-foreground">Laboratório Ivan Garcia</span>
+            </div>
+            <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-azure transition-colors" />
+          </a>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 const clinicasAvare: Clinica[] = [
+  { nome: "Laboratório Ivan Garcia", especialidade: "Análises Clínicas", profissional: "Posto de coleta Laboratório Ivan Garcia", endereco: "Rua Santa Catarina, nº 1.981 – Centro", telefone: "(14) 3733-2555" },
+  { nome: "PrevSaúde", especialidade: "Consultas Médicas", endereco: "Consulte no agendamento", telefone: "(14) 99818-4440" },
   { nome: "Clínica Áudio On", especialidade: "Otorrinolaringologia", profissional: "Dra. Thais Cristina Matuo", endereco: "Rua Santa Catarina, nº 1.981 – Centro", telefone: "(14) 3731-7228" },
   { nome: "Clínica Asclin", especialidade: "Nefrologia", profissional: "Dra. Luciana Aparecida Uiema", endereco: "Av. Carlos Ramires, nº 982", telefone: "(14) 99172-4382" },
   { nome: "Clínica Asclin", especialidade: "Pediatria", profissional: "Dra. Melina Giroto Tazinassi", endereco: "Av. Carlos Ramires, nº 982", telefone: "(14) 99172-4382" },
@@ -102,7 +150,6 @@ const clinicasAvare: Clinica[] = [
   { nome: "Espaço Estimular", especialidade: "Neuropsicopedagogia", profissional: "Dra. Janaína Medeiros", endereco: "Rua Tenente Apiaí, nº 1.174 – Bairro Alto", telefone: "(14) 99691-2928" },
   { nome: "Espaço Saúde", especialidade: "Cirurgia Vascular", profissional: "Dr. Luciano O. Salgado de Souza", endereco: "Av. Gilberto Filgueiras, nº 1.149 – Alto da Colina", telefone: "(14) 99677-8080" },
   { nome: "IKOO", especialidade: "Neurologia", profissional: "Dra. Thaís Fagnani Machado", endereco: "Av. Ângelo Contrucci, nº 651 – Alto da Colina II", telefone: "(14) 3733-3000" },
-  { nome: "MedClinic", especialidade: "Pneumologia", profissional: "Dra. Bárbara Cristina Grizzo", endereco: "Av. Gilberto Filgueiras, nº 936 – Colina da Boa Vista", telefone: "(14) 99151-2533" },
   { nome: "Neurocirurgia", especialidade: "Neurocirurgia", profissional: "Dr. Marco Aurélio Pina", endereco: "Praça Rui Barbosa, nº 100 – Centro", telefone: "(14) 3733-4698" },
 ];
 
@@ -184,8 +231,13 @@ export default function PrevSaude() {
                           className="btn-primary-dark">
                           Agende sua consulta
                         </a>
+                        <ResultsDialog>
+                          <button className="btn-outline-dark flex items-center gap-2">
+                            Acessar resultados <ArrowRight className="w-4 h-4" />
+                          </button>
+                        </ResultsDialog>
                         <a href="#especialidades"
-                          className="btn-outline-dark">
+                          className="text-white/60 hover:text-white transition-colors text-sm font-medium underline underline-offset-4">
                           Ver especialidades
                         </a>
                       </div>
@@ -268,9 +320,11 @@ export default function PrevSaude() {
                   <p className="text-muted-foreground leading-relaxed mb-6">
                     Acesse os resultados de seus exames realizados em nossos laboratórios parceiros de forma rápida e segura.
                   </p>
-                  <a href="#" className="btn-primary flex items-center justify-center gap-2">
-                    Acessar Resultados <ArrowRight className="w-4 h-4" />
-                  </a>
+                  <ResultsDialog>
+                    <button className="btn-primary flex items-center justify-center gap-2 w-full">
+                      Acessar Resultados <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </ResultsDialog>
                 </div>
               </div>
             </ScrollReveal>
@@ -384,7 +438,10 @@ export default function PrevSaude() {
 
             <TabsContent value="clinicas" className="mt-10">
               <ScrollReveal>
-                <h3 className="text-xl font-bold text-foreground mb-6">Avaré / SP</h3>
+                <div className="mb-8">
+                  <h3 className="text-xl font-bold text-foreground">Avaré / SP</h3>
+                  <p className="text-muted-foreground mt-1">Exames laboratoriais e de imagem</p>
+                </div>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
                   {clinicasAvare.map((c, i) => <ClinicaCard key={i} c={c} />)}
                 </div>

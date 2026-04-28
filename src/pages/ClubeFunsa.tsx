@@ -10,7 +10,7 @@ import {
   ChevronDown, Smartphone, BadgePercent, ShoppingBag, Utensils,
   GraduationCap, Dumbbell, Heart, Car, Eye, Scissors, Gift,
   Store, Building2, Flower2, ArrowRight, Star, Users, Percent,
-  Wrench, BookOpen, Hotel, Search } from
+  Wrench, BookOpen, Hotel, Search, Phone } from
 "lucide-react";
 
 import heroImg1 from "@/assets/clube-hero-1.jpg";
@@ -20,9 +20,10 @@ import appMockup from "@/assets/app-mockup.jpg";
 
 /* ── hero slides ── */
 const heroSlides = [
-{ img: heroImg1, title: "Clube + FUNSA", sub: "Descontos exclusivos em mais de 60 parceiros da região" },
-{ img: heroImg2, title: "Vantagens no App", sub: "Cupons, promoções e benefícios direto no seu celular" },
-{ img: heroImg3, title: "Rede de parceiros", sub: "Alimentação, saúde, educação, lazer e muito mais" }];
+  { img: heroImg1, title: "Clube + FUNSA", sub: "Descontos exclusivos em mais de 60 parceiros da região", action: { label: "Baixar o App", href: "/aplicativo", icon: Smartphone } },
+  { img: heroImg2, title: "Vantagens no App", sub: "Cupons, promoções e benefícios direto no seu celular", action: { label: "Conhecer App", href: "/aplicativo", icon: Smartphone } },
+  { img: heroImg3, title: "Seja parceiro", sub: "Entre em contato conosco e faça parte da maior rede de benefícios da região", action: { label: "Quero ser parceiro", href: "https://wa.me/5514991823569", icon: Phone } }
+];
 
 
 /* ── benefits ── */
@@ -186,12 +187,16 @@ export default function ClubeFunsa() {
                         {slide.sub}
                       </p>
                       <div className="flex flex-wrap gap-4 mt-8">
-                        <Link to="/aplicativo"
-                      className="btn-primary-dark">
-                          <Smartphone className="w-5 h-5" /> Baixar o App
-                        </Link>
-                        <a href="#parceiros"
-                      className="btn-outline-dark">
+                        {slide.action.href.startsWith("http") ? (
+                          <a href={slide.action.href} target="_blank" rel="noopener noreferrer" className="btn-primary-dark">
+                            <slide.action.icon className="w-5 h-5" /> {slide.action.label}
+                          </a>
+                        ) : (
+                          <Link to={slide.action.href} className="btn-primary-dark">
+                            <slide.action.icon className="w-5 h-5" /> {slide.action.label}
+                          </Link>
+                        )}
+                        <a href="#parceiros" className="btn-outline-dark">
                           Ver parceiros
                         </a>
                       </div>
@@ -555,7 +560,7 @@ export default function ClubeFunsa() {
                   className="btn-primary-dark">
                     <Smartphone className="w-5 h-5" /> Baixar o App
                   </Link>
-                  <a href="https://wa.me/5514997792932" target="_blank" rel="noopener noreferrer"
+                  <a href="https://wa.me/5514991823569" target="_blank" rel="noopener noreferrer"
                   className="btn-outline-dark">
                     Fale Conosco
                   </a>
