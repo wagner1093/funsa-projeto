@@ -1,9 +1,12 @@
+'use client';
+
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, Instagram, Facebook } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
-import logoCor from "@/assets/logo-cor.png";
-import logoBranco from "@/assets/logo-branco.png";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useSiteConfig } from "@/hooks/useSiteConfig";
+import Image from "next/image";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -18,13 +21,11 @@ const navLinks = [
   { label: "Contato", href: "/contato" },
 ];
 
-import { useSiteConfig } from "@/hooks/useSiteConfig";
-
 export default function Header() {
   const { config } = useSiteConfig();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const location = useLocation();
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -34,36 +35,73 @@ export default function Header() {
 
   useEffect(() => {
     setMobileOpen(false);
-  }, [location.pathname]);
+  }, [pathname]);
 
-  const isHome = location.pathname === "/";
+  const isHome = pathname === "/";
   const isTransparent = !scrolled && isHome;
   const headerBg = isTransparent
     ? "bg-transparent"
     : "bg-card/90 backdrop-blur-xl shadow-lg border-b border-border/50";
 
+  const [hoveredPath, setHoveredPath] = useState<string | null>(null);
+
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${headerBg}`}>
       <div className="section-container flex items-center justify-between h-16 md:h-20">
-        <Link to="/" className="flex items-center gap-2">
-          <img
-            src={isTransparent ? logoBranco : logoCor}
+        <Link href="/" className="flex items-center gap-2 group shrink-0">
+          <Image
+            src={isTransparent ? "/assets/logo-branco.png" : "/assets/logo-cor.png"}
             alt={config?.site_name || "Funsa Funerária"}
-            className="h-10 md:h-14 w-auto transition-all duration-300"
+            width={200}
+            height={80}
+            className="h-14 md:h-20 w-auto transition-all duration-500 group-hover:scale-105"
+            priority
           />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-1 font-sans">
+        <nav 
+          className="hidden xl:flex items-center gap-1 font-inter relative"
+          onMouseLeave={() => setHoveredPath(null)}
+        >
           {navLinks.map((l) => {
             const isExternal = l.href.startsWith("http");
+            const isActive = pathname === l.href;
+            
             const content = (
-              <span className={`px-2 py-2 text-[15px] transition-colors rounded-lg hover:bg-white/10 whitespace-nowrap ${
-                location.pathname === l.href
-                  ? isTransparent ? "text-white font-medium" : "text-primary font-medium"
-                  : isTransparent ? "text-white/80 hover:text-white font-light" : "text-foreground/80 hover:text-primary font-light"
-              }`}>
+              <div
+                onMouseEnter={() => setHoveredPath(l.href)}
+                className={`relative px-3 py-2 text-[13px] xl:text-[14px] uppercase tracking-tight transition-all duration-300 rounded-full whitespace-nowrap z-10 ${
+                  isActive
+                    ? isTransparent ? "text-white font-bold" : "text-primary font-bold"
+                    : isTransparent ? "text-white/70 hover:text-white font-medium" : "text-foreground/70 hover:text-primary font-medium"
+                }`}
+              >
                 {l.label}
-              </span>
+                
+                {isActive && (
+                  <motion.div
+                    layoutId="activeIndicator"
+                    className={`absolute bottom-1 left-2 right-2 h-0.5 rounded-full ${
+                      isTransparent ? "bg-white" : "bg-primary"
+                    }`}
+                  />
+                )}
+
+                <AnimatePresence>
+                  {hoveredPath === l.href && (
+                    <motion.div
+                      layoutId="hoverBackground"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
+                      className={`absolute inset-0 rounded-full -z-10 ${
+                        isTransparent ? "bg-white/15" : "bg-primary/5"
+                      }`}
+                    />
+                  )}
+                </AnimatePresence>
+              </div>
             );
 
             if (isExternal) {
@@ -81,21 +119,21 @@ export default function Header() {
             }
 
             return (
-              <Link key={l.href} to={l.href}>
+              <Link key={l.href} href={l.href}>
                 {content}
               </Link>
             );
           })}
         </nav>
 
-        <div className="flex items-center gap-3">
-          <div className="hidden md:flex items-center gap-2">
+        <div className="flex items-center gap-2 xl:gap-4">
+          <div className="hidden xl:flex items-center gap-1">
             {config?.instagram_url && (
               <a
                 href={config.instagram_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`p-2 rounded-lg transition-colors ${isTransparent ? "text-white/70 hover:text-white hover:bg-white/10" : "text-muted-foreground hover:text-primary hover:bg-primary/5"}`}
+                className={`p-1.5 rounded-full transition-all duration-300 hover:scale-110 ${isTransparent ? "text-white/70 hover:text-white hover:bg-white/15" : "text-muted-foreground hover:text-primary hover:bg-primary/5"}`}
                 aria-label="Instagram"
               >
                 <Instagram className="w-4 h-4" />
@@ -106,25 +144,17 @@ export default function Header() {
                 href={config.facebook_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`p-2 rounded-lg transition-colors ${isTransparent ? "text-white/70 hover:text-white hover:bg-white/10" : "text-muted-foreground hover:text-primary hover:bg-primary/5"}`}
+                className={`p-1.5 rounded-full transition-all duration-300 hover:scale-110 ${isTransparent ? "text-white/70 hover:text-white hover:bg-white/15" : "text-muted-foreground hover:text-primary hover:bg-primary/5"}`}
                 aria-label="Facebook"
               >
                 <Facebook className="w-4 h-4" />
               </a>
             )}
           </div>
-          {config?.telefone && (
-            <a
-              href={`tel:${config.telefone.replace(/\D/g, '')}`}
-              className="hidden md:flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-primary-foreground text-sm font-medium hover-lift"
-            >
-              <Phone className="w-4 h-4" />
-              {config.telefone}
-            </a>
-          )}
+
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2 rounded-lg hover:bg-muted transition-colors"
+            className="lg:hidden p-2.5 rounded-full hover:bg-muted transition-all active:scale-90"
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -137,16 +167,37 @@ export default function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-card/95 backdrop-blur-xl border-t border-border/50"
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="lg:hidden bg-card/95 backdrop-blur-xl border-t border-border/50 overflow-hidden"
           >
-            <nav className="section-container py-4 flex flex-col gap-1">
-              {navLinks.map((l) => {
+            <nav className="section-container py-6 flex flex-col gap-1 font-inter">
+              {navLinks.map((l, i) => {
                 const isExternal = l.href.startsWith("http");
-                const className = `px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
-                  location.pathname === l.href
-                    ? "text-primary bg-primary/5 font-semibold"
-                    : "text-foreground/80 hover:text-primary hover:bg-primary/5"
-                }`;
+                const isActive = pathname === l.href;
+                
+                const itemVariants = {
+                  hidden: { opacity: 0, x: -20 },
+                  visible: { 
+                    opacity: 1, 
+                    x: 0,
+                    transition: { delay: i * 0.05 } 
+                  }
+                };
+
+                const content = (
+                  <motion.div
+                    variants={itemVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className={`px-4 py-3 text-base font-medium rounded-xl transition-all active:scale-95 ${
+                      isActive
+                        ? "text-primary bg-primary/10 font-bold"
+                        : "text-foreground/80 hover:text-primary hover:bg-primary/5"
+                    }`}
+                  >
+                    {l.label}
+                  </motion.div>
+                );
 
                 if (isExternal) {
                   return (
@@ -155,27 +206,33 @@ export default function Header() {
                       href={l.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={className}
                     >
-                      {l.label}
+                      {content}
                     </a>
                   );
                 }
 
                 return (
-                  <Link key={l.href} to={l.href} className={className}>
-                    {l.label}
+                  <Link key={l.href} href={l.href}>
+                    {content}
                   </Link>
                 );
               })}
+              
               {config?.telefone && (
-                <a
-                  href={`tel:${config.telefone.replace(/\D/g, '')}`}
-                  className="mt-2 flex items-center justify-center gap-2 px-4 py-3 rounded-full bg-primary text-primary-foreground text-sm font-medium"
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: navLinks.length * 0.05 }}
                 >
-                  <Phone className="w-4 h-4" />
-                  {config.telefone}
-                </a>
+                  <a
+                    href={`tel:${config.telefone.replace(/\D/g, '')}`}
+                    className="mt-4 flex items-center justify-center gap-3 px-4 py-4 rounded-2xl bg-primary text-primary-foreground text-base font-bold shadow-lg shadow-primary/20 active:scale-95 transition-all"
+                  >
+                    <Phone className="w-5 h-5" />
+                    {config.telefone}
+                  </a>
+                </motion.div>
               )}
             </nav>
           </motion.div>

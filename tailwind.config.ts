@@ -14,7 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Roboto", "system-ui", "sans-serif"],
+        primary: ["Outfit", "Inter", "sans-serif"],
+        secondary: ["Inter", "sans-serif"],
+        sans: ["Inter", "system-ui", "sans-serif"],
         serif: ["Geologica", "Georgia", "serif"],
       },
       colors: {

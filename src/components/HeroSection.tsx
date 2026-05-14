@@ -1,14 +1,21 @@
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronDown } from "lucide-react";
-import heroImg from "@/assets/hero-bg.jpg";
+import { Phone, ArrowRight, ChevronDown } from "lucide-react";
+import Link from 'next/link';
+
+const heroImg = "/assets/hero-clean.jpg";
 
 export default function HeroSection() {
   return (
-    <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0">
-        <img src={heroImg} alt="FUNSA - Funerária moderna" className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/40" />
+    <section id="home" className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src={heroImg}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-transparent" />
       </div>
 
       <div className="relative z-10 section-container w-full py-32 md:py-0">

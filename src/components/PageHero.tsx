@@ -1,5 +1,6 @@
+'use client';
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import Link from 'next/link';
 import { ChevronRight } from "lucide-react";
 interface Props {
   title: string;
@@ -22,25 +23,25 @@ export default function PageHero({
         {breadcrumbs && <motion.nav initial={{
         opacity: 0,
         y: 10
-      }} animate={{
+      }} whileInView={{
         opacity: 1,
         y: 0
-      }} transition={{
+      }} viewport={{ once: true }} transition={{
         duration: 0.5
       }} className="flex items-center gap-1 text-sm text-primary-foreground/50 mb-6">
-            <Link to="/" className="hover:text-primary-foreground/80 transition-colors">Home</Link>
+            <Link href="/" className="hover:text-primary-foreground/80 transition-colors">Home</Link>
             {breadcrumbs.map(b => <span key={b.label} className="flex items-center gap-1">
                 <ChevronRight className="w-3.5 h-3.5" />
-                <Link to={b.href} className="hover:text-primary-foreground/80 transition-colors">{b.label}</Link>
+                <Link href={b.href} className="hover:text-primary-foreground/80 transition-colors">{b.label}</Link>
               </span>)}
           </motion.nav>}
         <motion.h1 initial={{
         opacity: 0,
         y: 30
-      }} animate={{
+      }} whileInView={{
         opacity: 1,
         y: 0
-      }} transition={{
+      }} viewport={{ once: true }} transition={{
         duration: 0.6,
         delay: 0.1
       }} className="text-3xl md:text-5xl font-bold text-primary-foreground leading-tight lg:text-5xl">
@@ -49,10 +50,10 @@ export default function PageHero({
         {subtitle && <motion.p initial={{
         opacity: 0,
         y: 20
-      }} animate={{
+      }} whileInView={{
         opacity: 1,
         y: 0
-      }} transition={{
+      }} viewport={{ once: true }} transition={{
         duration: 0.6,
         delay: 0.3
       }} className="mt-6 text-lg text-primary-foreground/70 max-w-2xl leading-relaxed md:text-base">

@@ -1,8 +1,8 @@
 import ScrollReveal from "./ScrollReveal";
 import { Clock, Stethoscope, Trees, Sparkles, ArrowRight } from "lucide-react";
-import heroImg from "@/assets/hero-bg.jpg";
-import clinicImg from "@/assets/clinic.jpg";
-import memorialImg from "@/assets/memorial.jpg";
+const heroImg = "/assets/hero-clean.jpg";
+const clinicImg = "/assets/clinic-clean.jpg";
+const memorialImg = "/assets/memorial-clean.jpg";
 
 const services = [
   {
@@ -56,11 +56,7 @@ export default function ServicesSection() {
             <ScrollReveal key={s.title} delay={i * 0.1}>
               <div className="glass-card overflow-hidden hover-lift group">
                 <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={s.image}
-                    alt={s.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
+                  <img src={s.image} alt={s.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   <div className="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent" />
                   <div className="absolute bottom-4 left-4 w-12 h-12 rounded-xl bg-azure flex items-center justify-center">
                     <s.icon className="w-6 h-6 text-primary" />

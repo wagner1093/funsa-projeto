@@ -1,6 +1,6 @@
 import ScrollReveal from "./ScrollReveal";
 import { ArrowRight, Heart, Cross, MapPin } from "lucide-react";
-import memorialImg from "@/assets/memorial.jpg";
+const memorialImg = "/assets/memorial-clean.jpg";
 
 export default function MemorialSection() {
   return (
@@ -68,7 +68,7 @@ export default function MemorialSection() {
 
               <div className="pt-6">
                 <a
-                  href="https://pordosol-wwg.lovable.app/"
+                  href="#"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-primary-light group inline-flex"

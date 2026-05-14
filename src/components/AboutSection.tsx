@@ -1,6 +1,6 @@
 import ScrollReveal from "./ScrollReveal";
 import Counter from "./Counter";
-import teamImg from "@/assets/team.jpg";
+const teamImg = "/assets/quem-somos-final.jpg";
 import { Heart, Shield, Award, Users } from "lucide-react";
 
 const values = [
@@ -43,7 +43,7 @@ export default function AboutSection() {
             <div className="mt-8 grid grid-cols-2 gap-4">
               {values.map((v) => (
                 <div key={v.label} className="flex items-center gap-3 p-3 rounded-xl bg-muted/50">
-                  <div className="absolute bottom-4 left-4 w-12 h-12 rounded-xl bg-azure flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-azure flex items-center justify-center flex-shrink-0">
                     <v.icon className="w-5 h-5 text-primary-foreground" />
                   </div>
                   <span className="font-medium text-foreground">{v.label}</span>

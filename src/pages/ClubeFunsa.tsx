@@ -1,8 +1,9 @@
+'use client';
 import { useState, useCallback, useEffect } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import Link from 'next/link';
 import ScrollReveal from "@/components/ScrollReveal";
 import Counter from "@/components/Counter";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -10,41 +11,42 @@ import {
   ChevronDown, Smartphone, BadgePercent, ShoppingBag, Utensils,
   GraduationCap, Dumbbell, Heart, Car, Eye, Scissors, Gift,
   Store, Building2, Flower2, ArrowRight, Star, Users, Percent,
-  Wrench, BookOpen, Hotel, Search, Phone } from
-"lucide-react";
+  Wrench, BookOpen, Hotel, Search, Phone
+} from
+  "lucide-react";
 
-import heroImg1 from "@/assets/clube-hero-1.jpg";
-import heroImg2 from "@/assets/clube-hero-2.jpg";
-import heroImg3 from "@/assets/clube-hero-3.jpg";
-import appMockup from "@/assets/app-mockup.jpg";
+const heroImg1 = "/assets/clube-hero-1-clean.png";
+const heroImg2 = "/assets/clube-hero-2-clean.jpg";
+const heroImg3 = "/assets/clube-hero-doctor-final.jpg";
+const appMockup = "/assets/app-mockup.jpg";
 
 /* ── hero slides ── */
 const heroSlides = [
-  { img: heroImg1, title: "Clube + FUNSA", sub: "Descontos exclusivos em mais de 60 parceiros da região", action: { label: "Baixar o App", href: "/aplicativo", icon: Smartphone } },
-  { img: heroImg2, title: "Vantagens no App", sub: "Cupons, promoções e benefícios direto no seu celular", action: { label: "Conhecer App", href: "/aplicativo", icon: Smartphone } },
-  { img: heroImg3, title: "Seja parceiro", sub: "Entre em contato conosco e faça parte da maior rede de benefícios da região", action: { label: "Quero ser parceiro", href: "https://wa.me/5514991823569", icon: Phone } }
+  { img: heroImg1, title: "Clube + FUNSA", sub: "Descontos exclusivos em mais de 60 parceiros da região", action: { label: "Baixar o App", href: "/aplicativo", icon: Smartphone }, pos: "center" },
+  { img: heroImg2, title: "Vantagens no App", sub: "Cupons, promoções e benefícios direto no seu celular", action: { label: "Conhecer App", href: "/aplicativo", icon: Smartphone }, pos: "center" },
+  { img: heroImg3, title: "Seja um sócio", sub: "Entre em contato conosco e faça parte da maior rede de benefícios da região", action: { label: "Quero ser parceiro", href: "https://wa.me/5514991823569", icon: Phone }, pos: "center 20%" }
 ];
 
 
 /* ── benefits ── */
 const benefits = [
-{ icon: BadgePercent, title: "Descontos exclusivos", desc: "Até 50% de desconto em parceiros selecionados" },
-{ icon: Store, title: "+60 parceiros", desc: "Ampla rede de comércios e serviços conveniados" },
-{ icon: Smartphone, title: "Tudo pelo App", desc: "Consulte parceiros e acesse cupons pelo aplicativo FUNSA" },
-{ icon: Users, title: "Para toda a família", desc: "Benefícios extensivos a todos os beneficiários do plano" },
-{ icon: Gift, title: "Promoções especiais", desc: "Ofertas sazonais e sorteios exclusivos para associados" },
-{ icon: Star, title: "Sem custo adicional", desc: "Incluso no plano de assistência familiar FUNSA" }];
+  { icon: BadgePercent, title: "Descontos exclusivos", desc: "Até 50% de desconto em parceiros selecionados" },
+  { icon: Store, title: "+60 parceiros", desc: "Ampla rede de comércios e serviços conveniados" },
+  { icon: Smartphone, title: "Tudo pelo App", desc: "Consulte parceiros e acesse cupons pelo aplicativo FUNSA" },
+  { icon: Users, title: "Para toda a família", desc: "Benefícios extensivos a todos os beneficiários do plano" },
+  { icon: Gift, title: "Promoções especiais", desc: "Ofertas sazonais e sorteios exclusivos para associados" },
+  { icon: Star, title: "Sem custo adicional", desc: "Incluso no plano de assistência familiar FUNSA" }];
 
 
-/* ── stats ── */
+/* â”€â”€ stats â”€â”€ */
 const stats = [
-{ value: 60, suffix: "+", label: "Parceiros" },
-{ value: 11, suffix: "", label: "Categorias" },
-{ value: 50, suffix: "%", label: "Desconto máximo" },
-{ value: 80, suffix: "+", label: "Anos de tradição" }];
+  { value: 60, suffix: "+", label: "Parceiros" },
+  { value: 11, suffix: "", label: "Categorias" },
+  { value: 50, suffix: "%", label: "Desconto máximo" },
+  { value: 80, suffix: "+", label: "Anos de tradição" }];
 
 
-/* ── category icons ── */
+/* â”€â”€ category icons â”€â”€ */
 const catIcons: Record<string, React.ElementType> = {
   "Alimentação e Lazer": Utensils,
   "Supermercados e Conveniência": ShoppingBag,
@@ -66,81 +68,81 @@ interface Parceiro {
 
 const categorias: Record<string, Parceiro[]> = {
   "Alimentação e Lazer": [
-  { nome: "Marguerita Pizzaria", beneficio: "5% de desconto em todas as pizzas, incluindo refrigerantes e sorvetes" },
-  { nome: "Diego Lanches e Marmitaria", beneficio: "Entrega grátis nas compras acima de R$ 40,00" },
-  { nome: "Emporium Do Chopp", beneficio: "15% de desconto em todos os produtos às quartas-feiras" },
-  { nome: "Zacota Restaurante", beneficio: "10% de desconto em todos os pratos" },
-  { nome: "Donini Peixes E Porções", beneficio: "10% de desconto no salão e delivery" },
-  { nome: "Oriental Mix", beneficio: "10% de desconto no salão" }],
+    { nome: "Marguerita Pizzaria", beneficio: "5% de desconto em todas as pizzas, incluindo refrigerantes e sorvetes" },
+    { nome: "Diego Lanches e Marmitaria", beneficio: "Entrega grátis nas compras acima de R$ 40,00" },
+    { nome: "Emporium Do Chopp", beneficio: "15% de desconto em todos os produtos às quartas-feiras" },
+    { nome: "Zacota Restaurante", beneficio: "10% de desconto em todos os pratos" },
+    { nome: "Donini Peixes E Porções", beneficio: "10% de desconto no salão e delivery" },
+    { nome: "Oriental Mix", beneficio: "10% de desconto no salão" }],
 
   "Supermercados e Conveniência": [
-  { nome: "Supermercado Saladão", beneficio: "Cupom de desconto disponível no App FUNSA" },
-  { nome: "Supermercado Camargo", beneficio: "3% de desconto em todos os setores às quintas-feiras" }],
+    { nome: "Supermercado Saladão", beneficio: "Cupom de desconto disponível no App FUNSA" },
+    { nome: "Supermercado Camargo", beneficio: "3% de desconto em todos os setores às quintas-feiras" }],
 
   "Construção e Utilidades": [
-  { nome: "L. M. Leão Construtora", beneficio: "5% a 20% de desconto em projetos e construções" },
-  { nome: "Flávio Cortinas", beneficio: "20% de desconto em persianas e cortinas" },
-  { nome: "Casa Do Churrasqueiro", beneficio: "5% de desconto em todos os produtos" },
-  { nome: "Construfic", beneficio: "20% de desconto à vista acima de R$ 1.000 ou 15% a prazo" }],
+    { nome: "L. M. Leão Construtora", beneficio: "5% a 20% de desconto em projetos e construções" },
+    { nome: "Flávio Cortinas", beneficio: "20% de desconto em persianas e cortinas" },
+    { nome: "Casa Do Churrasqueiro", beneficio: "5% de desconto em todos os produtos" },
+    { nome: "Construfic", beneficio: "20% de desconto à vista acima de R$ 1.000 ou 15% a prazo" }],
 
   "Serviços Diversos": [
-  { nome: "Disk Água Aguaré", beneficio: "20% de desconto nas compras à vista" },
-  { nome: "Martins Gás", beneficio: "Sorteio bimestral de vale-gás e desconto percentual no pedido" },
-  { nome: "J & R Chaveiro", beneficio: "5% de desconto para pagamento à vista" },
-  { nome: "Santiago Corretora De Seguros", beneficio: "20% de desconto em seguros diversos" },
-  { nome: "Red Comunicação Visual", beneficio: "15% de desconto em pagamentos à vista" }],
+    { nome: "Disk Água Aguaré", beneficio: "20% de desconto nas compras à vista" },
+    { nome: "Martins Gás", beneficio: "Sorteio bimestral de vale-gás e desconto percentual no pedido" },
+    { nome: "J & R Chaveiro", beneficio: "5% de desconto para pagamento à vista" },
+    { nome: "Santiago Corretora De Seguros", beneficio: "20% de desconto em seguros diversos" },
+    { nome: "Red Comunicação Visual", beneficio: "15% de desconto em pagamentos à vista" }],
 
   "Flores, Presentes e Papelaria": [
-  { nome: "Arts Flores", beneficio: "10% de desconto em compras acima de R$ 30,00" },
-  { nome: "MultiFlora Paisagismo", beneficio: "10% de desconto em vasos e plantas" },
-  { nome: "Papelaria Criativa", beneficio: "15% de desconto à vista ou 10% no cartão" },
-  { nome: "Arty Copy", beneficio: "10% de desconto em compras acima de R$ 30,00" },
-  { nome: "Papelac Papelaria", beneficio: "10% de desconto à vista e até 6x no cartão" },
-  { nome: "Ferrari Presentes", beneficio: "10% de desconto à vista ou 5% no cartão" }],
+    { nome: "Arts Flores", beneficio: "10% de desconto em compras acima de R$ 30,00" },
+    { nome: "MultiFlora Paisagismo", beneficio: "10% de desconto em vasos e plantas" },
+    { nome: "Papelaria Criativa", beneficio: "15% de desconto à vista ou 10% no cartão" },
+    { nome: "Arty Copy", beneficio: "10% de desconto em compras acima de R$ 30,00" },
+    { nome: "Papelac Papelaria", beneficio: "10% de desconto à vista e até 6x no cartão" },
+    { nome: "Ferrari Presentes", beneficio: "10% de desconto à vista ou 5% no cartão" }],
 
   "Óticas": [
-  { nome: "Ótica Maria Gianni", beneficio: "25% de desconto em armações e solares" },
-  { nome: "Ótica Maitê", beneficio: "30% de desconto em armações e solares" },
-  { nome: "Ótica Vitória", beneficio: "30% de desconto em todas as armações" }],
+    { nome: "Ótica Maria Gianni", beneficio: "25% de desconto em armações e solares" },
+    { nome: "Ótica Maitê", beneficio: "30% de desconto em armações e solares" },
+    { nome: "Ótica Vitória", beneficio: "30% de desconto em todas as armações" }],
 
   "Educação e Cursos": [
-  { nome: "IAE – Instituto Avareense De Ensino", beneficio: "Isenção na matrícula" },
-  { nome: "Microvip", beneficio: "15% de desconto na matrícula e mensalidades" },
-  { nome: "UNIFSP Centro Universitário", beneficio: "30% de desconto em cursos de graduação selecionados" },
-  { nome: "Unicesumar EAD", beneficio: "30% de desconto no valor dos cursos" },
-  { nome: "Mores Centro De Dança", beneficio: "Isenção na matrícula" },
-  { nome: "Wizard", beneficio: "50% de desconto na matrícula" },
-  { nome: "Fisk Avaré", beneficio: "20% de desconto na matrícula" },
-  { nome: "Metropolitana Cursos", beneficio: "Isenção na matrícula e 10% de desconto nas mensalidades" }],
+    { nome: "IAE – Instituto Avareense De Ensino", beneficio: "Isenção na matrícula" },
+    { nome: "Microvip", beneficio: "15% de desconto na matrícula e mensalidades" },
+    { nome: "UNIFSP Centro Universitário", beneficio: "30% de desconto em cursos de graduação selecionados" },
+    { nome: "Unicesumar EAD", beneficio: "30% de desconto no valor dos cursos" },
+    { nome: "Mores Centro De Dança", beneficio: "Isenção na matrícula" },
+    { nome: "Wizard", beneficio: "50% de desconto na matrícula" },
+    { nome: "Fisk Avaré", beneficio: "20% de desconto na matrícula" },
+    { nome: "Metropolitana Cursos", beneficio: "Isenção na matrícula e 10% de desconto nas mensalidades" }],
 
   "Academias, Esporte e Hospedagem": [
-  { nome: "Academia Yama Harashi", beneficio: "50% de desconto na matrícula e 15% nas mensalidades" },
-  { nome: "Academia Power Trainer", beneficio: "5% de desconto em todas as modalidades" },
-  { nome: "Infinity Training", beneficio: "20% de desconto nas mensalidades" },
-  { nome: "Academia Corpo E Saúde", beneficio: "50% de desconto na matrícula e 10% nas mensalidades" },
-  { nome: "PhD Sports", beneficio: "50% de desconto na matrícula e preço especial nas mensalidades" },
-  { nome: "AABB Jurumirim", beneficio: "20% de desconto no Day Use e 10% em hospedagem" },
-  { nome: "Vila Verde Hotel", beneficio: "10% de desconto nas diárias" }],
+    { nome: "Academia Yama Harashi", beneficio: "50% de desconto na matrícula e 15% nas mensalidades" },
+    { nome: "Academia Power Trainer", beneficio: "5% de desconto em todas as modalidades" },
+    { nome: "Infinity Training", beneficio: "20% de desconto nas mensalidades" },
+    { nome: "Academia Corpo E Saúde", beneficio: "50% de desconto na matrícula e 10% nas mensalidades" },
+    { nome: "PhD Sports", beneficio: "50% de desconto na matrícula e preço especial nas mensalidades" },
+    { nome: "AABB Jurumirim", beneficio: "20% de desconto no Day Use e 10% em hospedagem" },
+    { nome: "Vila Verde Hotel", beneficio: "10% de desconto nas diárias" }],
 
   "Beleza e Saúde": [
-  { nome: "Barbearia Do Fogaça", beneficio: "20% de desconto em cortes masculinos" },
-  { nome: "Rosa Marroquina", beneficio: "12% de desconto em produtos" },
-  { nome: "Cirúrgica Avaré", beneficio: "10% de desconto em produtos ortopédicos e 5% em cadeiras" },
-  { nome: "Drogalar Avaré", beneficio: "Até 50% de desconto em genéricos às sextas-feiras" },
-  { nome: "Vitalis Drogaria", beneficio: "10% de desconto em medicamentos manipulados" },
-  { nome: "Curavita Produtos Hospitalares", beneficio: "10% a 40% de desconto em medicamentos" },
-  { nome: "Drogaria Bem Popular", beneficio: "10% de desconto em medicamentos com receita" }],
+    { nome: "Barbearia Do Fogaça", beneficio: "20% de desconto em cortes masculinos" },
+    { nome: "Rosa Marroquina", beneficio: "12% de desconto em produtos" },
+    { nome: "Cirúrgica Avaré", beneficio: "10% de desconto em produtos ortopédicos e 5% em cadeiras" },
+    { nome: "Drogalar Avaré", beneficio: "Até 50% de desconto em genéricos às sextas-feiras" },
+    { nome: "Vitalis Drogaria", beneficio: "10% de desconto em medicamentos manipulados" },
+    { nome: "Curavita Produtos Hospitalares", beneficio: "10% a 40% de desconto em medicamentos" },
+    { nome: "Drogaria Bem Popular", beneficio: "10% de desconto em medicamentos com receita" }],
 
   "Automotivo e Mobilidade": [
-  { nome: "Uno Auto Elétrica", beneficio: "10% de desconto para pagamento à vista" },
-  { nome: "Igo Mobilidade", beneficio: "Até 15% de desconto em corridas" },
-  { nome: "Napoli Pneus", beneficio: "10% de desconto em todos os serviços" },
-  { nome: "PL Pneus", beneficio: "10% de desconto na troca de pneus" },
-  { nome: "Auto Mecânica Landi", beneficio: "10% de desconto em orçamentos" },
-  { nome: "Nova América Parabrisas", beneficio: "5% a 15% de desconto em peças e serviços" }],
+    { nome: "Uno Auto Elétrica", beneficio: "10% de desconto para pagamento à vista" },
+    { nome: "Igo Mobilidade", beneficio: "Até 15% de desconto em corridas" },
+    { nome: "Napoli Pneus", beneficio: "10% de desconto em todos os serviços" },
+    { nome: "PL Pneus", beneficio: "10% de desconto na troca de pneus" },
+    { nome: "Auto Mecânica Landi", beneficio: "10% de desconto em orçamentos" },
+    { nome: "Nova América Parabrisas", beneficio: "5% a 15% de desconto em peças e serviços" }],
 
   "Moda e Acessórios": [
-  { nome: "King Acessórios", beneficio: "15% de desconto em compras na loja" }]
+    { nome: "King Acessórios", beneficio: "15% de desconto em compras na loja" }]
 
 };
 
@@ -148,11 +150,15 @@ const categoryKeys = Object.keys(categorias);
 
 export default function ClubeFunsa() {
   /* carousel */
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [Autoplay({ delay: 5000, stopOnInteraction: false })]);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+    loop: true,
+    duration: 40,
+    skipSnaps: false
+  }, [Autoplay({ delay: 6000, stopOnInteraction: false })]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const onSelect = useCallback(() => {if (emblaApi) setActiveIndex(emblaApi.selectedScrollSnap());}, [emblaApi]);
-  useEffect(() => {if (!emblaApi) return;onSelect();emblaApi.on("select", onSelect);return () => {emblaApi.off("select", onSelect);};}, [emblaApi, onSelect]);
+  const onSelect = useCallback(() => { if (emblaApi) setActiveIndex(emblaApi.selectedScrollSnap()); }, [emblaApi]);
+  useEffect(() => { if (!emblaApi) return; onSelect(); emblaApi.on("select", onSelect); return () => { emblaApi.off("select", onSelect); }; }, [emblaApi, onSelect]);
 
   const filteredCategories = Object.entries(categorias).filter(([cat, partners]) => {
     const searchLower = searchTerm.toLowerCase();
@@ -161,21 +167,29 @@ export default function ClubeFunsa() {
 
   return (
     <>
-      {/* ═══ HERO CAROUSEL ═══ */}
+      {/* â•â•â• HERO CAROUSEL â•â•â• */}
       <section className="relative h-[85vh] min-h-[600px] overflow-hidden">
         <div ref={emblaRef} className="h-full">
           <div className="flex h-full">
             {heroSlides.map((slide, i) =>
-            <div key={i} className="relative flex-[0_0_100%] min-w-0 h-full">
-                <img src={slide.img} alt={slide.title} className="absolute inset-0 w-full h-full object-cover" />
+              <div key={i} className="relative flex-[0_0_100%] min-w-0 h-full">
+                <img 
+                  src={slide.img} 
+                  alt={slide.title} 
+                  className="absolute inset-0 w-full h-full object-cover" 
+                  style={{ objectPosition: (slide as any).pos || 'center' }}
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
                 <div className="absolute inset-0 flex items-end pb-24 md:pb-32">
                   <div className="section-container w-full">
                     <motion.div
-                    key={`slide-${i}-${activeIndex}`}
-                    initial={{ opacity: 0, y: 40 }}
-                    animate={activeIndex === i ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-                    transition={{ duration: 0.7, ease: "easeOut" }}>
+                      key={`slide-${i}-${activeIndex}`}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={activeIndex === i ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                    transition={{ 
+                      duration: 0.6, 
+                      ease: [0.22, 1, 0.36, 1] 
+                    }}>
 
                       <span className="inline-block px-4 py-1.5 rounded-full bg-azure/20 text-azure text-sm font-medium mb-4 backdrop-blur-sm border border-azure/20">
                         Clube + FUNSA
@@ -192,7 +206,7 @@ export default function ClubeFunsa() {
                             <slide.action.icon className="w-5 h-5" /> {slide.action.label}
                           </a>
                         ) : (
-                          <Link to={slide.action.href} className="btn-primary-dark">
+                          <Link href={slide.action.href} className="btn-primary-dark">
                             <slide.action.icon className="w-5 h-5" /> {slide.action.label}
                           </Link>
                         )}
@@ -211,8 +225,8 @@ export default function ClubeFunsa() {
         {/* dots */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-10">
           {heroSlides.map((_, i) =>
-          <button key={i} onClick={() => emblaApi?.scrollTo(i)}
-          className={`h-2 rounded-full transition-all duration-500 ${activeIndex === i ? "w-10 bg-azure" : "w-2 bg-white/40 hover:bg-white/60"}`} />
+            <button key={i} onClick={() => emblaApi?.scrollTo(i)}
+              className={`h-2 rounded-full transition-all duration-500 ${activeIndex === i ? "w-10 bg-azure" : "w-2 bg-white/40 hover:bg-white/60"}`} />
           )}
         </div>
 
@@ -221,22 +235,22 @@ export default function ClubeFunsa() {
         </motion.div>
       </section>
 
-      {/* ═══ LOGO HIGHLIGHT ═══ */}
+      {/* â•â•â• LOGO HIGHLIGHT â•â•â• */}
       <section className="py-20 bg-muted/30">
         <div className="section-container">
           <ScrollReveal>
-             <div className="flex flex-col items-center text-center">
-                <div className="w-32 h-32 md:w-48 md:h-48 rounded-3xl bg-white shadow-2xl flex items-center justify-center p-6 mb-8 hover:scale-105 transition-transform">
-                   <img src="/src/assets/logo-cor.png" alt="Clube + FUNSA" className="w-full h-full object-contain" />
-                </div>
-                <h2 className="text-3xl md:text-4xl font-bold text-foreground">Clube de Vantagens + FUNSA</h2>
-                <div className="w-20 h-1.5 bg-azure rounded-full mt-4" />
-             </div>
+            <div className="flex flex-col items-center text-center">
+              <div className="w-32 h-32 md:w-48 md:h-48 rounded-3xl bg-white shadow-2xl flex items-center justify-center p-6 mb-8 hover:scale-105 transition-transform">
+                <img src="/assets/logo-cor.png" alt="Clube + FUNSA" className="w-full h-full object-contain" />
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground">Clube de Vantagens + FUNSA</h2>
+              <div className="w-20 h-1.5 bg-azure rounded-full mt-4" />
+            </div>
           </ScrollReveal>
         </div>
       </section>
 
-      {/* ═══ BENEFITS ═══ */}
+      {/* â•â•â• BENEFITS â•â•â• */}
       <section className="section-padding bg-background relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,hsl(var(--azure)/0.05),transparent_60%)]" />
         <div className="section-container relative z-10">
@@ -254,7 +268,7 @@ export default function ClubeFunsa() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {benefits.map((b, i) =>
-            <ScrollReveal key={b.title} delay={i * 0.1}>
+              <ScrollReveal key={b.title} delay={i * 0.1}>
                 <div className="group p-8 rounded-2xl bg-card border border-border/50 hover-lift transition-all duration-300 h-full">
                   <div className="w-14 h-14 rounded-xl bg-azure/10 flex items-center justify-center mb-5 group-hover:bg-azure/20 transition-colors">
                     <b.icon className="w-7 h-7 text-azure" />
@@ -268,13 +282,13 @@ export default function ClubeFunsa() {
         </div>
       </section>
 
-      {/* ═══ STATS ═══ */}
+      {/* â•â•â• STATS â•â•â• */}
       <section className="py-20 gradient-navy relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,hsl(var(--azure)/0.1),transparent_50%)]" />
         <div className="section-container relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((s, i) =>
-            <ScrollReveal key={s.label} delay={i * 0.15}>
+              <ScrollReveal key={s.label} delay={i * 0.15}>
                 <div className="text-center">
                   <div className="text-4xl md:text-5xl font-bold text-white flex items-baseline justify-center">
                     <Counter end={s.value} suffix={s.suffix} />
@@ -287,7 +301,7 @@ export default function ClubeFunsa() {
         </div>
       </section>
 
-      {/* ═══ APP HIGHLIGHT ═══ */}
+      {/* â•â•â• APP HIGHLIGHT â•â•â• */}
       <section className="py-24 md:py-32 gradient-navy overflow-hidden relative">
         {/* Decorative glows */}
         <div className="absolute top-0 left-0 w-96 h-96 rounded-full bg-azure/10 blur-[120px]" />
@@ -311,7 +325,7 @@ export default function ClubeFunsa() {
 
                 <p className="mt-8 text-white/50 text-sm font-semibold tracking-wider uppercase">Baixe agora:</p>
                 <div className="flex flex-wrap gap-3 mt-4">
-                  <Link to="/aplicativo"
+                  <Link href="/aplicativo"
                     className="inline-flex items-center gap-3 px-6 py-3.5 rounded-xl bg-white text-primary font-semibold hover-lift transition-all">
                     <Smartphone className="w-5 h-5" />
                     <div className="text-left">
@@ -319,7 +333,7 @@ export default function ClubeFunsa() {
                       <span className="text-sm font-bold">App Store</span>
                     </div>
                   </Link>
-                  <Link to="/aplicativo"
+                  <Link href="/aplicativo"
                     className="inline-flex items-center gap-3 px-6 py-3.5 rounded-xl bg-white text-primary font-semibold hover-lift transition-all">
                     <Smartphone className="w-5 h-5" />
                     <div className="text-left">
@@ -392,7 +406,7 @@ export default function ClubeFunsa() {
         </div>
       </section>
 
-      {/* ═══ PARTNERS ═══ */}
+      {/* â•â•â• PARTNERS â•â•â• */}
       <section id="parceiros" className="section-padding bg-background">
         <div className="section-container">
           <ScrollReveal>
@@ -464,7 +478,7 @@ export default function ClubeFunsa() {
                     </div>
                     {cat}
                   </h3>
-                  
+
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                     {partners.map((p) => (
                       <div key={p.nome} className="group flex flex-col p-6 rounded-2xl bg-card border border-border/50 hover:border-azure/30 hover:shadow-lg transition-all duration-300 h-full">
@@ -496,7 +510,7 @@ export default function ClubeFunsa() {
         </div>
       </section>
 
-      {/* ═══ FAQ ═══ */}
+      {/* â•â•â• FAQ â•â•â• */}
       <section className="section-padding bg-muted/20">
         <div className="section-container max-w-4xl mx-auto">
           <ScrollReveal>
@@ -504,24 +518,24 @@ export default function ClubeFunsa() {
               <span className="text-azure font-semibold text-sm tracking-wider uppercase">Dúvidas Frequentes</span>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-3">FAQ - Clube+ FUNSA</h2>
             </div>
-            
+
             <div className="space-y-4">
               {[
-                { 
-                  q: "Quem tem direito ao Clube+ FUNSA?", 
-                  a: "Todos os titulares e dependentes ativos nos planos de assistência familiar da FUNSA possuem direito irrestrito aos benefícios e descontos." 
+                {
+                  q: "Quem tem direito ao Clube+ FUNSA?",
+                  a: "Todos os titulares e dependentes ativos nos planos de assistência familiar da FUNSA possuem direito irrestrito aos benefícios e descontos."
                 },
-                { 
-                  q: "Preciso pagar algo a mais pelo Clube?", 
-                  a: "Não! O Clube+ FUNSA é um benefício incluso no seu plano sem custos adicionais." 
+                {
+                  q: "Preciso pagar algo a mais pelo Clube?",
+                  a: "Não! O Clube+ FUNSA é um benefício incluso no seu plano sem custos adicionais."
                 },
-                { 
-                  q: "Como utilizar os descontos nos parceiros?", 
-                  a: "Basta apresentar a sua carteirinha virtual (disponível no aplicativo) ou física acompanhada de um documento com foto no momento da compra." 
+                {
+                  q: "Como utilizar os descontos nos parceiros?",
+                  a: "Basta apresentar a sua carteirinha virtual (disponível no aplicativo) ou física acompanhada de um documento com foto no momento da compra."
                 },
-                { 
-                  q: "Os descontos possuem limites de uso?", 
-                  a: "Na maioria dos parceiros o uso é ilimitado, mas algumas promoções especiais geradas pelo aplicativo podem ter um limite de utilizações ou prazo de validade." 
+                {
+                  q: "Os descontos possuem limites de uso?",
+                  a: "Na maioria dos parceiros o uso é ilimitado, mas algumas promoções especiais geradas pelo aplicativo podem ter um limite de utilizações ou prazo de validade."
                 }
               ].map((faq, i) => (
                 <details key={i} className="group bg-card rounded-2xl border border-border/50 overflow-hidden [&_summary::-webkit-details-marker]:hidden">
@@ -541,7 +555,7 @@ export default function ClubeFunsa() {
         </div>
       </section>
 
-      {/* ═══ CTA FINAL ═══ */}
+      {/* â•â•â• CTA FINAL â•â•â• */}
       <section className="section-padding bg-background">
         <div className="section-container">
           <ScrollReveal>
@@ -556,12 +570,12 @@ export default function ClubeFunsa() {
                   Baixe o aplicativo FUNSA e comece a aproveitar todos os descontos e vantagens exclusivas. Consulte parceiros, acesse cupons e muito mais.
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">
-                  <Link to="/aplicativo"
-                  className="btn-primary-dark">
+                  <Link href="/aplicativo"
+                    className="btn-primary-dark">
                     <Smartphone className="w-5 h-5" /> Baixar o App
                   </Link>
                   <a href="https://wa.me/5514991823569" target="_blank" rel="noopener noreferrer"
-                  className="btn-outline-dark">
+                    className="btn-outline-dark">
                     Fale Conosco
                   </a>
                 </div>
@@ -573,3 +587,4 @@ export default function ClubeFunsa() {
     </>);
 
 }
+

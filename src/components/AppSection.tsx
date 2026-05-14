@@ -1,5 +1,5 @@
 import ScrollReveal from "./ScrollReveal";
-import appMockup from "@/assets/app-mockup.jpg";
+const appMockup = "/assets/app-mockup.jpg";
 import { CreditCard, BookOpen, Stethoscope, Flower2, Gift, Smartphone } from "lucide-react";
 
 const features = [

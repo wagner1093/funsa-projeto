@@ -1,0 +1,261 @@
+@import url('https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@100..900&family=Roboto:wght@300;400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 97.3%;
+    --foreground: 30 1% 35%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 30 1% 35%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 30 1% 35%;
+
+    --primary: 214 55% 31%;
+    --primary-foreground: 0 0% 96%;
+
+    --secondary: 214 63% 20%;
+    --secondary-foreground: 0 0% 96%;
+
+    --muted: 220 15% 92%;
+    --muted-foreground: 220 10% 46%;
+
+    --accent: 214 95% 60%;
+    --accent-foreground: 0 0% 96%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 216 50% 16%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Custom tokens */
+    --azure: 214 95% 60%;
+    --azure-light: 214 95% 85%;
+    --navy: 214 63% 20%;
+    --navy-light: 214 55% 31%;
+    --charcoal: 30 1% 35%;
+    --warm-white: 0 0% 96%;
+    --warm-gray: 220 10% 60%;
+  }
+
+  .dark {
+    --background: 214 63% 10%;
+    --foreground: 0 0% 96%;
+    --card: 220 30% 8%;
+    --card-foreground: 210 40% 98%;
+    --popover: 220 30% 8%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 214 95% 60%;
+    --primary-foreground: 214 63% 10%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 214 95% 60%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  svg,
+  svg * {
+    border: none !important;
+    border-width: 0 !important;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Outfit', system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  .admin-panel h1, 
+  .admin-panel h2, 
+  .admin-panel h3, 
+  .admin-panel h4 {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  .section-container {
+    @apply max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-padding {
+    @apply py-20 md:py-28;
+  }
+
+  .gradient-navy {
+    background: linear-gradient(135deg, hsl(var(--navy)) 0%, hsl(var(--navy-light)) 100%);
+  }
+
+  .gradient-blue {
+    background: linear-gradient(135deg, hsl(var(--navy)) 0%, hsl(var(--azure)) 100%);
+  }
+
+  .text-gradient-blue {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(var(--navy)) 0%, hsl(var(--azure)) 100%);
+  }
+
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-lg border border-border/50 rounded-2xl;
+    box-shadow: 0 8px 32px -8px hsl(var(--navy) / 0.08);
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -12px hsl(var(--navy) / 0.15);
+  }
+
+  /* ── Unified Button System ── */
+  .btn-primary-dark {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold transition-all duration-200;
+    background-color: hsl(var(--azure));
+    color: hsl(0 0% 100%);
+  }
+  .btn-primary-dark:hover {
+    background-color: hsl(var(--azure-light));
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px -8px hsl(var(--azure) / 0.4);
+  }
+
+  .btn-primary-light {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold transition-all duration-200;
+    background-color: hsl(var(--primary));
+    color: hsl(0 0% 96%);
+  }
+  .btn-primary-light:hover {
+    background-color: hsl(var(--secondary));
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px -8px hsl(var(--primary) / 0.3);
+  }
+
+  .btn-outline-dark {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold transition-all duration-200;
+    background-color: transparent;
+    color: hsl(0 0% 100%);
+    border: 1.5px solid hsl(0 0% 100% / 0.35);
+  }
+  .btn-outline-dark:hover {
+    background-color: hsl(0 0% 100% / 0.1);
+  }
+
+  .btn-outline-light {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold transition-all duration-200;
+    background-color: transparent;
+    color: hsl(var(--primary));
+    border: 1.5px solid hsl(var(--primary));
+  }
+  .btn-outline-light:hover {
+    background-color: hsl(var(--primary) / 0.06);
+  }
+
+  /* ── Admin Dashboard UI ── */
+  .admin-sidebar {
+    background: #ffffff;
+    border-right: 1px solid #f0f0f0;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  .admin-card {
+    @apply bg-white border border-gray-100 rounded-2xl shadow-sm transition-all duration-200;
+  }
+  .admin-card:hover {
+    @apply shadow-md border-gray-200;
+    transform: translateY(-2px);
+  }
+
+  .admin-stat-card {
+    @apply bg-white border border-gray-100 rounded-2xl p-6 transition-all duration-200 cursor-pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+  .admin-stat-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+    @apply border-gray-200;
+  }
+
+  .admin-table-header {
+    @apply bg-gray-50 border-b border-gray-100;
+  }
+
+  .admin-nav-item {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-500 transition-all duration-150 cursor-pointer select-none;
+  }
+  .admin-nav-item:hover {
+    @apply bg-gray-50 text-gray-800;
+  }
+  .admin-nav-item.active {
+    @apply bg-[#F4F4F5] text-gray-900 font-semibold;
+  }
+
+  .admin-badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider;
+  }
+
+  .admin-scroll::-webkit-scrollbar { width: 4px; }
+  .admin-scroll::-webkit-scrollbar-track { background: transparent; }
+  .admin-scroll::-webkit-scrollbar-thumb { @apply bg-gray-200 rounded-full; }
+
+  .admin-page-title {
+    @apply text-xl font-bold text-gray-900;
+    font-family: 'Inter', system-ui, sans-serif;
+    letter-spacing: -0.4px;
+  }
+
+  .admin-search {
+    @apply w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-700 placeholder-gray-400 outline-none bg-white;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .admin-search:focus {
+    @apply border-gray-400;
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.04);
+  }
+}

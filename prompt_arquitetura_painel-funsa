@@ -1,0 +1,57 @@
+# Guia e Prompt para Criação de Tabelas Exclusivas e Padronização do Painel
+
+Copie o texto abaixo e cole na sua nova sessão de IA. Este prompt instrui a inteligência artificial a analisar o que você já tem, criar as **tabelas exclusivas que faltam** com o prefixo `funsa_`, e construir o painel com o máximo de segurança.
+
+---
+**[COPIAR A PARTIR DAQUI]**
+
+## Contexto e Objetivo
+Neste projeto, eu já possuo algumas tabelas genéricas no Supabase, porém preciso criar **tabelas exclusivas para este novo cliente** seguindo o mesmo padrão de isolamento e segurança que uso em meus outros sistemas. O prefixo exclusivo para este projeto será **`funsa_`**.
+
+O objetivo é:
+1. Criar as tabelas ausentes usando o prefixo exclusivo `funsa_`.
+2. Estruturar o Painel Administrativo Front-end (React/Next.js) para que ele se conecte a essas tabelas com os mais altos padrões de segurança corporativa, estabilidade de renderização e sem bugs.
+
+## 1. Estrutura de Banco de Dados (Tabelas Exclusivas)
+Analise o banco de dados existente e **crie as seguintes tabelas com o prefixo `funsa_`**:
+
+*   **`funsa_usuarios`**: Controle de acesso exclusivo do site.
+    *   *Colunas:* `id` (UUID), `nome`, `email` (Único), `senha` (Hashed), `role`, `created_at`.
+*   **`funsa_configuracoes`**: Configurações globais do site (ex: favicons, dados de contato).
+    *   *Colunas:* `id`, `favicon_url`, `logo_url`, `cor_primaria`, `telefone`, `endereco`, `redes_sociais` (JSONB).
+*   **`funsa_posts` e `funsa_categorias`**: Gestão de conteúdo do Blog.
+    *   *Colunas:* `id`, `titulo`, `slug` (Único para SEO), `conteudo`, `status`, `visualizacoes`, `deleted_at`, `created_at`.
+*   **`funsa_leads`**: Contatos recebidos pelo formulário do site.
+    *   *Colunas:* `id`, `nome`, `email`, `telefone`, `mensagem`, `status`, `created_at`.
+
+> **Regra de Ouro (RLS - Row Level Security):** TODAS as tabelas exclusivas `funsa_` recém-criadas devem ter o RLS ativado rigorosamente para garantir que apenas os usuários autenticados deste painel possam acessar os dados.
+
+## 2. Arquitetura Front-end e Gerenciamento de Estado (React/Next.js)
+Construa ou refatore o painel utilizando as seguintes premissas obrigatórias:
+
+*   **Context API Global (`SiteProvider` ou Contexto de Sessão):** O layout administrativo (`AdminLayout`) deve estar envolvido por um Contexto que forneça os dados de sessão global. Garanta que a navegação não quebre por falta de variáveis de ambiente.
+*   **Prevenção de Loops de Renderização e Spinners Travados:**
+    *   Sempre inicialize estados de `loading` de forma lógica (ex: `false` na declaração inicial, mudando para `true` apenas instantes antes da requisição `fetch()`).
+    *   Sempre utilize blocos `try { ... } catch (err) { ... } finally { setLoading(false) }`. Se uma chamada ao banco falhar, o painel deve exibir uma tela vazia ou mensagem amigável de erro, **nunca** um loop infinito de carregamento (spinner travado).
+*   **Ações de Exclusão e Painel de Controle:**
+    *   Use a exclusão definitiva (`.delete()`) ao invés de apenas marcar como deletado, para evitar que itens excluídos (corrompidos ou bugados) continuem aparecendo nas listas.
+    *   Ao puxar as estatísticas para o Dashboard (Cards de quantidade), utilize `.count('exact')` integrados em um `Promise.all` e certifique-se de ignorar registros nulos ou inválidos.
+
+## 3. Hardening e Medidas de Segurança Obrigatórias no Front-end
+A aplicação Next.js deve ser blindada contra as vulnerabilidades do OWASP Top 10. Implemente as seguintes camadas:
+
+*   **Proteção contra XSS (Cross-Site Scripting):** 
+    *   É terminantemente proibido usar `dangerouslySetInnerHTML` sem antes passar o conteúdo pela biblioteca `DOMPurify` (sanitização).
+*   **Segurança de Arquivos e Mídia:**
+    *   No lado do servidor (Server Actions ou API Routes), valide os "Magic Bytes" (assinatura binária) dos arquivos de imagem/PDF antes de enviá-los ao storage. Não confie apenas na extensão do arquivo.
+*   **Headers HTTP de Segurança (`next.config.ts`):**
+    *   Configure rigorosamente as políticas de CSP (Content Security Policy).
+    *   Ative Strict-Transport-Security (HSTS), X-Frame-Options (DENY) e X-Content-Type-Options (nosniff).
+*   **Proteção de Formulários Públicos (Leads):**
+    *   Adicione limitação de taxa (*Rate Limiting*) nas rotas de envio.
+    *   Utilize a técnica de *Honeypot* (campos ocultos via CSS) para capturar bots de spam de forma silenciosa e eficiente.
+
+Vamos começar identificando quais tabelas `funsa_` ainda faltam ser criadas no meu Supabase para podermos avançar com o front-end seguindo estas regras.
+
+**[FIM DA CÓPIA]**
+---

@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
-import logoBranco from "@/assets/logo-branco.png";
+'use client';
 
+import Link from "next/link";
 import { useSiteConfig } from "@/hooks/useSiteConfig";
+import { Phone, Mail, MapPin, Instagram, Facebook, MessageCircle } from "lucide-react";
 
 const quickLinks = [
   { label: "Home", href: "/" },
@@ -11,126 +12,136 @@ const quickLinks = [
   { label: "Contato", href: "/contato" },
 ];
 
-const IconSpan = ({ children }: { children: string }) => (
-  <span style={{ flexShrink: 0, fontSize: 14, lineHeight: 1, width: 16, textAlign: "center" as const }}>{children}</span>
-);
-
 export default function Footer() {
   const { config } = useSiteConfig();
 
   return (
-    <div
+    <footer
       style={{
-        backgroundColor: "hsl(216, 50%, 16%)",
-        padding: "3rem 0",
-        borderWidth: 0,
-        borderStyle: "none",
+        backgroundColor: "hsl(216, 50%, 12%)",
+        padding: "4rem 0 2rem",
         position: "relative",
         zIndex: 10,
         overflow: "hidden",
+        borderTop: "1px solid rgba(255,255,255,0.05)"
       }}
     >
       <div className="section-container">
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "2rem", marginBottom: "2rem" }}>
-          <div style={{ flex: "1 1 220px", minWidth: 200 }}>
-            <img
-              src={logoBranco}
-              alt="Funsa Funerária"
-              style={{ height: 48, width: "auto", marginBottom: 16, display: "block", border: "none" }}
-            />
-            <p style={{ fontSize: 14, color: "rgba(230,240,255,0.6)", lineHeight: 1.6, margin: 0 }}>
-              Funerária Nossa Senhora Aparecida. Desde 1943 cuidando de quem você ama.
-            </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+          <div className="flex flex-col gap-6">
+            <Link href="/" className="inline-block transition-transform hover:scale-105">
+              <img
+                src="/assets/logo-branco.png"
+                alt="Funsa Funerária"
+                className="h-20 w-auto object-contain"
+                style={{ maxWidth: "240px" }}
+              />
+            </Link>
           </div>
 
-          <div style={{ flex: "1 1 180px", minWidth: 160 }}>
-            <h4 style={{ fontSize: 14, fontWeight: 600, color: "hsl(210,20%,98%)", marginBottom: 12, marginTop: 0 }}>
+          <div>
+            <h4 style={{ fontSize: 16, fontWeight: 700, color: "white", marginBottom: 24, marginTop: 0 }}>
               Links Rápidos
             </h4>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <div className="flex flex-col gap-3">
               {quickLinks.map((l) => (
                 <Link
                   key={l.href}
-                  to={l.href}
-                  style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none" }}
-                  className="hover:!text-primary-foreground transition-colors"
+                  href={l.href}
+                  className="text-[15px] text-white/60 hover:text-white transition-colors flex items-center gap-2 group"
                 >
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary/40 group-hover:bg-primary transition-colors" />
                   {l.label}
                 </Link>
               ))}
             </div>
           </div>
 
-          <div style={{ flex: "1 1 220px", minWidth: 200 }}>
-            <h4 style={{ fontSize: 14, fontWeight: 600, color: "hsl(210,20%,98%)", marginBottom: 12, marginTop: 0 }}>
+          <div>
+            <h4 style={{ fontSize: 16, fontWeight: 700, color: "white", marginBottom: 24, marginTop: 0 }}>
               Contato
             </h4>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <div className="flex flex-col gap-4">
               {config?.telefone && (
-                <a href={`tel:${config.telefone.replace(/\D/g, '')}`} style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} className="hover:!text-primary-foreground transition-colors">
-                  <IconSpan>📞</IconSpan> {config.telefone}
+                <a href={`tel:${config.telefone.replace(/\D/g, '')}`} className="flex items-center gap-3 text-white/60 hover:text-white transition-all group">
+                  <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-primary/20 group-hover:text-primary transition-all">
+                    <Phone className="w-5 h-5" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] uppercase tracking-wider text-white/40 font-bold">Telefone</span>
+                    <span className="text-[15px] font-medium">{config.telefone}</span>
+                  </div>
                 </a>
               )}
               {config?.whatsapp && (
-                <a href={`https://wa.me/55${config.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} className="hover:!text-primary-foreground transition-colors">
-                  <IconSpan>📞</IconSpan> {config.whatsapp}
+                <a href={`https://wa.me/55${config.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-white/60 hover:text-white transition-all group">
+                  <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-green-500/20 group-hover:text-green-400 transition-all">
+                    <MessageCircle className="w-5 h-5" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] uppercase tracking-wider text-white/40 font-bold">WhatsApp</span>
+                    <span className="text-[15px] font-medium">{config.whatsapp}</span>
+                  </div>
                 </a>
               )}
               {config?.email && (
-                <a href={`mailto:${config.email}`} style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} className="hover:!text-primary-foreground transition-colors">
-                  <IconSpan>✉️</IconSpan> {config.email}
+                <a href={`mailto:${config.email}`} className="flex items-center gap-3 text-white/60 hover:text-white transition-all group">
+                  <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-primary/20 group-hover:text-primary transition-all">
+                    <Mail className="w-5 h-5" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] uppercase tracking-wider text-white/40 font-bold">E-mail</span>
+                    <span className="text-[15px] font-medium">{config.email}</span>
+                  </div>
                 </a>
               )}
             </div>
           </div>
 
-          <div style={{ flex: "1 1 220px", minWidth: 200 }}>
-            <h4 style={{ fontSize: 14, fontWeight: 600, color: "hsl(210,20%,98%)", marginBottom: 12, marginTop: 0 }}>
+          <div>
+            <h4 style={{ fontSize: 16, fontWeight: 700, color: "white", marginBottom: 24, marginTop: 0 }}>
               Endereço
             </h4>
-            <div style={{ fontSize: 14, color: "rgba(245,240,230,0.6)", display: "flex", alignItems: "flex-start", gap: 8 }}>
-              <IconSpan>📍</IconSpan>
-              <span>{config?.endereco || 'Rua Piauí, 1.467 – Centro, Avaré/SP'}</span>
+            <div className="flex items-start gap-3 text-white/60 group">
+              <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-primary/20 group-hover:text-primary transition-all shrink-0">
+                <MapPin className="w-5 h-5" />
+              </div>
+              <div className="flex flex-col gap-1">
+                <span className="text-[10px] uppercase tracking-wider text-white/40 font-bold">Localização</span>
+                <span className="text-[15px] leading-relaxed">
+                  {config?.endereco || 'Rua Piauí, 1.467 – Centro, Avaré/SP'}
+                </span>
+              </div>
             </div>
           </div>
         </div>
 
-        <div style={{ height: 1, backgroundColor: "rgba(255,255,255,0.1)" }} aria-hidden="true" />
+        <div style={{ height: 1, backgroundColor: "rgba(255,255,255,0.05)", margin: "32px 0" }} aria-hidden="true" />
 
-        <div style={{ paddingTop: 24, display: "flex", justifyContent: "center", gap: 16 }}>
-          {config?.instagram_url && (
-            <a
-              href={config.instagram_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "rgba(230,240,255,0.5)", transition: "color 0.2s" }}
-              className="hover:!text-primary-foreground"
-              aria-label="Instagram"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-            </a>
-          )}
-          {config?.facebook_url && (
-            <a
-              href={config.facebook_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: "rgba(230,240,255,0.5)", transition: "color 0.2s" }}
-              className="hover:!text-primary-foreground"
-              aria-label="Facebook"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-            </a>
-          )}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-4">
+          <div className="flex items-center gap-4">
+            {config?.instagram_url && (
+              <a href={config.instagram_url} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:border-white transition-all" aria-label="Instagram">
+                <Instagram className="w-5 h-5" />
+              </a>
+            )}
+            {config?.facebook_url && (
+              <a href={config.facebook_url} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:border-white transition-all" aria-label="Facebook">
+                <Facebook className="w-5 h-5" />
+              </a>
+            )}
+          </div>
+
+          <div className="flex flex-col items-center md:items-end gap-2">
+            <p style={{ fontSize: 14, color: "rgba(230,240,255,0.4)", margin: 0, textAlign: "center" }}>
+              © {new Date().getFullYear()} {config?.site_name || 'FUNSA – Funerária Nossa Senhora Aparecida'}. Todos os direitos reservados.
+            </p>
+            <p style={{ fontSize: 12, color: "rgba(230,240,255,0.2)", margin: 0, textAlign: "center" }}>
+              Funerais Nossa Senhora Aparecida Ltda - 45.556.511/0001-22
+            </p>
+          </div>
         </div>
-
-        <p style={{ paddingTop: 16, textAlign: "center", fontSize: 14, color: "rgba(230,240,255,0.4)", margin: 0 }}>
-          © {new Date().getFullYear()} {config?.site_name || 'FUNSA – Funerária Nossa Senhora Aparecida'}. Todos os direitos reservados.
-        </p>
-        <p style={{ textAlign: "center", fontSize: 12, color: "rgba(230,240,255,0.3)", margin: "4px 0 0 0" }}>
-          Funerais Nossa Senhora Aparecida Ltda - 45.556.511/0001-22
-        </p>
       </div>
-    </div>
+    </footer>
   );
 }
