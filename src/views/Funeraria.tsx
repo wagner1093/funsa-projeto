@@ -84,7 +84,7 @@ export default function Funeraria() {
           <div className="flex h-full">
             {bannerSlides.map((slide, i) => (
               <div key={i} className="min-w-0 shrink-0 grow-0 basis-full relative h-full">
-                <img src={slide.img} alt={slide.alt} className="w-full h-full object-cover" />
+                <img src={slide.img} alt={slide.title} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-primary/40" />
               </div>
             ))}
