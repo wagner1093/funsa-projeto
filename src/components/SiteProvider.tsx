@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 
-interface SiteConfig {
+export interface SiteConfig {
   favicon_url: string;
   logo_url?: string;
   cor_primaria?: string;
@@ -9,13 +9,13 @@ interface SiteConfig {
   whatsapp: string;
   endereco: string;
   email: string;
-  instagram_url: string;
-  facebook_url: string;
+  instagram: string;
+  facebook: string;
   site_name?: string;
   site_description?: string;
 }
 
-interface SiteContextType {
+export interface SiteContextType {
   config: SiteConfig | null;
   loading: boolean;
 }

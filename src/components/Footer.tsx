@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link";
-import { useSite } from "@/components/SiteProvider";
+import { useSite, SiteConfig } from "@/components/SiteProvider";
 import { Phone, Mail, MapPin, Instagram, Facebook, MessageCircle } from "lucide-react";
 
 const quickLinks = [
@@ -13,7 +13,7 @@ const quickLinks = [
 ];
 
 export default function Footer() {
-  const { config } = useSite();
+  const { config } = useSite() as { config: SiteConfig | null; loading: boolean };
 
   return (
     <footer
@@ -120,13 +120,13 @@ export default function Footer() {
 
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-4">
           <div className="flex items-center gap-4">
-            {config?.instagram_url && (
-              <a href={config.instagram_url} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:border-white transition-all" aria-label="Instagram">
+            {config?.instagram && (
+              <a href={config.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:border-white transition-all" aria-label="Instagram">
                 <Instagram className="w-5 h-5" />
               </a>
             )}
-            {config?.facebook_url && (
-              <a href={config.facebook_url} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:border-white transition-all" aria-label="Facebook">
+            {config?.facebook && (
+              <a href={config.facebook} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-white hover:border-white transition-all" aria-label="Facebook">
                 <Facebook className="w-5 h-5" />
               </a>
             )}

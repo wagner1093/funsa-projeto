@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, Instagram, Facebook } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useSite } from "@/components/SiteProvider";
+import { useSite, SiteConfig } from "@/components/SiteProvider";
 import Image from "next/image";
 
 const navLinks = [
@@ -22,7 +22,7 @@ const navLinks = [
 ];
 
 export default function Header() {
-  const { config } = useSite();
+  const { config } = useSite() as { config: SiteConfig | null; loading: boolean };
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
