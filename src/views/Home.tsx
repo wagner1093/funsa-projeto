@@ -11,6 +11,7 @@ const memorialImg = "/assets/memorial-clean.jpg";
 import ScrollReveal from "@/components/ScrollReveal";
 import Counter from "@/components/Counter";
 import MemorialSection from "@/components/MemorialSection";
+import GallerySection from "@/components/GallerySection";
 
 const heroSlides = [
   { img: "/assets/hero-home-clean.jpg", alt: "FUNSA – Ambiente sereno e acolhedor" },
@@ -345,6 +346,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Galeria de Fotos */}
+      <GallerySection />
 
       {/* Final CTA */}
       <section className="section-padding bg-background">
