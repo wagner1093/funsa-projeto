@@ -29,14 +29,19 @@ export function SiteProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     async function loadConfig() {
       try {
+        console.log('Iniciando carregamento das configurações do site...');
         const { data, error } = await supabase
           .from('funsa_site_config')
           .select('*')
-          .eq('id', 1)
+          .limit(1)
           .single();
 
-        if (error) throw error;
+        if (error) {
+          console.error('Erro na consulta Supabase:', error);
+          throw error;
+        }
         
+        console.log('Configurações carregadas com sucesso:', data);
         setConfig(data);
         
         // Aplica o favicon globalmente

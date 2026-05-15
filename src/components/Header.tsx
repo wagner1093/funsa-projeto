@@ -128,9 +128,9 @@ export default function Header() {
 
         <div className="flex items-center gap-2 xl:gap-4">
           <div className="hidden xl:flex items-center gap-1">
-            {config?.instagram_url && (
+            {config?.instagram && (
               <a
-                href={config.instagram_url}
+                href={config.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`p-1.5 rounded-full transition-all duration-300 hover:scale-110 ${isTransparent ? "text-white/70 hover:text-white hover:bg-white/15" : "text-muted-foreground hover:text-primary hover:bg-primary/5"}`}
@@ -139,9 +139,9 @@ export default function Header() {
                 <Instagram className="w-4 h-4" />
               </a>
             )}
-            {config?.facebook_url && (
+            {config?.facebook && (
               <a
-                href={config.facebook_url}
+                href={config.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`p-1.5 rounded-full transition-all duration-300 hover:scale-110 ${isTransparent ? "text-white/70 hover:text-white hover:bg-white/15" : "text-muted-foreground hover:text-primary hover:bg-primary/5"}`}

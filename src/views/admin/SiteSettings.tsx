@@ -53,7 +53,7 @@ export default function SiteSettings() {
   useEffect(() => {
     async function load() {
       try {
-        const { data, error } = await supabase.from('funsa_configuracoes').select('*').eq('id', 1).single();
+        const { data, error } = await supabase.from('funsa_site_config').select('*').eq('id', 1).single();
         if (error) throw error;
         if (data) {
           setSiteName(data.site_name || '');
@@ -61,11 +61,10 @@ export default function SiteSettings() {
           setFaviconUrl(data.favicon_url || '');
           setTelefone(data.telefone || '');
           setEndereco(data.endereco || '');
-          const redes = data.redes_sociais || {};
-          setInstagram(redes.instagram || '');
-          setFacebook(redes.facebook || '');
-          setWhatsapp(redes.whatsapp || '');
-          setEmail(redes.email || '');
+          setInstagram(data.instagram || '');
+          setFacebook(data.facebook || '');
+          setWhatsapp(data.whatsapp || '');
+          setEmail(data.email || '');
         }
       } catch (err) {
         console.error("Erro ao carregar configuracoes", err);
@@ -80,16 +79,17 @@ export default function SiteSettings() {
     e.preventDefault();
     setSaving(true);
     try {
-      const { error } = await supabase.from('funsa_configuracoes').upsert({
+      const { error } = await supabase.from('funsa_site_config').upsert({
         id: 1,
         site_name: siteName,
         site_description: siteDescription,
         favicon_url: faviconUrl,
         telefone, 
-        endereco, 
-        redes_sociais: {
-           instagram, facebook, whatsapp, email
-        }
+        endereco,
+        instagram,
+        facebook,
+        whatsapp,
+        email
       }).eq('id', 1);
 
       if (error) throw error;
