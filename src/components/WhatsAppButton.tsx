@@ -1,9 +1,9 @@
 import { MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
-import { useSiteConfig } from "@/hooks/useSiteConfig";
+import { useSite } from "@/components/SiteProvider";
 
 export default function WhatsAppButton() {
-  const { config } = useSiteConfig();
+  const { config } = useSite();
   
   if (!config?.whatsapp) return null;
 

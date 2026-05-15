@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link";
-import { useSiteConfig } from "@/hooks/useSiteConfig";
+import { useSite } from "@/components/SiteProvider";
 import { Phone, Mail, MapPin, Instagram, Facebook, MessageCircle } from "lucide-react";
 
 const quickLinks = [
@@ -13,7 +13,7 @@ const quickLinks = [
 ];
 
 export default function Footer() {
-  const { config } = useSiteConfig();
+  const { config } = useSite();
 
   return (
     <footer

@@ -3,15 +3,16 @@ import { supabase } from '@/lib/supabase';
 
 interface SiteConfig {
   favicon_url: string;
-  logo_url: string;
-  cor_primaria: string;
+  logo_url?: string;
+  cor_primaria?: string;
   telefone: string;
+  whatsapp: string;
   endereco: string;
-  redes_sociais: Record<string, string>;
+  email: string;
+  instagram_url: string;
+  facebook_url: string;
   site_name?: string;
   site_description?: string;
-  email?: string;
-  whatsapp?: string;
 }
 
 interface SiteContextType {
@@ -29,7 +30,7 @@ export function SiteProvider({ children }: { children: React.ReactNode }) {
     async function loadConfig() {
       try {
         const { data, error } = await supabase
-          .from('funsa_configuracoes')
+          .from('funsa_site_config')
           .select('*')
           .eq('id', 1)
           .single();
