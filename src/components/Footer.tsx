@@ -38,22 +38,22 @@ export default function Footer() {
               />
             </Link>
             <p className="text-white/50 text-sm leading-relaxed max-w-xs">
-              Há mais de 30 anos oferecendo acolhimento, respeito e dignidade nos momentos mais difíceis da vida.
+              Há mais de 80 anos oferecendo acolhimento, respeito e dignidade nos momentos mais difíceis da vida.
             </p>
             <div className="flex items-center gap-3">
-              <a 
-                href={(config as any)?.instagram_url || config?.instagram || "https://www.instagram.com/clubefunsa/"} 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href={(config as any)?.instagram_url || config?.instagram || "https://www.instagram.com/clubefunsa/"}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:bg-gradient-to-tr hover:from-[#f09433] hover:via-[#dc2743] hover:to-[#bc1888] hover:text-white hover:border-transparent transition-all duration-300"
                 aria-label="Instagram"
               >
                 <Instagram className="w-5 h-5" />
               </a>
-              <a 
-                href={(config as any)?.facebook_url || config?.facebook || "https://www.facebook.com/funsaavare"} 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href={(config as any)?.facebook_url || config?.facebook || "https://www.facebook.com/funsaavare"}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/40 hover:bg-[#1877F2] hover:text-white hover:border-transparent transition-all duration-300"
                 aria-label="Facebook"
               >
@@ -99,22 +99,22 @@ export default function Footer() {
                   <span className="text-base font-semibold">{config?.telefone || '(14) 3732-0202'}</span>
                 </div>
               </a>
-              <a href={`https://wa.me/55${(config?.whatsapp || '(14) 99779-2932').replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 text-white/60 hover:text-white transition-all group">
+              <a href={`https://wa.me/55${(config?.whatsapp || '(14) 99607-3260').replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 text-white/60 hover:text-white transition-all group">
                 <div className="w-11 h-11 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-green-500 group-hover:text-white transition-all shadow-lg border border-white/5">
                   <MessageCircle className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-[11px] uppercase tracking-[0.1em] text-white/30 font-bold">WhatsApp</span>
-                  <span className="text-base font-semibold">{config?.whatsapp || '(14) 99779-2932'}</span>
+                  <span className="text-base font-semibold">{config?.whatsapp || '(14) 99607-3260'}</span>
                 </div>
               </a>
-              <a href={`mailto:${config?.email || 'contato@funsa.com.br'}`} className="flex items-center gap-4 text-white/60 hover:text-white transition-all group">
+              <a href={`mailto:${config?.email || 'contato@funsaavare.com.br'}`} className="flex items-center gap-4 text-white/60 hover:text-white transition-all group">
                 <div className="w-11 h-11 rounded-xl bg-white/5 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all shadow-lg border border-white/5">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-[11px] uppercase tracking-[0.1em] text-white/30 font-bold">E-mail</span>
-                  <span className="text-base font-semibold truncate max-w-[180px]">{config?.email || 'contato@funsa.com.br'}</span>
+                  <span className="text-base font-semibold truncate max-w-[180px]">{config?.email || 'contato@funsaavare.com.br'}</span>
                 </div>
               </a>
             </div>
@@ -137,12 +137,12 @@ export default function Footer() {
                 </address>
               </div>
             </div>
-            
-            <button 
+
+            <button
               onClick={scrollToTop}
               className="mt-8 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary hover:text-white transition-colors group"
             >
-              Voltar ao topo 
+              Voltar ao topo
               <ArrowUp className="w-4 h-4 transition-transform group-hover:-translate-y-1" />
             </button>
           </div>
@@ -161,7 +161,7 @@ export default function Footer() {
               Funerais Nossa Senhora Aparecida Ltda — CNPJ: 45.556.511/0001-22
             </p>
           </div>
-          
+
           <div className="flex items-center gap-6">
             <div className="text-[11px] text-white/20">
               Desenvolvido por <span className="text-white/40 font-bold">FUNSA</span>

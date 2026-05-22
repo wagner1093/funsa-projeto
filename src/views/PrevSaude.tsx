@@ -2,7 +2,7 @@
 import { useState, useCallback, useEffect } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from 'next/link';
 import ScrollReveal from "@/components/ScrollReveal";
 import Counter from "@/components/Counter";
@@ -10,20 +10,21 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Phone, MapPin, Heart, Shield, Users, Stethoscope,
   BadgePercent, Clock, Building2, ChevronDown, Brain,
-  Eye, Bone, Baby, Pill, Smile, Activity, Ear, ArrowRight, FileText, FlaskConical
+  Eye, Bone, Baby, Pill, Smile, Activity, Ear, ArrowRight, FileText, FlaskConical,
+  ChevronLeft, ChevronRight
 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 
 
-/* â”€â”€ hero slides â”€â”€ */
+/* ── hero slides ── */
 const heroSlides = [
-  { img: "/assets/prevsaude-hero-1-clean.jpg", title: "PrevSaúde Avaré", sub: "Seu condomínio médico com mais de 20 especialidades" },
-  { img: "/assets/prevsaude-hero-2-clean.jpg", title: "Cuidado Completo", sub: "Consultas e exames com descontos exclusivos para você" },
-  { img: "/assets/clube-hero-1-clean.png", title: "Benefícios FUNSA", sub: "Mais saúde e economia para toda a sua família" },
+  { img: "/assets/prevsaude-hero-1.webp", title: "PrevSaúde Avaré", sub: "Seu condomínio médico com mais de 20 especialidades" },
+  { img: "/assets/prevsaude-hero-2.webp", title: "Cuidado Completo", sub: "Consultas e exames com descontos exclusivos para você" },
+  { img: "/assets/prevsaude-hero-3.webp", title: "Benefícios FUNSA", sub: "Mais saúde e economia para toda a sua família" },
 ];
 
-/* â”€â”€ benefits â”€â”€ */
+/* ── benefits ── */
 const benefits = [
   { icon: BadgePercent, title: "Até 50% de desconto", desc: "Até 50% de desconto em consultas médicas e exames" },
   { icon: Stethoscope, title: "+20 especialidades", desc: "Rede completa de profissionais qualificados" },
@@ -33,7 +34,7 @@ const benefits = [
   { icon: Building2, title: "Estrutura moderna", desc: "Clínicas parceiras com equipamentos de ponta" },
 ];
 
-/* â”€â”€ stats â”€â”€ */
+/* ── stats ── */
 const stats = [
   { value: 20, suffix: "+", label: "Especialidades" },
   { value: 18, suffix: "+", label: "Anos de atuação" },
@@ -41,7 +42,7 @@ const stats = [
   { value: 30, suffix: "+", label: "Clínicas parceiras" },
 ];
 
-/* â”€â”€ specialty icons â”€â”€ */
+/* ── specialty icons ── */
 const specIcons: Record<string, React.ElementType> = {
   "Cardiologia": Heart,
   "Dermatologia e estética": Smile,
@@ -54,7 +55,7 @@ const specIcons: Record<string, React.ElementType> = {
   "Endocrinologia": Pill,
 };
 
-/* â”€â”€ data (kept from original) â”€â”€ */
+/* ── data (kept from original) ── */
 const especialidades: Record<string, string[]> = {
   "Cabeça e pescoço": ["Dr. Renato Nakamura"],
   "Cardiologia": ["Dr. Murillo De Melo Villen Favaro De Oliveira"],
@@ -132,41 +133,41 @@ function ResultsDialog({ children, className }: { children: React.ReactNode, cla
 }
 
 const clinicasAvare: Clinica[] = [
-  { nome: "Laboratório Ivan Garcia", especialidade: "Análises Clínicas", profissional: "Posto de coleta Laboratório Ivan Garcia", endereco: "Rua Santa Catarina, nÂº 1.981 – Centro", telefone: "(14) 3733-2555" },
+  { nome: "Laboratório Ivan Garcia", especialidade: "Análises Clínicas", profissional: "Posto de coleta Laboratório Ivan Garcia", endereco: "Rua Santa Catarina, nº 1.981 – Centro", telefone: "(14) 3733-2555" },
   { nome: "PrevSaúde", especialidade: "Consultas Médicas", endereco: "Consulte no agendamento", telefone: "(14) 99818-4440" },
-  { nome: "Clínica Áudio On", especialidade: "Otorrinolaringologia", profissional: "Dra. Thais Cristina Matuo", endereco: "Rua Santa Catarina, nÂº 1.981 – Centro", telefone: "(14) 3731-7228" },
-  { nome: "Clínica Asclin", especialidade: "Nefrologia", profissional: "Dra. Luciana Aparecida Uiema", endereco: "Av. Carlos Ramires, nÂº 982", telefone: "(14) 99172-4382" },
-  { nome: "Clínica Asclin", especialidade: "Pediatria", profissional: "Dra. Melina Giroto Tazinassi", endereco: "Av. Carlos Ramires, nÂº 982", telefone: "(14) 99172-4382" },
-  { nome: "Clínica de Urologia", especialidade: "Urologia", profissional: "Dr. Paulo Roberto Ismael Lutti", endereco: "Av. Pinheiro Machado, nÂº 1.206 – Centro", telefone: "(14) 3733-6381" },
-  { nome: "Clínica Fernandes", especialidade: "Pediatria", profissional: "Dr. Vladimir Lopes Fernandes", endereco: "Rua Voluntários de Avaré, nÂº 1.127", telefone: "(14) 3732-7018" },
-  { nome: "Clínica Médica Dr. Ernesto Albuquerque", especialidade: "Pediatria", endereco: "Largo São Benedito, nÂº 103 – Centro", telefone: "(14) 3732-2486" },
-  { nome: "Clínica Neurológica", especialidade: "Neurologia", profissional: "Dr. Vicente José Schiavão", endereco: "Rua Domiciano Santana, nÂº 1.096", telefone: "(14) 3732-4887" },
-  { nome: "Clínica Oftalmológica", especialidade: "Oftalmologia", profissional: "Dr. Patrick Dias", endereco: "Rua Domiciano Santana, nÂº 1.306 – Centro", telefone: "(14) 99135-1840" },
-  { nome: "Clínica Santa Luzia", especialidade: "Oftalmologia", profissional: "Dr. José Antônio Batista Junior", endereco: "Rua Pará, nÂº 1.039 – Centro", telefone: "(14) 3732-7209" },
-  { nome: "Clínica São Lucas", especialidade: "Pediatria", profissional: "Dr. Nilson Calamita Filho", endereco: "Rua Domiciano Santana, nÂº 1.269", telefone: "(14) 3732-0968" },
-  { nome: "Clínica São Luiz", especialidade: "Otorrinolaringologia", profissional: "Dr. Marcos Ceoloto Galati", endereco: "Rua Domiciano Santana, nÂº 270 – Centro", telefone: "(14) 3733-2375" },
-  { nome: "Clínica OstheoFoot", especialidade: "Pilates â€¢ Palmilhas Posturais", endereco: "Rua Rio Grande do Norte, nÂº 840 – Centro", telefone: "(14) 3733-2230" },
-  { nome: "Espaço Estimular", especialidade: "Neuropsicopedagogia", profissional: "Dra. Janaína Medeiros", endereco: "Rua Tenente Apiaí, nÂº 1.174 – Bairro Alto", telefone: "(14) 99691-2928" },
-  { nome: "Espaço Saúde", especialidade: "Cirurgia Vascular", profissional: "Dr. Luciano O. Salgado de Souza", endereco: "Av. Gilberto Filgueiras, nÂº 1.149 – Alto da Colina", telefone: "(14) 99677-8080" },
-  { nome: "IKOO", especialidade: "Neurologia", profissional: "Dra. Thaís Fagnani Machado", endereco: "Av. Ângelo Contrucci, nÂº 651 – Alto da Colina II", telefone: "(14) 3733-3000" },
-  { nome: "Neurocirurgia", especialidade: "Neurocirurgia", profissional: "Dr. Marco Aurélio Pina", endereco: "Praça Rui Barbosa, nÂº 100 – Centro", telefone: "(14) 3733-4698" },
+  { nome: "Clínica Áudio On", especialidade: "Otorrinolaringologia", profissional: "Dra. Thais Cristina Matuo", endereco: "Rua Santa Catarina, nº 1.981 – Centro", telefone: "(14) 3731-7228" },
+  { nome: "Clínica Asclin", especialidade: "Nefrologia", profissional: "Dra. Luciana Aparecida Uiema", endereco: "Av. Carlos Ramires, nº 982", telefone: "(14) 99172-4382" },
+  { nome: "Clínica Asclin", especialidade: "Pediatria", profissional: "Dra. Melina Giroto Tazinassi", endereco: "Av. Carlos Ramires, nº 982", telefone: "(14) 99172-4382" },
+  { nome: "Clínica de Urologia", especialidade: "Urologia", profissional: "Dr. Paulo Roberto Ismael Lutti", endereco: "Av. Pinheiro Machado, nº 1.206 – Centro", telefone: "(14) 3733-6381" },
+  { nome: "Clínica Fernandes", especialidade: "Pediatria", profissional: "Dr. Vladimir Lopes Fernandes", endereco: "Rua Voluntários de Avaré, nº 1.127", telefone: "(14) 3732-7018" },
+  { nome: "Clínica Médica Dr. Ernesto Albuquerque", especialidade: "Pediatria", endereco: "Largo São Benedito, nº 103 – Centro", telefone: "(14) 3732-2486" },
+  { nome: "Clínica Neurológica", especialidade: "Neurologia", profissional: "Dr. Vicente José Schiavão", endereco: "Rua Domiciano Santana, nº 1.096", telefone: "(14) 3732-4887" },
+  { nome: "Clínica Oftalmológica", especialidade: "Oftalmologia", profissional: "Dr. Patrick Dias", endereco: "Rua Domiciano Santana, nº 1.306 – Centro", telefone: "(14) 99135-1840" },
+  { nome: "Clínica Santa Luzia", especialidade: "Oftalmologia", profissional: "Dr. José Antônio Batista Junior", endereco: "Rua Pará, nº 1.039 – Centro", telefone: "(14) 3732-7209" },
+  { nome: "Clínica São Lucas", especialidade: "Pediatria", profissional: "Dr. Nilson Calamita Filho", endereco: "Rua Domiciano Santana, nº 1.269", telefone: "(14) 3732-0968" },
+  { nome: "Clínica São Luiz", especialidade: "Otorrinolaringologia", profissional: "Dr. Marcos Ceoloto Galati", endereco: "Rua Domiciano Santana, nº 270 – Centro", telefone: "(14) 3733-2375" },
+  { nome: "Clínica OstheoFoot", especialidade: "Pilates • Palmilhas Posturais", endereco: "Rua Rio Grande do Norte, nº 840 – Centro", telefone: "(14) 3733-2230" },
+  { nome: "Espaço Estimular", especialidade: "Neuropsicopedagogia", profissional: "Dra. Janaína Medeiros", endereco: "Rua Tenente Apiaí, nº 1.174 – Bairro Alto", telefone: "(14) 99691-2928" },
+  { nome: "Espaço Saúde", especialidade: "Cirurgia Vascular", profissional: "Dr. Luciano O. Salgado de Souza", endereco: "Av. Gilberto Filgueiras, nº 1.149 – Alto da Colina", telefone: "(14) 99677-8080" },
+  { nome: "IKOO", especialidade: "Neurologia", profissional: "Dra. Thaís Fagnani Machado", endereco: "Av. Ângelo Contrucci, nº 651 – Alto da Colina II", telefone: "(14) 3733-3000" },
+  { nome: "Neurocirurgia", especialidade: "Neurocirurgia", profissional: "Dr. Marco Aurélio Pina", endereco: "Praça Rui Barbosa, nº 100 – Centro", telefone: "(14) 3733-4698" },
 ];
 
 const clinicasExames: Clinica[] = [
-  { nome: "Centromed", especialidade: "Exames de Imagem", endereco: "Rua Goiás, nÂº 1.351 – Centro", telefone: "(14) 3732-1234" },
-  { nome: "Centro de Radiologia – Unimed", especialidade: "Exames de Imagem", endereco: "Rua Santa Catarina, nÂº 1.981 – Bairro Alto", telefone: "(14) 3733-7571" },
-  { nome: "Clínica Radiodoctor", especialidade: "Exames de Imagem", endereco: "Largo Santa Cruz, nÂº 808 – Centro", telefone: "(14) 3732-4316" },
-  { nome: "CROD", especialidade: "Radiologia Odontológica Digital", endereco: "Rua Goiás, nÂº 1.351 – Centro", telefone: "(14) 3733-1418" },
-  { nome: "UDI – Ressonância Magnética", especialidade: "Ressonância", endereco: "Rua Mato Grosso, nÂº 800 – Centro", telefone: "(14) 3732-3264" },
+  { nome: "Centromed", especialidade: "Exames de Imagem", endereco: "Rua Goiás, nº 1.351 – Centro", telefone: "(14) 3732-1234" },
+  { nome: "Centro de Radiologia – Unimed", especialidade: "Exames de Imagem", endereco: "Rua Santa Catarina, nº 1.981 – Bairro Alto", telefone: "(14) 3733-7571" },
+  { nome: "Clínica Radiodoctor", especialidade: "Exames de Imagem", endereco: "Largo Santa Cruz, nº 808 – Centro", telefone: "(14) 3732-4316" },
+  { nome: "CROD", especialidade: "Radiologia Odontológica Digital", endereco: "Rua Goiás, nº 1.351 – Centro", telefone: "(14) 3733-1418" },
+  { nome: "UDI – Ressonância Magnética", especialidade: "Ressonância", endereco: "Rua Mato Grosso, nº 800 – Centro", telefone: "(14) 3732-3264" },
   { nome: "Laboratório Ivan Garcia", especialidade: "Análises Clínicas", endereco: "Consultar no agendamento", telefone: "(14) 3732-0202" },
   { nome: "Clínica Imagem", especialidade: "Exames de Imagem", endereco: "Consultar no agendamento", telefone: "(14) 3732-0202" },
 ];
 
 const clinicasOutras: Clinica[] = [
-  { nome: "Organização Terra Branca – Bauru/SP", especialidade: "Diversas", endereco: "Praça Dom Pedro II, nÂº 4-74 – Centro", telefone: "(14) 3223-8011" },
-  { nome: "Clínica Cliniprev – Botucatu/SP", especialidade: "Cardiologia, Clínico Geral, Dermatologia, Ginecologia, Oftalmologia, Ortopedia, Odontologia", endereco: "Av. Santana, nÂº 525 – Centro", telefone: "(14) 3361-6035" },
-  { nome: "Dr. José Ricardo P. Rodrigues – Botucatu/SP", especialidade: "Ginecologia, Obstetrícia e Mastologia", endereco: "Praça Isabel Arruda, nÂº 157 – Centro", telefone: "(14) 3882-5515" },
-  { nome: "Clínica Saúde – Lençóis Paulista/SP", especialidade: "Fonoaudiologia, Psiquiatria, Psicologia, Odontologia", endereco: "Av. 25 de Janeiro, nÂº 207 – Centro", telefone: "(14) 3264-3886" },
+  { nome: "Organização Terra Branca – Bauru/SP", especialidade: "Diversas", endereco: "Praça Dom Pedro II, nº 4-74 – Centro", telefone: "(14) 3223-8011" },
+  { nome: "Clínica Cliniprev – Botucatu/SP", especialidade: "Cardiologia, Clínico Geral, Dermatologia, Ginecologia, Oftalmologia, Ortopedia, Odontologia", endereco: "Av. Santana, nº 525 – Centro", telefone: "(14) 3361-6035" },
+  { nome: "Dr. José Ricardo P. Rodrigues – Botucatu/SP", especialidade: "Ginecologia, Obstetrícia e Mastologia", endereco: "Praça Isabel Arruda, nº 157 – Centro", telefone: "(14) 3882-5515" },
+  { nome: "Clínica Saúde – Lençóis Paulista/SP", especialidade: "Fonoaudiologia, Psiquiatria, Psicologia, Odontologia", endereco: "Av. 25 de Janeiro, nº 207 – Centro", telefone: "(14) 3264-3886" },
 ];
 
 function ClinicaCard({ c }: { c: Clinica }) {
@@ -194,8 +195,36 @@ export default function PrevSaude() {
   }, [Autoplay({ delay: 6000, stopOnInteraction: false })]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const onSelect = useCallback(() => { if (emblaApi) setActiveIndex(emblaApi.selectedScrollSnap()); }, [emblaApi]);
-  useEffect(() => { if (!emblaApi) return; onSelect(); emblaApi.on("select", onSelect); return () => { emblaApi.off("select", onSelect); }; }, [emblaApi, onSelect]);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setActiveIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+    return () => { emblaApi.off("select", onSelect); };
+  }, [emblaApi, onSelect]);
+
+  const scrollPrev = useCallback(() => {
+    if (!emblaApi) return;
+    emblaApi.scrollPrev();
+    emblaApi.plugins().autoplay?.reset();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (!emblaApi) return;
+    emblaApi.scrollNext();
+    emblaApi.plugins().autoplay?.reset();
+  }, [emblaApi]);
+
+  const handleDotClick = useCallback((index: number) => {
+    if (!emblaApi) return;
+    emblaApi.scrollTo(index);
+    emblaApi.plugins().autoplay?.reset();
+  }, [emblaApi]);
 
   const filteredEspecialidades = Object.entries(especialidades).filter(([esp, docs]) => {
     const searchLower = searchTerm.toLowerCase();
@@ -204,67 +233,109 @@ export default function PrevSaude() {
 
   return (
     <>
-      {/* â•â•â• HERO CAROUSEL â•â•â• */}
-      <section className="relative h-[85vh] min-h-[600px] overflow-hidden">
-        <div ref={emblaRef} className="h-full">
+      {/* ── HERO CAROUSEL ── */}
+      <section className="relative h-[85vh] min-h-[600px] flex items-center overflow-hidden">
+        
+        {/* ── LAYER 1: Imagens deslizando (Embla) ─────────────────────── */}
+        <div className="absolute inset-0 z-0" ref={emblaRef} style={{ overflow: 'hidden' }}>
           <div className="flex h-full">
             {heroSlides.map((slide, i) => (
-              <div key={i} className="relative flex-[0_0_100%] min-w-0 h-full">
-                <img src={slide.img} alt={slide.title} className="absolute inset-0 w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
-                <div className="absolute inset-0 flex items-end pb-24 md:pb-32">
-                  <div className="section-container w-full">
-                    <motion.div
-                      key={`slide-${i}-${activeIndex}`}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={activeIndex === i ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                      transition={{ 
-                        duration: 0.6, 
-                        ease: [0.22, 1, 0.36, 1] 
-                      }}
-                    >
-                      <span className="inline-block px-4 py-1.5 rounded-full bg-azure/20 text-azure text-sm font-medium mb-4 backdrop-blur-sm border border-azure/30">
-                        PrevSaúde Avaré
-                      </span>
-                      <h1 className="text-4xl md:text-6xl font-bold text-white leading-tight max-w-2xl">
-                        {slide.title}
-                      </h1>
-                      <p className="text-lg md:text-xl text-white/80 mt-4 max-w-xl">
-                        {slide.sub}
-                      </p>
-                      <div className="flex flex-wrap gap-4 mt-8">
-                        <a href="https://wa.me/551437320202" target="_blank" rel="noopener noreferrer"
-                          className="btn-primary-dark">
-                          Agende sua consulta
-                        </a>
-                        <ResultsDialog>
-                          <button className="btn-outline-dark flex items-center gap-2">
-                            Acessar resultados <ArrowRight className="w-4 h-4" />
-                          </button>
-                        </ResultsDialog>
-                        <a href="#especialidades"
-                          className="text-white/60 hover:text-white transition-colors text-sm font-medium underline underline-offset-4">
-                          Ver especialidades
-                        </a>
-                      </div>
-                    </motion.div>
-                  </div>
-                </div>
+              <div key={i} className="min-w-0 shrink-0 grow-0 basis-full relative h-full">
+                <img
+                  src={slide.img}
+                  alt={slide.title}
+                  className="w-full h-full object-cover"
+                />
               </div>
             ))}
           </div>
         </div>
 
-        {/* dots */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+        {/* ── LAYER 2: Overlay duplo ──────────────────────────────────── */}
+        {/* Base escura uniforme */}
+        <div className="absolute inset-0 z-10 bg-black/45 pointer-events-none" />
+        {/* Gradiente direcional */}
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/65 via-black/35 to-transparent pointer-events-none" />
+
+        {/* ── LAYER 3: Conteúdo animado (AnimatePresence) ──────────────── */}
+        <div className="relative z-20 section-container w-full">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, y: 28 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              className="max-w-2xl"
+            >
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-xl border border-white/20 shadow-[0_4px_24px_-4px_rgba(255,255,255,0.08)] mb-8">
+                <span className="w-2 h-2 rounded-full bg-azure animate-pulse" />
+                <span className="text-sm font-medium text-primary-foreground/90">
+                  PrevSaúde Avaré
+                </span>
+              </span>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+                {heroSlides[activeIndex].title}
+              </h1>
+              <p className="text-lg md:text-xl text-white/80 mb-10 leading-relaxed max-w-xl">
+                {heroSlides[activeIndex].sub}
+              </p>
+              <div className="flex flex-wrap items-center gap-4">
+                <a href="https://wa.me/551437320202" target="_blank" rel="noopener noreferrer"
+                  className="btn-primary-dark text-base">
+                  Agende sua consulta
+                </a>
+                <ResultsDialog>
+                  <button className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold transition-all duration-200 bg-white text-primary border border-white hover:bg-white/90 hover:scale-[1.02] active:scale-[0.98] text-base shadow-md hover:shadow-lg">
+                    Acessar resultados <ArrowRight className="w-4 h-4" />
+                  </button>
+                </ResultsDialog>
+                <a href="#especialidades"
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold transition-all duration-200 border border-white/30 text-white bg-white/10 hover:bg-white/20 hover:scale-[1.02] active:scale-[0.98] text-base backdrop-blur-sm shadow-sm">
+                  <Stethoscope className="w-4 h-4 text-white/90" /> Ver especialidades
+                </a>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* ── LAYER 4: Controles de navegação ──────────────────────────── */}
+        {/* Seta esquerda */}
+        <button
+          onClick={scrollPrev}
+          className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/10 hover:bg-white/25 border border-white/25 text-white hidden sm:flex items-center justify-center transition-all duration-200 backdrop-blur-md shadow-lg hover:scale-105 active:scale-95 group"
+          aria-label="Slide anterior"
+        >
+          <ChevronLeft className="w-6 h-6 transition-transform duration-200 group-hover:-translate-x-0.5" />
+        </button>
+
+        {/* Seta direita */}
+        <button
+          onClick={scrollNext}
+          className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/10 hover:bg-white/25 border border-white/25 text-white hidden sm:flex items-center justify-center transition-all duration-200 backdrop-blur-md shadow-lg hover:scale-105 active:scale-95 group"
+          aria-label="Próximo slide"
+        >
+          <ChevronRight className="w-6 h-6 transition-transform duration-200 group-hover:translate-x-0.5" />
+        </button>
+
+        {/* Dots */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex gap-2">
           {heroSlides.map((_, i) => (
-            <button key={i} onClick={() => emblaApi?.scrollTo(i)}
-              className={`h-2 rounded-full transition-all duration-500 ${activeIndex === i ? "w-10 bg-azure" : "w-2 bg-white/40 hover:bg-white/60"}`} />
+            <button
+              key={i}
+              onClick={() => handleDotClick(i)}
+              className={`h-2.5 rounded-full transition-all duration-300 ${
+                i === activeIndex
+                  ? "bg-white w-8"
+                  : "bg-white/40 hover:bg-white/60 w-2.5"
+              }`}
+              aria-label={`Ir para slide ${i + 1}`}
+            />
           ))}
         </div>
 
         {/* scroll indicator */}
-        <motion.div className="absolute bottom-8 right-8 z-10" animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2 }}>
+        <motion.div className="absolute bottom-8 right-8 z-10 hidden md:block" animate={{ y: [0, 8, 0] }} transition={{ repeat: Infinity, duration: 2 }}>
           <ChevronDown className="w-6 h-6 text-white/60" />
         </motion.div>
       </section>

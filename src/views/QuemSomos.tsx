@@ -2,7 +2,7 @@
 import PageHero from "@/components/PageHero";
 import ScrollReveal from "@/components/ScrollReveal";
 import Counter from "@/components/Counter";
-const teamImg = "/assets/quem-somos-final.jpg";
+const teamImg = "/assets/quem-somos-inteira.webp";
 import { Heart, Eye, Target, ArrowRight } from "lucide-react";
 import Link from 'next/link';
 
@@ -43,8 +43,8 @@ export default function QuemSomos() {
       {/* History */}
       <section className="section-padding bg-background">
         <div className="section-container">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <ScrollReveal>
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            <ScrollReveal className="lg:col-span-5">
               <span className="text-sm font-semibold text-azure uppercase tracking-widest">Nossa História</span>
               <h2 className="mt-3 text-2xl md:text-3xl font-bold text-foreground leading-tight">
                 Uma história de cuidado e respeito
@@ -61,17 +61,13 @@ export default function QuemSomos() {
 
             </ScrollReveal>
 
-            <ScrollReveal delay={0.2}>
+            <ScrollReveal className="lg:col-span-7" delay={0.2}>
               <div className="relative">
                 <img
                   src={teamImg}
                   alt="Equipe profissional da FUNSA"
-                  className="rounded-2xl shadow-2xl w-full object-cover aspect-[4/3]"
+                  className="rounded-2xl shadow-2xl w-full h-auto object-contain"
                 />
-                <div className="absolute -bottom-6 -left-6 p-6 glass-card rounded-2xl">
-                  <span className="text-3xl font-bold text-primary">1943</span>
-                  <p className="text-sm text-muted-foreground mt-1">Ano de fundação</p>
-                </div>
               </div>
             </ScrollReveal>
           </div>

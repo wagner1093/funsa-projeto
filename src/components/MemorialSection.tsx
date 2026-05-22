@@ -1,6 +1,6 @@
 import ScrollReveal from "./ScrollReveal";
 import { ArrowRight, Heart, Cross, MapPin } from "lucide-react";
-const memorialImg = "/assets/memorial-clean.jpg";
+const memorialImg = "/assets/quem-somos-slide.webp";
 
 export default function MemorialSection() {
   return (
@@ -19,19 +19,7 @@ export default function MemorialSection() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent opacity-60" />
               </div>
-              
-              {/* Floating Badge */}
-              <div className="absolute -bottom-6 -right-6 lg:right-10 p-6 glass-card border-azure/20 shadow-azure/10">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-azure/10 flex items-center justify-center group-hover:bg-azure group-hover:text-white transition-all duration-500 shadow-sm group-hover:shadow-azure/20">
-                    <Cross className="w-6 h-6 text-azure group-hover:text-white transition-colors duration-500" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold text-azure uppercase tracking-wider">Novo Conceito</p>
-                    <p className="text-lg font-bold text-foreground">Inovação e Paz</p>
-                  </div>
-                </div>
-              </div>
+
             </div>
           </ScrollReveal>
 

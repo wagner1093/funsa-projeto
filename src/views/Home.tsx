@@ -1,6 +1,6 @@
 'use client';
-import { motion } from "framer-motion";
-import { ArrowRight, ChevronDown, Clock, Stethoscope, Gift, Shield, Users, Award, Star, Heart, Truck, FileText, Flower2, Sparkles, Smartphone } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, ChevronDown, Clock, Stethoscope, Gift, Shield, Users, Award, Star, Heart, Truck, FileText, Flower2, Sparkles, Smartphone, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from 'next/link';
 import { useState, useEffect, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
@@ -14,8 +14,39 @@ import MemorialSection from "@/components/MemorialSection";
 import GallerySection from "@/components/GallerySection";
 
 const heroSlides = [
-  { img: "/assets/hero-home-clean.jpg", alt: "FUNSA – Ambiente sereno e acolhedor" },
-  { img: "/assets/hero-quem-somos-clean.jpg", alt: "FUNSA – Nossa História e Compromisso" },
+  {
+    img: "/assets/hero-home-clean.webp",
+    alt: "FUNSA – Ambiente sereno e acolhedor",
+    tag: "Funsa · Desde 1943",
+    title: "Cuidar é estar presente, com respeito e amor.",
+    desc: "Há mais de 80 anos cuidando de quem você ama com dignidade, respeito e profissionalismo. Atendimento humanizado 24 horas.",
+    btn1Text: "Fale Conosco",
+    btn1Link: "/contato",
+    btn2Text: "Conheça Nossos Planos",
+    btn2Link: "/plano",
+  },
+  {
+    img: "/assets/home-prevsaude-copia.webp",
+    alt: "PrevSaúde FUNSA",
+    tag: "PrevSaúde · Cuidados Médicos",
+    title: "Sua saúde e tranquilidade em primeiro lugar.",
+    desc: "Convênio médico com consultas e exames em diversas especialidades, garantindo proteção e bem-estar para toda a sua família.",
+    btn1Text: "Ver Especialidades",
+    btn1Link: "/prevsaude",
+    btn2Text: "Fale Conosco",
+    btn2Link: "/contato",
+  },
+  {
+    img: "/assets/foto-quem-somos-copia.webp",
+    alt: "Memorial Pôr do Sol",
+    tag: "Memorial Pôr do Sol",
+    title: "Um espaço de paz, homenagem e memória.",
+    desc: "Infraestrutura acolhedora e serviços humanizados para prestar as mais belas e dignas homenagens, eternizando momentos especiais.",
+    btn1Text: "Conhecer o Memorial",
+    btn1Link: "/quem-somos",
+    btn2Text: "Fale Conosco",
+    btn2Link: "/contato",
+  },
 ];
 
 const highlights = [
@@ -59,7 +90,7 @@ const servicosFunerarios = [
   {
     icon: Truck,
     title: "Traslados Nacional e Internacional",
-    desc: "Transporte do corpo com segurança e agilidade, COM LIMITE DE QUILOMETRAGEM PARA ASSOCIADOS DE ACORDO COM PLANO CONTRATADO.",
+    desc: "Transporte do corpo com segurança e agilidade, com limite de quilometragem para associados de acordo com o plano contratado.",
   },
   {
     icon: Sparkles,
@@ -108,99 +139,137 @@ export default function Home() {
     return () => { emblaApi.off("select", onSelect); };
   }, [emblaApi, onSelect]);
 
+  const scrollPrev = useCallback(() => {
+    if (!emblaApi) return;
+    emblaApi.scrollPrev();
+    emblaApi.plugins().autoplay?.reset();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (!emblaApi) return;
+    emblaApi.scrollNext();
+    emblaApi.plugins().autoplay?.reset();
+  }, [emblaApi]);
+
+  const handleDotClick = useCallback((index: number) => {
+    if (!emblaApi) return;
+    emblaApi.scrollTo(index);
+    emblaApi.plugins().autoplay?.reset();
+  }, [emblaApi]);
+
   return (
     <>
       {/* Hero */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
-        {/* Carousel background */}
-        <div className="absolute inset-0" ref={emblaRef}>
+
+        {/* ── LAYER 1: Imagens deslizando (Embla) ─────────────────────── */}
+        <div className="absolute inset-0 z-0" ref={emblaRef} style={{ overflow: 'hidden' }}>
           <div className="flex h-full">
             {heroSlides.map((slide, i) => (
-              <div key={i} className="min-w-0 shrink-0 grow-0 basis-full relative h-screen">
-                <img src={slide.img} alt={slide.alt} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/40" />
+              <div key={i} className="min-w-0 shrink-0 grow-0 basis-full relative h-full">
+                <img
+                  src={slide.img}
+                  alt={slide.alt}
+                  className="w-full h-full object-cover"
+                />
               </div>
             ))}
           </div>
         </div>
 
+        {/* ── LAYER 2: Overlay duplo — cobertura total garantida ──────── */}
+        {/* Base escura uniforme cobrindo 100% da imagem */}
+        <div className="absolute inset-0 z-10 bg-primary/55 pointer-events-none" />
+        {/* Gradiente direcional por cima para foco no texto */}
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-primary/60 via-primary/30 to-transparent pointer-events-none" />
+
+        {/* ── LAYER 3: Conteúdo animado independente (AnimatePresence) ─ */}
+        <div className="relative z-20 section-container w-full py-32 md:py-0">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, y: 28 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              className="max-w-2xl"
+            >
+              {/* Tag */}
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-xl border border-white/20 shadow-[0_4px_24px_-4px_rgba(255,255,255,0.08)] mb-8">
+                <span className="w-2 h-2 rounded-full bg-azure animate-pulse" />
+                <span className="text-sm font-medium text-primary-foreground/90">
+                  {heroSlides[activeIndex].tag}
+                </span>
+              </div>
+
+              {/* Título */}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6">
+                {heroSlides[activeIndex].title}
+              </h1>
+
+              {/* Descrição */}
+              <p className="text-lg md:text-xl text-primary-foreground/80 mb-10 leading-relaxed max-w-xl">
+                {heroSlides[activeIndex].desc}
+              </p>
+
+              {/* Botões */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href={heroSlides[activeIndex].btn1Link} className="btn-primary-dark text-base">
+                  {heroSlides[activeIndex].btn1Text}
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link href={heroSlides[activeIndex].btn2Link} className="btn-outline-dark text-base">
+                  {heroSlides[activeIndex].btn2Text}
+                </Link>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* ── LAYER 4: Controles de navegação ──────────────────────────── */}
+
+        {/* Seta esquerda */}
+        <button
+          onClick={scrollPrev}
+          className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/10 hover:bg-white/25 border border-white/25 text-white sm:flex items-center justify-center transition-all duration-200 backdrop-blur-md shadow-lg hover:scale-105 active:scale-95 group hidden"
+          aria-label="Slide anterior"
+        >
+          <ChevronLeft className="w-6 h-6 transition-transform duration-200 group-hover:-translate-x-0.5" />
+        </button>
+
+        {/* Seta direita */}
+        <button
+          onClick={scrollNext}
+          className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/10 hover:bg-white/25 border border-white/25 text-white sm:flex items-center justify-center transition-all duration-200 backdrop-blur-md shadow-lg hover:scale-105 active:scale-95 group hidden"
+          aria-label="Próximo slide"
+        >
+          <ChevronRight className="w-6 h-6 transition-transform duration-200 group-hover:translate-x-0.5" />
+        </button>
+
         {/* Dots */}
-        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 z-30 flex gap-2">
           {heroSlides.map((_, i) => (
             <button
               key={i}
-              onClick={() => emblaApi?.scrollTo(i)}
-              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === activeIndex ? "bg-azure w-8" : "bg-white/40 hover:bg-white/60"}`}
+              onClick={() => handleDotClick(i)}
+              className={`h-2.5 rounded-full transition-all duration-300 ${
+                i === activeIndex
+                  ? "bg-white w-8"
+                  : "bg-white/40 hover:bg-white/60 w-2.5"
+              }`}
               aria-label={`Ir para slide ${i + 1}`}
             />
           ))}
         </div>
 
-        <div className="relative z-10 section-container w-full py-32 md:py-0">
-          <div className="max-w-2xl">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-xl border border-white/20 shadow-[0_4px_24px_-4px_rgba(255,255,255,0.08)] mb-8"
-            >
-              <span className="w-2 h-2 rounded-full bg-azure animate-pulse" />
-              <span className="text-sm font-medium text-primary-foreground/90">Funsa Â· Desde 1943</span>
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.4 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground leading-tight mb-6"
-            >
-              Cuidar é estar presente, com respeito e amor.
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.6 }}
-              className="text-lg md:text-xl text-primary-foreground/80 mb-10 leading-relaxed max-w-xl"
-            >
-              Há mais de 80 anos cuidando de quem você ama com dignidade,
-              respeito e profissionalismo. Atendimento humanizado 24 horas.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.8 }}
-              className="flex flex-col sm:flex-row gap-4"
-            >
-              <Link
-                href="/contato"
-                className="btn-primary-dark text-base"
-              >
-                Fale Conosco
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                href="/plano"
-                className="btn-outline-dark text-base"
-              >
-                Conheça Nossos Planos
-              </Link>
-            </motion.div>
-          </div>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
-        >
-          <span className="flex flex-col items-center gap-1 text-primary-foreground/60">
-            <span className="text-xs font-medium">Saiba mais</span>
+        {/* Scroll hint */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30">
+          <span className="flex flex-col items-center gap-1 text-primary-foreground/50">
+            <span className="text-xs font-medium tracking-wider uppercase">Saiba mais</span>
             <ChevronDown className="w-5 h-5 animate-bounce" />
           </span>
-        </motion.div>
+        </div>
+
       </section>
 
       {/* Highlights Cards */}

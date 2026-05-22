@@ -2,14 +2,14 @@
 import { useState, useEffect, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import PageHero from "@/components/PageHero";
 import ScrollReveal from "@/components/ScrollReveal";
 import Link from 'next/link';
-import { Shield, Clock, Users, Heart, Truck, FileText, Flower2, Sparkles } from "lucide-react";
+import { Shield, Clock, Users, Heart, Truck, FileText, Flower2, ChevronLeft, ChevronRight } from "lucide-react";
 
 const bannerSlides = [
-  { img: "/assets/funeraria-slide-1-clean.jpg", title: "Atendimento Humanizado 24h", sub: "Suporte completo nos momentos mais difíceis com dignidade e respeito." },
-  { img: "/assets/funeraria-slide-2-clean.jpg", title: "Tradição e Confiança", sub: "Mais de 80 anos cuidando de famílias com excelência em serviços funerários." },
+  { img: "/assets/funeraria-slide-1.webp", alt: "Funerária - Slide 1" },
+  { img: "/assets/funeraria-slide-2.webp", alt: "Funerária - Slide 2" },
+  { img: "/assets/funeraria-slide-3.webp", alt: "Funerária - Slide 3" },
 ];
 
 const servicosFunerarios = [
@@ -21,7 +21,7 @@ const servicosFunerarios = [
   {
     icon: Truck,
     title: "Traslados Nacional e Internacional",
-    desc: "Transporte do corpo com segurança e agilidade, COM LIMITE DE QUILOMETRAGEM PARA ASSOCIADOS DE ACORDO COM PLANO CONTRATADO.",
+    desc: "Transporte do corpo com segurança e agilidade, com limite de quilometragem para associados de acordo com o plano contratado.",
   },
   {
     icon: Heart,
@@ -51,11 +51,10 @@ const servicosFunerarios = [
 ];
 
 export default function Funeraria() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ 
-    loop: true,
-    duration: 40,
-    skipSnaps: false
-  }, [Autoplay({ delay: 6000, stopOnInteraction: false })]);
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true, duration: 40, skipSnaps: false },
+    [Autoplay({ delay: 6000, stopOnInteraction: false })]
+  );
   const [activeIndex, setActiveIndex] = useState(0);
 
   const onSelect = useCallback(() => {
@@ -70,39 +69,96 @@ export default function Funeraria() {
     return () => { emblaApi.off("select", onSelect); };
   }, [emblaApi, onSelect]);
 
+  const scrollPrev = useCallback(() => {
+    if (!emblaApi) return;
+    emblaApi.scrollPrev();
+    emblaApi.plugins().autoplay?.reset();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (!emblaApi) return;
+    emblaApi.scrollNext();
+    emblaApi.plugins().autoplay?.reset();
+  }, [emblaApi]);
+
+  const handleDotClick = useCallback((index: number) => {
+    if (!emblaApi) return;
+    emblaApi.scrollTo(index);
+    emblaApi.plugins().autoplay?.reset();
+  }, [emblaApi]);
+
   return (
     <>
-      <PageHero
-        title="Funerária FUNSA"
-        subtitle="Há mais de 80 anos acolhendo famílias com respeito, empatia e compromisso."
-        breadcrumbs={[{ label: "Funerária", href: "/funeraria" }]}
-      />
+      {/* ── Cabeçalho da página (PageHero) ──────────────────────────────── */}
+      <section className="bg-primary py-16 px-4">
+        <div className="section-container">
+          <nav className="text-primary-foreground/50 text-sm mb-4">
+            <span>Home</span>
+            <span className="mx-2">›</span>
+            <span className="text-primary-foreground">Funerária</span>
+          </nav>
+          <h1 className="text-3xl md:text-4xl font-bold text-primary-foreground">Funerária</h1>
+          <p className="mt-3 text-primary-foreground/75 text-base max-w-xl">
+            Atendimento humanizado, 24 horas por dia, com respeito, dignidade e suporte completo à sua família.
+          </p>
+        </div>
+      </section>
 
-      {/* Banner Rotativo */}
-      <section className="relative h-[50vh] md:h-[60vh] overflow-hidden">
-        <div className="absolute inset-0" ref={emblaRef}>
+      {/* ── Slide de imagens ─────────────────────────────────────────────── */}
+      {/* Altura fixa de 60vh; imagem preenche todo o espaço sem barras laterais */}
+      <section className="relative overflow-hidden" style={{ height: '60vh' }}>
+
+        {/* Embla: o ref precisa estar no viewport com height:100% */}
+        <div ref={emblaRef} className="h-full" style={{ overflow: 'hidden' }}>
           <div className="flex h-full">
             {bannerSlides.map((slide, i) => (
-              <div key={i} className="min-w-0 shrink-0 grow-0 basis-full relative h-full">
-                <img src={slide.img} alt={slide.title} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-primary/40" />
+              <div key={i} className="min-w-0 shrink-0 grow-0 basis-full h-full">
+                <img
+                  src={slide.img}
+                  alt={slide.alt}
+                  className="w-full h-full object-cover"
+                />
               </div>
             ))}
           </div>
         </div>
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+
+        {/* Seta esquerda */}
+        <button
+          onClick={scrollPrev}
+          className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-black/25 hover:bg-black/50 border border-white/30 text-white hidden sm:flex items-center justify-center transition-all duration-200 backdrop-blur-sm shadow group"
+          aria-label="Slide anterior"
+        >
+          <ChevronLeft className="w-5 h-5 transition-transform duration-200 group-hover:-translate-x-0.5" />
+        </button>
+
+        {/* Seta direita */}
+        <button
+          onClick={scrollNext}
+          className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-black/25 hover:bg-black/50 border border-white/30 text-white hidden sm:flex items-center justify-center transition-all duration-200 backdrop-blur-sm shadow group"
+          aria-label="Próximo slide"
+        >
+          <ChevronRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-0.5" />
+        </button>
+
+        {/* Dots */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex gap-2">
           {bannerSlides.map((_, i) => (
             <button
               key={i}
-              onClick={() => emblaApi?.scrollTo(i)}
-              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === activeIndex ? "bg-azure w-8" : "bg-white/40 hover:bg-white/60"}`}
+              onClick={() => handleDotClick(i)}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                i === activeIndex
+                  ? "bg-white w-7"
+                  : "bg-white/50 hover:bg-white/80 w-2"
+              }`}
               aria-label={`Ir para slide ${i + 1}`}
             />
           ))}
         </div>
       </section>
 
-      {/* Texto institucional */}
+      {/* ── Texto institucional ──────────────────────────────────────────── */}
       <section className="section-padding bg-background">
         <div className="section-container max-w-4xl">
           <ScrollReveal>
@@ -122,7 +178,7 @@ export default function Funeraria() {
         </div>
       </section>
 
-      {/* Listagem de Serviços */}
+      {/* ── Listagem de Serviços ─────────────────────────────────────────── */}
       <section className="section-padding bg-muted/30">
         <div className="section-container">
           <ScrollReveal>
@@ -152,5 +208,3 @@ export default function Funeraria() {
     </>
   );
 }
-
-
