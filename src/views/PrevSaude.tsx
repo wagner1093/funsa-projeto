@@ -95,7 +95,7 @@ function ResultsDialog({ children, className }: { children: React.ReactNode, cla
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-center">Acessar Resultados</DialogTitle>
+          <DialogTitle className="text-center">Resultados de Exames</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <a
@@ -281,13 +281,13 @@ export default function PrevSaude() {
                 {heroSlides[activeIndex].sub}
               </p>
               <div className="flex flex-wrap items-center gap-4">
-                <a href="https://wa.me/551437320202" target="_blank" rel="noopener noreferrer"
+                <a href="https://wa.me/5514998184440" target="_blank" rel="noopener noreferrer"
                   className="btn-primary-dark text-base">
                   Agende sua consulta
                 </a>
                 <ResultsDialog>
                   <button className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold transition-all duration-200 bg-white text-primary border border-white hover:bg-white/90 hover:scale-[1.02] active:scale-[0.98] text-base shadow-md hover:shadow-lg">
-                    Acessar resultados <ArrowRight className="w-4 h-4" />
+                    Resultados de exames <ArrowRight className="w-4 h-4" />
                   </button>
                 </ResultsDialog>
                 <a href="#especialidades"
@@ -399,7 +399,7 @@ export default function PrevSaude() {
                   </p>
                   <ResultsDialog>
                     <button className="btn-primary flex items-center justify-center gap-2 w-full">
-                      Acessar Resultados <ArrowRight className="w-4 h-4" />
+                      Resultados de Exames <ArrowRight className="w-4 h-4" />
                     </button>
                   </ResultsDialog>
                 </div>
@@ -550,7 +550,7 @@ export default function PrevSaude() {
               Agende sua consulta e aproveite os benefícios exclusivos da PrevSaúde Avaré para toda a família.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <a href="https://wa.me/551437320202" target="_blank" rel="noopener noreferrer"
+              <a href="https://wa.me/5514998184440" target="_blank" rel="noopener noreferrer"
                 className="btn-primary-dark text-lg">
                 <Phone className="w-5 h-5" /> Agendar consulta
               </a>
