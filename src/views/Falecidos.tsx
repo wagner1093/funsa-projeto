@@ -1,7 +1,7 @@
 'use client';
 import PageHero from "@/components/PageHero";
 import ScrollReveal from "@/components/ScrollReveal";
-import { Cross, MessageCircle, Heart, Send, PhoneCall, Flower2 } from "lucide-react";
+import { Cross, MessageCircle, Heart, Send, Flower2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import {
@@ -97,7 +97,7 @@ export default function Falecidos() {
                   Expresse seu carinho através de arranjos florais. Visualize nosso catálogo e faça seu pedido.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <a href="/catalogo-homenagem.pdf" target="_blank" rel="noopener noreferrer" className="btn-primary-dark py-2 px-6 text-sm">
+                  <a href="/catalogo-flores-atualizado.pdf" target="_blank" rel="noopener noreferrer" className="btn-primary-dark py-2 px-6 text-sm">
                     Ver Catálogo
                   </a>
                   <a
@@ -122,40 +122,40 @@ export default function Falecidos() {
                 return (
                   <div
                     key={f.id || i}
-                    className="p-6 md:p-8 rounded-2xl bg-card border border-border/50 flex flex-col md:flex-row relative gap-4 sm:gap-6 hover:shadow-md transition-shadow"
+                    className="p-6 md:p-8 rounded-2xl bg-card border border-border/50 flex flex-col gap-4 hover:shadow-md transition-shadow"
                   >
-                    <div className="flex flex-1 items-start gap-4">
+                    {/* Top row: icon + info + date */}
+                    <div className="flex items-start gap-4">
                       {/* Icon or Image */}
                       {f.imagem ? (
-                        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden flex-shrink-0 mt-1 shadow-sm border border-border">
+                        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden flex-shrink-0 shadow-sm border border-border">
                           <img src={f.imagem} alt={f.nome} className="w-full h-full object-cover" />
                         </div>
                       ) : (
-                        <div className="w-14 h-14 rounded-full bg-azure/10 flex items-center justify-center flex-shrink-0 mt-1 shadow-sm">
+                        <div className="w-14 h-14 rounded-full bg-azure/10 flex items-center justify-center flex-shrink-0 shadow-sm">
                           <Cross className="w-6 h-6 text-azure" />
                         </div>
                       )}
 
                       {/* Info */}
                       <div className="flex-1 min-w-0">
-                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 md:gap-4 mb-2">
+                        {/* Name + Date on same row */}
+                        <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
                           <h3 className="font-serif text-2xl font-medium text-foreground break-words">
                             {f.nome}
                           </h3>
-                          <div className="md:absolute md:top-6 md:right-8">
-                            <span className="text-sm font-medium text-muted-foreground border border-border bg-white rounded-full px-4 py-1.5 flex-shrink-0 whitespace-nowrap shadow-sm">
-                              {f.data}
-                            </span>
-                          </div>
+                          <span className="text-sm font-medium text-muted-foreground border border-border bg-white rounded-full px-4 py-1.5 flex-shrink-0 whitespace-nowrap shadow-sm">
+                            {f.data}
+                          </span>
                         </div>
 
-                        <div className="mb-4">
+                        <div className="mb-3">
                           <span className="inline-block px-2 py-0.5 bg-azure/10 text-azure text-xs font-medium rounded-md">
                             {f.local}
                           </span>
                         </div>
 
-                        <div className="flex flex-wrap gap-x-6 gap-y-2 mt-2 text-sm text-foreground/80">
+                        <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-foreground/80">
                           <p>
                             <span className="font-medium text-muted-foreground">Velório:</span>{" "}
                             <span>{f.velorio}</span>
@@ -164,18 +164,12 @@ export default function Falecidos() {
                             <span className="font-medium text-muted-foreground">Sepultamento:</span>{" "}
                             <span>{f.sepultamento}</span>
                           </p>
-                          {f.contato_medico && (
-                            <p className="w-full mt-2 inline-flex items-center gap-1.5 px-3 py-1.5 bg-muted/50 border border-border/50 rounded-md text-primary font-medium">
-                              <PhoneCall className="w-4 h-4" /> Contato Médico: {f.contato_medico}
-                            </p>
-                          )}
                         </div>
                       </div>
                     </div>
 
-                    {/* Right side buttons container */}
-                    <div className="flex flex-row flex-wrap items-center justify-start md:justify-end gap-3 mt-4 md:mt-0 md:absolute md:bottom-6 md:right-8 pt-4 md:pt-0 border-t md:border-t-0 border-border/30">
-                      
+                    {/* Bottom row: action buttons */}
+                    <div className="flex flex-row flex-wrap items-center justify-end gap-3 pt-4 border-t border-border/30">
                       {/* Ver Homenagens Dialog */}
                       <Dialog>
                         <DialogTrigger asChild>

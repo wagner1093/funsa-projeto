@@ -223,7 +223,7 @@ export default function ClubeFunsa() {
         <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/65 via-black/35 to-transparent pointer-events-none" />
 
         {/* ── LAYER 3: Conteúdo animado (AnimatePresence) ──────────────── */}
-        <div className="relative z-20 section-container w-full">
+        <div className="relative z-20 section-container w-full px-12 sm:px-20 lg:px-28">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeIndex}

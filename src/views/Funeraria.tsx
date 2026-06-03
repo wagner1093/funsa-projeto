@@ -4,7 +4,8 @@ import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import ScrollReveal from "@/components/ScrollReveal";
 import Link from 'next/link';
-import { Shield, Clock, Users, Heart, Truck, FileText, Flower2, ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Shield, Clock, Users, Heart, Truck, FileText, Flower2, ChevronLeft, ChevronRight, Sparkles, CheckCircle, Phone, ArrowRight, ChevronDown } from "lucide-react";
 
 const bannerSlides = [
   { img: "/assets/funeraria-slide-1.webp", alt: "Funerária - Slide 1" },
@@ -16,37 +17,100 @@ const servicosFunerarios = [
   {
     icon: Clock,
     title: "Atendimento Funerário 24h",
-    desc: "Plantão permanente com equipe especializada para atendimento imediato a qualquer hora do dia ou da noite.",
+    description: "Plantão permanente para atendimento imediato com dignidade e respeito. Nossa equipe está pronta para oferecer todo o suporte necessário a qualquer momento do dia ou da noite.",
+    details: [
+      "Atendimento imediato em qualquer horário",
+      "Equipe especializada e treinada",
+      "Suporte completo em todas as etapas",
+      "Documentação e providências legais",
+    ],
+    image: "/assets/atendimento-24h.webp",
+    cta: "Solicitar Atendimento Imediato",
+    ctaHref: "tel:1437320202",
   },
   {
     icon: Truck,
     title: "Traslados Nacional e Internacional",
-    desc: "Transporte do corpo com segurança e agilidade, com limite de quilometragem para associados de acordo com o plano contratado.",
+    description: "Realizamos o traslado do corpo com total segurança e agilidade, com limite de quilometragem para associados de acordo com o plano contratado.",
+    details: [
+      "Traslado conforme limite do plano",
+      "Veículos preparados e higienizados",
+      "Acompanhamento durante todo o percurso",
+      "Cobertura nacional e internacional",
+    ],
+    image: "/assets/traslados.webp",
+    cta: "Fale Conosco",
+    ctaHref: "/contato",
   },
   {
-    icon: Heart,
+    icon: Sparkles,
     title: "Tanatopraxia",
-    desc: "Técnica de preparação e conservação do corpo executada por profissionais qualificados, garantindo uma despedida mais serena.",
+    description: "Técnica de preparação e conservação do corpo executada por profissionais qualificados, garantindo uma aparência serena para um último adeus digno e tranquilo aos familiares.",
+    details: [
+      "Preparação profissional and sanitária",
+      "Proporciona uma despedida mais tranquila",
+      "Exigência legal para traslados aéreos",
+      "Garantia de segurança para homenagens longas"
+    ],
+    image: "/assets/tanatopraxia.webp",
+    cta: "Saiba Mais",
+    ctaHref: "/contato",
   },
   {
     icon: Users,
     title: "Cerimônias de Despedidas",
-    desc: "Homenagens focadas no respeito à memória de quem partiu, prestando todo o apoio aos familiares e amigos no momento da despedida.",
+    description: "Organizamos homenagens e cerimônias focadas no respeito à memória de quem partiu, prestando todo o apoio aos familiares e amigos no momento da despedida, alinhado às suas crenças.",
+    details: [
+      "Apoio completo à família durante o evento",
+      "Organização e coordenação da cerimônia",
+      "Respeito às crenças e desejos da família",
+      "Opções personalizadas de homenagem",
+    ],
+    image: "/assets/cerimonias.webp",
+    cta: "Saiba Mais",
+    ctaHref: "/contato",
   },
   {
     icon: Flower2,
     title: "Ornamentação e Floricultura",
-    desc: "Arranjos florais e ornamentação personalizada para homenagear e marcar a cerimônia com beleza e carinho.",
+    description: "Oferecemos serviços de floricultura e ornamentação para que a cerimônia de despedida seja marcada por beleza e carinho, com arranjos personalizados conforme a preferência da família.",
+    details: [
+      "Coroas e arranjos de flores selecionadas",
+      "Ornamentação caprichosa e elegante",
+      "Flores naturais com durabilidade",
+      "Personalização conforme o desejo da família",
+    ],
+    image: "/assets/ornamentacao.webp",
+    cta: "Fale Conosco",
+    ctaHref: "/contato",
   },
   {
     icon: FileText,
     title: "Documentação e Legalização",
-    desc: "Cuidamos de toda a burocracia: atestado de óbito, registro em cartório e providências legais.",
+    description: "Cuidamos de toda a burocracia e documentação necessária, desde o atestado de óbito até o registro em cartório, para que a família não precise se preocupar com trâmites legais.",
+    details: [
+      "Emissão e registro de certidão de óbito",
+      "Providências em cartórios e órgãos públicos",
+      "Orientação completa e dedicada",
+      "Acompanhamento jurídico especializado",
+    ],
+    image: "/assets/documentacao.webp",
+    cta: "Saiba Mais",
+    ctaHref: "/contato",
   },
   {
     icon: Shield,
     title: "Cremação",
-    desc: "Orientação completa sobre o processo de cremação, documentação e cerimônia de despedida.",
+    description: "Oferecemos o serviço de cremação com todo o respeito e cuidado, orientando a família em cada etapa do processo e garantindo dignidade na despedida.",
+    details: [
+      "Orientação completa sobre o processo",
+      "Documentação e autorizações necessárias",
+      "Urnas cinerárias diversas",
+      "Cerimônia de despedida personalizada",
+    ],
+    image: "/assets/cremacao.webp",
+    cta: "Fale Conosco",
+    ctaHref: "/contato",
   },
 ];
 
@@ -56,6 +120,7 @@ export default function Funeraria() {
     [Autoplay({ delay: 6000, stopOnInteraction: false })]
   );
   const [activeIndex, setActiveIndex] = useState(0);
+  const [activeService, setActiveService] = useState<number | null>(0);
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
@@ -105,8 +170,8 @@ export default function Funeraria() {
       </section>
 
       {/* ── Slide de imagens ─────────────────────────────────────────────── */}
-      {/* Altura fixa de 60vh; imagem preenche todo o espaço sem barras laterais */}
-      <section className="relative overflow-hidden" style={{ height: '60vh' }}>
+      {/* Altura fixa de 80vh; imagem preenche todo o espaço sem barras laterais */}
+      <section className="relative overflow-hidden" style={{ height: '80vh' }}>
 
         {/* Embla: o ref precisa estar no viewport com height:100% */}
         <div ref={emblaRef} className="h-full" style={{ overflow: 'hidden' }}>
@@ -178,30 +243,209 @@ export default function Funeraria() {
         </div>
       </section>
 
-      {/* ── Listagem de Serviços ─────────────────────────────────────────── */}
+      {/* Listagem de Serviços (Interativa / Compacta) */}
       <section className="section-padding bg-muted/30">
         <div className="section-container">
           <ScrollReveal>
-            <div className="text-center max-w-2xl mx-auto mb-16">
+            <div className="text-center max-w-2xl mx-auto mb-12">
               <span className="text-sm font-semibold text-azure uppercase tracking-widest">Nossos Serviços</span>
               <h2 className="mt-3 text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">
                 Serviços Funerários Completos
               </h2>
+              <p className="mt-4 text-muted-foreground">
+                Estrutura completa e humanizada para dar todo o suporte necessário à sua família nos momentos mais difíceis.
+              </p>
             </div>
           </ScrollReveal>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {servicosFunerarios.map((s, i) => (
-              <ScrollReveal key={s.title} delay={i * 0.05}>
-                <Link href="/servicos" className="block p-6 rounded-2xl bg-card border border-border/50 h-full hover:shadow-md transition-all hover:-translate-y-1">
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                    <s.icon className="w-6 h-6 text-primary" />
+          {/* Layout Desktop: Abas Lado a Lado (Escondido no Mobile) */}
+          <div className="hidden lg:grid lg:grid-cols-12 gap-8 items-start">
+            {/* Abas - Esquerda no Desktop */}
+            <div className="lg:col-span-4 flex lg:flex-col gap-3 w-full">
+              {servicosFunerarios.map((s, i) => (
+                <button
+                  key={s.title}
+                  onClick={() => setActiveService(i)}
+                  className={`flex items-center gap-4 px-5 py-4 rounded-2xl border text-left transition-all duration-300 w-full ${
+                    i === activeService
+                      ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/15 scale-[1.02]"
+                      : "bg-card hover:bg-muted/50 border-border/50 text-foreground"
+                  }`}
+                >
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-300 ${
+                    i === activeService ? "bg-white/20 text-white" : "bg-primary/10 text-primary"
+                  }`}>
+                    <s.icon className="w-5 h-5" />
                   </div>
-                  <h3 className="text-lg font-bold text-foreground mb-2">{s.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{s.desc}</p>
-                </Link>
-              </ScrollReveal>
-            ))}
+                  <div>
+                    <span className="block font-bold text-sm leading-snug md:text-base">{s.title}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            {/* Painel de Conteúdo - Direita */}
+            <div className="lg:col-span-8 bg-card border border-border/50 rounded-3xl p-6 md:p-8 min-h-[420px] shadow-sm relative overflow-hidden flex flex-col justify-between">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeService ?? 0}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                  className="grid md:grid-cols-2 gap-8 items-center h-full"
+                >
+                  {/* Imagem do Serviço */}
+                  <div className="relative overflow-hidden rounded-2xl aspect-[4/3] w-full shadow-md group">
+                    <img
+                      src={servicosFunerarios[activeService ?? 0].image}
+                      alt={servicosFunerarios[activeService ?? 0].title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+                  </div>
+
+                  {/* Informações detalhadas */}
+                  <div className="flex flex-col justify-between h-full">
+                    <div>
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center lg:hidden">
+                          {(() => {
+                            const IconComponent = servicosFunerarios[activeService ?? 0].icon;
+                            return <IconComponent className="w-5 h-5 text-primary" />;
+                          })()}
+                        </div>
+                        <h3 className="text-xl md:text-2xl font-bold text-foreground">
+                          {servicosFunerarios[activeService ?? 0].title}
+                        </h3>
+                      </div>
+                      <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-6">
+                        {servicosFunerarios[activeService ?? 0].description}
+                      </p>
+                      
+                      <div className="grid sm:grid-cols-2 gap-3 mb-6">
+                        {servicosFunerarios[activeService ?? 0].details.map((d) => (
+                          <div key={d} className="flex items-start gap-2">
+                            <CheckCircle className="w-4 h-4 text-azure flex-shrink-0 mt-0.5" />
+                            <span className="text-xs md:text-sm text-muted-foreground leading-snug">{d}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="pt-4 border-t border-border/50 flex flex-col sm:flex-row gap-3 items-center justify-between">
+                      <span className="text-xs text-muted-foreground hidden md:inline-block">
+                        Disponibilidade imediata 24h
+                      </span>
+                      {servicosFunerarios[activeService ?? 0].ctaHref.startsWith("/") ? (
+                        <Link
+                          href={servicosFunerarios[activeService ?? 0].ctaHref}
+                          className="btn-primary-light text-xs md:text-sm w-full sm:w-auto text-center"
+                        >
+                          {servicosFunerarios[activeService ?? 0].cta} <ArrowRight className="w-3.5 h-3.5" />
+                        </Link>
+                      ) : (
+                        <a
+                          href={servicosFunerarios[activeService ?? 0].ctaHref}
+                          className="btn-primary-light text-xs md:text-sm w-full sm:w-auto text-center"
+                        >
+                          {servicosFunerarios[activeService ?? 0].cta} <Phone className="w-3.5 h-3.5" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* Layout Mobile: Accordion (Visível apenas em celulares e tablets) */}
+          <div className="lg:hidden space-y-4">
+            {servicosFunerarios.map((s, i) => {
+              const isOpen = activeService === i;
+              return (
+                <div
+                  key={s.title}
+                  className="bg-card border border-border/50 rounded-2xl overflow-hidden shadow-sm transition-all duration-300"
+                >
+                  {/* Cabeçalho do Accordion */}
+                  <button
+                    onClick={() => setActiveService(isOpen ? null : i)}
+                    className={`w-full flex items-center justify-between p-5 text-left transition-all duration-300 ${
+                      isOpen ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-muted/30"
+                    }`}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-300 ${
+                        isOpen ? "bg-white/20 text-white" : "bg-primary/10 text-primary"
+                      }`}>
+                        <s.icon className="w-5 h-5" />
+                      </div>
+                      <span className="font-bold text-sm leading-snug sm:text-base">{s.title}</span>
+                    </div>
+                    <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
+                  </button>
+
+                  {/* Conteúdo Expansível */}
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="overflow-hidden"
+                      >
+                        <div className="p-5 border-t border-border/50 space-y-5 bg-card">
+                          {/* Imagem do Serviço */}
+                          <div className="relative overflow-hidden rounded-xl aspect-[16/9] w-full shadow-sm">
+                            <img
+                              src={s.image}
+                              alt={s.title}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+
+                          {/* Descrição */}
+                          <p className="text-muted-foreground text-sm leading-relaxed">
+                            {s.description}
+                          </p>
+
+                          {/* Benefícios */}
+                          <div className="grid gap-2.5">
+                            {s.details.map((d) => (
+                              <div key={d} className="flex items-start gap-2">
+                                <CheckCircle className="w-4 h-4 text-azure flex-shrink-0 mt-0.5" />
+                                <span className="text-xs text-muted-foreground leading-snug">{d}</span>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* CTA */}
+                          <div className="pt-4 border-t border-border/50">
+                            {s.ctaHref.startsWith("/") ? (
+                              <Link
+                                href={s.ctaHref}
+                                className="btn-primary-light text-sm w-full text-center py-3"
+                              >
+                                {s.cta} <ArrowRight className="w-3.5 h-3.5" />
+                              </Link>
+                            ) : (
+                              <a
+                                href={s.ctaHref}
+                                className="btn-primary-light text-sm w-full text-center py-3"
+                              >
+                                {s.cta} <Phone className="w-3.5 h-3.5" />
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

@@ -130,7 +130,7 @@
 
   .text-gradient-blue {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(var(--navy)) 0%, hsl(var(--azure)) 100%);
+    background-image: linear-gradient(135deg, hsl(var(--azure-light)) 0%, hsl(var(--azure)) 100%);
   }
 
   .glass-card {

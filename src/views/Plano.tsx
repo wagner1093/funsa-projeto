@@ -193,7 +193,7 @@ export default function Plano() {
 
                       {/* CTA */}
                       <a
-                        href="https://wa.me/5514998275167"
+                        href="https://wa.me/5514996073226"
                         target="_blank"
                         rel="noopener noreferrer"
                         className={`w-full flex items-center justify-center gap-2 py-3 rounded-full font-semibold text-sm transition-all duration-200 bg-primary text-primary-foreground hover:bg-secondary`}

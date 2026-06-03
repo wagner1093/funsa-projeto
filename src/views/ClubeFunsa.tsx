@@ -17,13 +17,15 @@ import {
 const heroImg1 = "/assets/clube-hero-1-clean.png";
 const heroImg2 = "/assets/clube-slide-2.jpg";
 const heroImg3 = "/assets/clube-slide-3.jpg";
+const heroImg4 = "/assets/atendimento-24h-clube.webp";
 const appMockup = "/assets/app-beneficios.png";
 
 /* â”€â”€ hero slides â”€â”€ */
 const heroSlides = [
-  { img: heroImg1, title: "Clube + FUNSA", sub: "Descontos exclusivos em mais de 60 parceiros da região", action: { label: "Baixar o App", href: "#app", icon: Smartphone }, pos: "center" },
-  { img: heroImg2, title: "Vantagens no App", sub: "Cupons, promoções e benefícios direto no seu celular", action: { label: "Conhecer App", href: "#app", icon: Smartphone }, pos: "center" },
-  { img: heroImg3, title: "Seja um parceiro", sub: "Entre em contato conosco e faça parte da maior rede de benefícios da região", action: { label: "Quero ser parceiro", href: "https://wa.me/5514991823569", icon: Phone }, pos: "center 20%" }
+  { img: heroImg1, title: "Clube + FUNSA", sub: "Descontos exclusivos em mais de 60 parceiros da região", action: { label: "Baixar o App", href: "#app", icon: Smartphone }, pos: "center", align: "left" },
+  { img: heroImg2, title: "Vantagens no App", sub: "Cupons, promoções e benefícios direto no seu celular", action: { label: "Conhecer App", href: "#app", icon: Smartphone }, pos: "center", align: "left" },
+  { img: heroImg3, title: "Seja um parceiro", sub: "Entre em contato conosco e faça parte da maior rede de benefícios da região", action: { label: "Quero ser parceiro", href: "https://wa.me/5514991823569", icon: Phone }, pos: "top", align: "right" },
+  { img: heroImg4, title: "Atendimento 24h", sub: "Sala de atendimento moderna, humanizada e acolhedora para oferecer o melhor suporte 24 horas por dia.", action: { label: "Falar Conosco", href: "https://wa.me/5514996073226", icon: Phone }, pos: "center", align: "left" }
 ];
 
 
@@ -37,7 +39,7 @@ const benefits = [
 { icon: Star, title: "Sem custo adicional", desc: "Incluso no plano de assistência familiar FUNSA" }];
 
 
-/* â”€â”€ stats â”€â”€ */
+/* ── stats ── */
 const stats = [
 { value: 60, suffix: "+", label: "Parceiros" },
 { value: 11, suffix: "", label: "Categorias" },
@@ -45,19 +47,19 @@ const stats = [
 { value: 80, suffix: "+", label: "Anos de tradição" }];
 
 
-/* â”€â”€ category icons â”€â”€ */
+/* ── category icons ── */
 const catIcons: Record<string, React.ElementType> = {
-  "Alimentação e Lazer": Utensils,
-  "Supermercados e Conveniência": ShoppingBag,
-  "Construção e Utilidades": Building2,
-  "Serviços Diversos": Wrench,
-  "Flores, Presentes e Papelaria": Flower2,
-  "Óticas": Eye,
-  "Educação e Cursos": GraduationCap,
   "Academias, Esporte e Hospedagem": Dumbbell,
-  "Beleza e Saúde": Heart,
+  "Alimentação e Lazer": Utensils,
   "Automotivo e Mobilidade": Car,
-  "Moda e Acessórios": Scissors
+  "Beleza e Saúde": Heart,
+  "Construção e Utilidades": Building2,
+  "Educação e Cursos": GraduationCap,
+  "Flores, Presentes e Papelaria": Flower2,
+  "Moda e Acessórios": Scissors,
+  "Óticas": Eye,
+  "Serviços Diversos": Wrench,
+  "Supermercados e Conveniência": ShoppingBag
 };
 
 interface Parceiro {
@@ -66,83 +68,93 @@ interface Parceiro {
 }
 
 const categorias: Record<string, Parceiro[]> = {
-  "Alimentação e Lazer": [
-  { nome: "Marguerita Pizzaria", beneficio: "5% de desconto em todas as pizzas, incluindo refrigerantes e sorvetes" },
-  { nome: "Diego Lanches e Marmitaria", beneficio: "Entrega grátis nas compras acima de R$ 40,00" },
-  { nome: "Emporium Do Chopp", beneficio: "15% de desconto em todos os produtos às quartas-feiras" },
-  { nome: "Zacota Restaurante", beneficio: "10% de desconto em todos os pratos" },
-  { nome: "Donini Peixes E Porções", beneficio: "10% de desconto no salão e delivery" },
-  { nome: "Oriental Mix", beneficio: "10% de desconto no salão" }],
-
-  "Supermercados e Conveniência": [
-  { nome: "Supermercado Saladão", beneficio: "Cupom de desconto disponível no App FUNSA" },
-  { nome: "Supermercado Camargo", beneficio: "3% de desconto em todos os setores às quintas-feiras" }],
-
-  "Construção e Utilidades": [
-  { nome: "L. M. Leão Construtora", beneficio: "5% a 20% de desconto em projetos e construções" },
-  { nome: "Flávio Cortinas", beneficio: "20% de desconto em persianas e cortinas" },
-  { nome: "Casa Do Churrasqueiro", beneficio: "5% de desconto em todos os produtos" },
-  { nome: "Construfic", beneficio: "20% de desconto à vista acima de R$ 1.000 ou 15% a prazo" }],
-
-  "Serviços Diversos": [
-  { nome: "Disk Água Aguaré", beneficio: "20% de desconto nas compras à vista" },
-  { nome: "Martins Gás", beneficio: "Sorteio bimestral de vale-gás e desconto percentual no pedido" },
-  { nome: "J & R Chaveiro", beneficio: "5% de desconto para pagamento à vista" },
-  { nome: "Santiago Corretora De Seguros", beneficio: "20% de desconto em seguros diversos" },
-  { nome: "Red Comunicação Visual", beneficio: "15% de desconto em pagamentos à vista" }],
-
-  "Flores, Presentes e Papelaria": [
-  { nome: "Arts Flores", beneficio: "10% de desconto em compras acima de R$ 30,00" },
-  { nome: "MultiFlora Paisagismo", beneficio: "10% de desconto em vasos e plantas" },
-  { nome: "Papelaria Criativa", beneficio: "15% de desconto à vista ou 10% no cartão" },
-  { nome: "Arty Copy", beneficio: "10% de desconto em compras acima de R$ 30,00" },
-  { nome: "Papelac Papelaria", beneficio: "10% de desconto à vista e até 6x no cartão" },
-  { nome: "Ferrari Presentes", beneficio: "10% de desconto à vista ou 5% no cartão" }],
-
-  "Óticas": [
-  { nome: "Ótica Maria Gianni", beneficio: "25% de desconto em armações e solares" },
-  { nome: "Ótica Maitê", beneficio: "30% de desconto em armações e solares" },
-  { nome: "Ótica Vitória", beneficio: "30% de desconto em todas as armações" }],
-
-  "Educação e Cursos": [
-  { nome: "IAE – Instituto Avareense De Ensino", beneficio: "Isenção na matrícula" },
-  { nome: "Microvip", beneficio: "15% de desconto na matrícula e mensalidades" },
-  { nome: "UNIFSP Centro Universitário", beneficio: "30% de desconto em cursos de graduação selecionados" },
-  { nome: "Unicesumar EAD", beneficio: "30% de desconto no valor dos cursos" },
-  { nome: "Mores Centro De Dança", beneficio: "Isenção na matrícula" },
-  { nome: "Wizard", beneficio: "50% de desconto na matrícula" },
-  { nome: "Fisk Avaré", beneficio: "20% de desconto na matrícula" },
-  { nome: "Metropolitana Cursos", beneficio: "Isenção na matrícula e 10% de desconto nas mensalidades" }],
-
   "Academias, Esporte e Hospedagem": [
-  { nome: "Academia Yama Harashi", beneficio: "50% de desconto na matrícula e 15% nas mensalidades" },
-  { nome: "Academia Power Trainer", beneficio: "5% de desconto em todas as modalidades" },
-  { nome: "Infinity Training", beneficio: "20% de desconto nas mensalidades" },
-  { nome: "Academia Corpo E Saúde", beneficio: "50% de desconto na matrícula e 10% nas mensalidades" },
-  { nome: "PhD Sports", beneficio: "50% de desconto na matrícula e preço especial nas mensalidades" },
-  { nome: "AABB Jurumirim", beneficio: "20% de desconto no Day Use e 10% em hospedagem" },
-  { nome: "Vila Verde Hotel", beneficio: "10% de desconto nas diárias" }],
+    { nome: "AABB Jurumirim", beneficio: "20% de desconto no Day Use e 10% em hospedagem" },
+    { nome: "Academia Corpo E Saúde", beneficio: "50% de desconto na matrícula e 10% nas mensalidades" },
+    { nome: "Academia Power Trainer", beneficio: "5% de desconto em todas as modalidades" },
+    { nome: "Academia Yama Harashi", beneficio: "50% de desconto na matrícula e 15% nas mensalidades" },
+    { nome: "Infinity Training", beneficio: "20% de desconto nas mensalidades" },
+    { nome: "PhD Sports", beneficio: "50% de desconto na matrícula e preço especial nas mensalidades" },
+    { nome: "Vila Verde Hotel", beneficio: "10% de desconto nas diárias" }
+  ],
 
-  "Beleza e Saúde": [
-  { nome: "Barbearia Do Fogaça", beneficio: "20% de desconto em cortes masculinos" },
-  { nome: "Rosa Marroquina", beneficio: "12% de desconto em produtos" },
-  { nome: "Cirúrgica Avaré", beneficio: "10% de desconto em produtos ortopédicos e 5% em cadeiras" },
-  { nome: "Drogalar Avaré", beneficio: "Até 50% de desconto em genéricos às sextas-feiras" },
-  { nome: "Vitalis Drogaria", beneficio: "10% de desconto em medicamentos manipulados" },
-  { nome: "Curavita Produtos Hospitalares", beneficio: "10% a 40% de desconto em medicamentos" },
-  { nome: "Drogaria Bem Popular", beneficio: "10% de desconto em medicamentos com receita" }],
+  "Alimentação e Lazer": [
+    { nome: "Diego Lanches e Marmitaria", beneficio: "Entrega grátis nas compras acima de R$ 40,00" },
+    { nome: "Donini Peixes E Porções", beneficio: "10% de desconto no salão e delivery" },
+    { nome: "Emporium Do Chopp", beneficio: "15% de desconto em todos os produtos às quartas-feiras" },
+    { nome: "Marguerita Pizzaria", beneficio: "5% de desconto em todas as pizzas, incluindo refrigerantes e sorvetes" },
+    { nome: "Oriental Mix", beneficio: "10% de desconto no salão" },
+    { nome: "Zacota Restaurante", beneficio: "10% de desconto em todos os pratos" }
+  ],
 
   "Automotivo e Mobilidade": [
-  { nome: "Uno Auto Elétrica", beneficio: "10% de desconto para pagamento à vista" },
-  { nome: "Igo Mobilidade", beneficio: "Até 15% de desconto em corridas" },
-  { nome: "Napoli Pneus", beneficio: "10% de desconto em todos os serviços" },
-  { nome: "PL Pneus", beneficio: "10% de desconto na troca de pneus" },
-  { nome: "Auto Mecânica Landi", beneficio: "10% de desconto em orçamentos" },
-  { nome: "Nova América Parabrisas", beneficio: "5% a 15% de desconto em peças e serviços" }],
+    { nome: "Auto Mecânica Landi", beneficio: "10% de desconto em orçamentos" },
+    { nome: "Igo Mobilidade", beneficio: "Até 15% de desconto em corridas" },
+    { nome: "Napoli Pneus", beneficio: "10% de desconto em todos os serviços" },
+    { nome: "Nova América Parabrisas", beneficio: "5% a 15% de desconto em peças e serviços" },
+    { nome: "PL Pneus", beneficio: "10% de desconto na troca de pneus" },
+    { nome: "Uno Auto Elétrica", beneficio: "10% de desconto para pagamento à vista" }
+  ],
+
+  "Beleza e Saúde": [
+    { nome: "Barbearia Do Fogaça", beneficio: "20% de desconto em cortes masculinos" },
+    { nome: "Cirúrgica Avaré", beneficio: "10% de desconto em produtos ortopédicos e 5% em cadeiras" },
+    { nome: "Curavita Produtos Hospitalares", beneficio: "10% a 40% de desconto em medicamentos" },
+    { nome: "Drogalar Avaré", beneficio: "Até 50% de desconto em genéricos às sextas-feiras" },
+    { nome: "Drogaria Bem Popular", beneficio: "10% de desconto em medicamentos com receita" },
+    { nome: "Rosa Marroquina", beneficio: "12% de desconto em produtos" },
+    { nome: "Vitalis Drogaria", beneficio: "10% de desconto em medicamentos manipulados" }
+  ],
+
+  "Construção e Utilidades": [
+    { nome: "Casa Do Churrasqueiro", beneficio: "5% de desconto em todos os produtos" },
+    { nome: "Construfic", beneficio: "20% de desconto à vista acima de R$ 1.000 ou 15% a prazo" },
+    { nome: "Flávio Cortinas", beneficio: "20% de desconto em persianas e cortinas" },
+    { nome: "L. M. Leão Construtora", beneficio: "5% a 20% de desconto em projetos e construções" }
+  ],
+
+  "Educação e Cursos": [
+    { nome: "Fisk Avaré", beneficio: "20% de desconto na matrícula" },
+    { nome: "IAE – Instituto Avareense De Ensino", beneficio: "Isenção na matrícula" },
+    { nome: "Metropolitana Cursos", beneficio: "Isenção na matrícula e 10% de desconto nas mensalidades" },
+    { nome: "Microvip", beneficio: "15% de desconto na matrícula e mensalidades" },
+    { nome: "Mores Centro De Dança", beneficio: "Isenção na matrícula" },
+    { nome: "UNIFSP Centro Universitário", beneficio: "30% de desconto em cursos de graduação selecionados" },
+    { nome: "Unicesumar EAD", beneficio: "30% de desconto no valor dos cursos" },
+    { nome: "Wizard", beneficio: "50% de desconto na matrícula" }
+  ],
+
+  "Flores, Presentes e Papelaria": [
+    { nome: "Arts Flores", beneficio: "10% de desconto em compras acima de R$ 30,00" },
+    { nome: "Arty Copy", beneficio: "10% de desconto em compras acima de R$ 30,00" },
+    { nome: "Ferrari Presentes", beneficio: "10% de desconto à vista ou 5% no cartão" },
+    { nome: "MultiFlora Paisagismo", beneficio: "10% de desconto em vasos e plantas" },
+    { nome: "Papelac Papelaria", beneficio: "10% de desconto à vista e até 6x no cartão" },
+    { nome: "Papelaria Criativa", beneficio: "15% de desconto à vista ou 10% no cartão" }
+  ],
 
   "Moda e Acessórios": [
-  { nome: "King Acessórios", beneficio: "15% de desconto em compras na loja" }]
+    { nome: "King Acessórios", beneficio: "15% de desconto em compras na loja" }
+  ],
 
+  "Óticas": [
+    { nome: "Ótica Maitê", beneficio: "30% de desconto em armações e solares" },
+    { nome: "Ótica Maria Gianni", beneficio: "25% de desconto em armações e solares" },
+    { nome: "Ótica Vitória", beneficio: "30% de desconto em todas as armações" }
+  ],
+
+  "Serviços Diversos": [
+    { nome: "Disk Água Aguaré", beneficio: "20% de desconto nas compras à vista" },
+    { nome: "J & R Chaveiro", beneficio: "5% de desconto para pagamento à vista" },
+    { nome: "Martins Gás", beneficio: "Sorteio bimestral de vale-gás e desconto percentual no pedido" },
+    { nome: "Red Comunicação Visual", beneficio: "15% de desconto em pagamentos à vista" },
+    { nome: "Santiago Corretora De Seguros", beneficio: "20% de desconto em seguros diversos" }
+  ],
+
+  "Supermercados e Conveniência": [
+    { nome: "Supermercado Camargo", beneficio: "3% de desconto em todos os setores às quintas-feiras" },
+    { nome: "Supermercado Saladão", beneficio: "Cupom de desconto disponível no App FUNSA" }
+  ]
 };
 
 const categoryKeys = Object.keys(categorias);
@@ -157,6 +169,8 @@ export default function ClubeFunsa() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Todos");
+
+  const isRight = heroSlides[activeIndex]?.align === "right";
 
   const onSelect = useCallback(() => { if (emblaApi) setActiveIndex(emblaApi.selectedScrollSnap()); }, [emblaApi]);
   
@@ -220,10 +234,10 @@ export default function ClubeFunsa() {
         {/* Base escura uniforme */}
         <div className="absolute inset-0 z-10 bg-black/45 pointer-events-none" />
         {/* Gradiente direcional */}
-        <div className="absolute inset-0 z-10 bg-gradient-to-r from-black/65 via-black/35 to-transparent pointer-events-none" />
+        <div className={`absolute inset-0 z-10 pointer-events-none transition-all duration-500 ${isRight ? "bg-gradient-to-l from-black/75 via-black/35 to-transparent" : "bg-gradient-to-r from-black/65 via-black/35 to-transparent"}`} />
 
         {/* ── LAYER 3: Conteúdo animado (AnimatePresence) ──────────────── */}
-        <div className="relative z-20 section-container w-full">
+        <div className="relative z-20 section-container w-full px-12 sm:px-20 lg:px-28">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeIndex}
@@ -231,9 +245,9 @@ export default function ClubeFunsa() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              className="max-w-2xl"
+              className={`max-w-2xl ${isRight ? "ml-auto text-right" : "text-left"}`}
             >
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-xl border border-white/20 shadow-[0_4px_24px_-4px_rgba(255,255,255,0.08)] mb-8">
+              <span className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-xl border border-white/20 shadow-[0_4px_24px_-4px_rgba(255,255,255,0.08)] mb-8`}>
                 <span className="w-2 h-2 rounded-full bg-azure animate-pulse" />
                 <span className="text-sm font-medium text-primary-foreground/90">
                   Clube + FUNSA
@@ -242,10 +256,10 @@ export default function ClubeFunsa() {
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
                 {heroSlides[activeIndex].title}
               </h1>
-              <p className="text-lg md:text-xl text-white/80 mb-10 leading-relaxed max-w-xl">
+              <p className={`text-lg md:text-xl text-white/80 mb-10 leading-relaxed max-w-xl ${isRight ? "ml-auto" : ""}`}>
                 {heroSlides[activeIndex].sub}
               </p>
-              <div className="flex flex-wrap items-center gap-4">
+              <div className={`flex flex-wrap items-center gap-4 ${isRight ? "justify-end" : ""}`}>
                 {heroSlides[activeIndex].action.href.startsWith("http") ? (
                   <a href={heroSlides[activeIndex].action.href} target="_blank" rel="noopener noreferrer"
                     className="btn-primary-dark text-base flex items-center gap-2 shadow-md">
@@ -539,73 +553,25 @@ export default function ClubeFunsa() {
           </ScrollReveal>
 
           {/* LISTAGEM DE PARCEIROS */}
-          {selectedCategory === "Todos" ? (
-            /* Modo Todos: lista plana em ordem alfabética, sem separadores de categoria */
-            <div>
-              {(() => {
+          <div className="space-y-16">
+            {filteredCategories.map(([cat, partners]) => {
+              const Icon = catIcons[cat] || Store;
+              const displayPartners = partners.filter(p => {
                 const searchLower = searchTerm.toLowerCase();
-                const allPartners = Object.entries(categorias)
-                  .flatMap(([cat, partners]) =>
-                    partners
-                      .filter(p =>
-                        p.nome.toLowerCase().includes(searchLower) ||
-                        cat.toLowerCase().includes(searchLower)
-                      )
-                      .map(p => ({ ...p, cat }))
-                  )
-                  .sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+                return p.nome.toLowerCase().includes(searchLower) || cat.toLowerCase().includes(searchLower);
+              });
+              if (displayPartners.length === 0) return null;
+              return (
+                <div key={cat} className="scroll-mt-24">
+                  <h3 className="text-2xl font-bold flex items-center gap-3 mb-6 pb-2 border-b border-border/50">
+                    <div className="w-10 h-10 rounded-lg bg-card flex items-center justify-center border border-border/50">
+                      <Icon className="w-5 h-5 text-azure" />
+                    </div>
+                    {cat}
+                  </h3>
 
-                if (allPartners.length === 0) return (
-                  <div className="py-20 text-center text-muted-foreground">
-                    <p className="text-lg">Nenhum parceiro encontrado para "{searchTerm}".</p>
-                    <button onClick={() => setSearchTerm("")} className="mt-4 text-azure font-semibold hover:underline">Limpar pesquisa</button>
-                  </div>
-                );
-
-                return (
                   <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    {allPartners.map((p) => (
-                      <div key={`${p.cat}-${p.nome}`} className="group flex flex-col p-6 rounded-2xl bg-card border border-border/50 hover:border-azure/30 hover:shadow-lg transition-all duration-300 h-full">
-                        <div className="flex items-start gap-4 flex-1">
-                          <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center flex-shrink-0 group-hover:bg-azure/10 transition-colors">
-                            <Store className="w-5 h-5 text-primary group-hover:text-azure transition-colors" />
-                          </div>
-                          <div>
-                            <h4 className="font-bold text-foreground">{p.nome}</h4>
-                            <p className="text-xs text-azure/70 font-medium mt-0.5">{p.cat}</p>
-                            <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{p.beneficio}</p>
-                          </div>
-                        </div>
-                        <button className="mt-6 w-full flex items-center justify-center gap-1.5 py-2 rounded-lg bg-primary/5 text-primary font-semibold text-sm hover:bg-primary/10 transition-colors group-hover:bg-azure/10 group-hover:text-azure">
-                          <Eye className="w-4 h-4" /> Ver Benefício
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                );
-              })()}
-            </div>
-          ) : (
-            /* Modo Categoria: exibe por categoria com separador */
-            <div className="space-y-16">
-              {filteredCategories.map(([cat, partners]) => {
-                const Icon = catIcons[cat] || Store;
-                const displayPartners = partners.filter(p => {
-                  const searchLower = searchTerm.toLowerCase();
-                  return p.nome.toLowerCase().includes(searchLower) || cat.toLowerCase().includes(searchLower);
-                });
-                if (displayPartners.length === 0) return null;
-                return (
-                  <div key={cat} className="scroll-mt-24">
-                    <h3 className="text-2xl font-bold flex items-center gap-3 mb-6 pb-2 border-b border-border/50">
-                      <div className="w-10 h-10 rounded-lg bg-card flex items-center justify-center border border-border/50">
-                        <Icon className="w-5 h-5 text-azure" />
-                      </div>
-                      {cat}
-                    </h3>
-
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                      {displayPartners.map((p) => (
+                    {displayPartners.map((p) => (
                       <div key={p.nome} className="group flex flex-col p-6 rounded-2xl bg-card border border-border/50 hover:border-azure/30 hover:shadow-lg transition-all duration-300 h-full">
                         <div className="flex items-start gap-4 flex-1">
                           <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center flex-shrink-0 group-hover:bg-azure/10 transition-colors">
@@ -625,14 +591,18 @@ export default function ClubeFunsa() {
                 </div>
               );
             })}
-            {filteredCategories.length === 0 && (
+            
+            {filteredCategories.filter(([cat, partners]) => {
+              const searchLower = searchTerm.toLowerCase();
+              const displayPartners = partners.filter(p => p.nome.toLowerCase().includes(searchLower) || cat.toLowerCase().includes(searchLower));
+              return displayPartners.length > 0;
+            }).length === 0 && (
               <div className="py-20 text-center text-muted-foreground">
-                <p className="text-lg">Nenhuma categoria ou parceiro encontrado para "{searchTerm}".</p>
+                <p className="text-lg">Nenhum parceiro encontrado para "{searchTerm}".</p>
                 <button onClick={() => setSearchTerm("")} className="mt-4 text-azure font-semibold hover:underline">Limpar pesquisa</button>
               </div>
             )}
           </div>
-          )}
         </div>
       </section>
 
