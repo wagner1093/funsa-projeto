@@ -26,7 +26,7 @@ const servicosFunerarios = [
     ],
     image: "/assets/atendimento-24h.webp",
     cta: "Solicitar Atendimento Imediato",
-    ctaHref: "tel:1437320202",
+    ctaHref: "https://api.whatsapp.com/send/?phone=5514996073226",
   },
   {
     icon: Truck,
@@ -40,7 +40,7 @@ const servicosFunerarios = [
     ],
     image: "/assets/traslados.webp",
     cta: "Fale Conosco",
-    ctaHref: "/contato",
+    ctaHref: "https://api.whatsapp.com/send/?phone=5514996073226",
   },
   {
     icon: Sparkles,
@@ -54,7 +54,7 @@ const servicosFunerarios = [
     ],
     image: "/assets/tanatopraxia.webp",
     cta: "Saiba Mais",
-    ctaHref: "/contato",
+    ctaHref: "https://api.whatsapp.com/send/?phone=5514996073226",
   },
   {
     icon: Users,
@@ -68,7 +68,7 @@ const servicosFunerarios = [
     ],
     image: "/assets/cerimonias.webp",
     cta: "Saiba Mais",
-    ctaHref: "/contato",
+    ctaHref: "https://api.whatsapp.com/send/?phone=5514996073226",
   },
   {
     icon: Flower2,
@@ -82,7 +82,7 @@ const servicosFunerarios = [
     ],
     image: "/assets/ornamentacao.webp",
     cta: "Fale Conosco",
-    ctaHref: "/contato",
+    ctaHref: "https://api.whatsapp.com/send/?phone=5514996073226",
   },
   {
     icon: FileText,
@@ -96,7 +96,7 @@ const servicosFunerarios = [
     ],
     image: "/assets/documentacao.webp",
     cta: "Saiba Mais",
-    ctaHref: "/contato",
+    ctaHref: "https://api.whatsapp.com/send/?phone=5514996073226",
   },
   {
     icon: Shield,
@@ -110,7 +110,7 @@ const servicosFunerarios = [
     ],
     image: "/assets/cremacao.webp",
     cta: "Fale Conosco",
-    ctaHref: "/contato",
+    ctaHref: "https://api.whatsapp.com/send/?phone=5514996073226",
   },
 ];
 

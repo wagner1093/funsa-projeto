@@ -18,7 +18,7 @@ const services = [
     ],
     image: "/assets/atendimento-24h.webp",
     cta: "Solicitar Atendimento Imediato",
-    ctaHref: "tel:1437320202",
+    ctaHref: "https://api.whatsapp.com/send/?phone=5514996073226",
   },
   {
     icon: Truck,
@@ -32,7 +32,7 @@ const services = [
     ],
     image: "/assets/traslados.webp",
     cta: "Fale Conosco",
-    ctaHref: "/contato",
+    ctaHref: "https://api.whatsapp.com/send/?phone=5514996073226",
   },
   {
     icon: Sparkles,
@@ -46,7 +46,7 @@ const services = [
     ],
     image: "/assets/tanatopraxia.webp",
     cta: "Saiba Mais",
-    ctaHref: "/contato",
+    ctaHref: "https://api.whatsapp.com/send/?phone=5514996073226",
   },
   {
     icon: Users,
@@ -60,7 +60,7 @@ const services = [
     ],
     image: "/assets/cerimonias.webp",
     cta: "Saiba Mais",
-    ctaHref: "/contato",
+    ctaHref: "https://api.whatsapp.com/send/?phone=5514996073226",
   },
   {
     icon: Flower2,
@@ -74,7 +74,7 @@ const services = [
     ],
     image: "/assets/ornamentacao.webp",
     cta: "Fale Conosco",
-    ctaHref: "/contato",
+    ctaHref: "https://api.whatsapp.com/send/?phone=5514996073226",
   },
   {
     icon: FileText,
@@ -88,7 +88,7 @@ const services = [
     ],
     image: "/assets/documentacao.webp",
     cta: "Saiba Mais",
-    ctaHref: "/contato",
+    ctaHref: "https://api.whatsapp.com/send/?phone=5514996073226",
   },
   {
     icon: Shield,
@@ -102,7 +102,7 @@ const services = [
     ],
     image: "/assets/cremacao.webp",
     cta: "Fale Conosco",
-    ctaHref: "/contato",
+    ctaHref: "https://api.whatsapp.com/send/?phone=5514996073226",
   },
 ];
 
