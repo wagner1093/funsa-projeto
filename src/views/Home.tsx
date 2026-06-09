@@ -43,7 +43,7 @@ const heroSlides = [
     title: "Um espaço de paz, homenagem e memória.",
     desc: "Infraestrutura acolhedora e serviços humanizados para prestar as mais belas e dignas homenagens, eternizando momentos especiais.",
     btn1Text: "Conhecer o Memorial",
-    btn1Link: "/quem-somos",
+    btn1Link: "https://www.memorialpordosol.com.br/",
     btn2Text: "Fale Conosco",
     btn2Link: "/contato",
   },
@@ -278,13 +278,36 @@ export default function Home() {
 
               {/* Botões */}
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link href={heroSlides[activeIndex].btn1Link} className="btn-primary-dark text-base">
-                  {heroSlides[activeIndex].btn1Text}
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link href={heroSlides[activeIndex].btn2Link} className="btn-outline-dark text-base">
-                  {heroSlides[activeIndex].btn2Text}
-                </Link>
+                {heroSlides[activeIndex].btn1Link.startsWith('http') ? (
+                  <a
+                    href={heroSlides[activeIndex].btn1Link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-primary-dark text-base flex items-center justify-center gap-2"
+                  >
+                    {heroSlides[activeIndex].btn1Text}
+                    <ArrowRight className="w-4 h-4" />
+                  </a>
+                ) : (
+                  <Link href={heroSlides[activeIndex].btn1Link} className="btn-primary-dark text-base">
+                    {heroSlides[activeIndex].btn1Text}
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                )}
+                {heroSlides[activeIndex].btn2Link.startsWith('http') ? (
+                  <a
+                    href={heroSlides[activeIndex].btn2Link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-outline-dark text-base flex items-center justify-center"
+                  >
+                    {heroSlides[activeIndex].btn2Text}
+                  </a>
+                ) : (
+                  <Link href={heroSlides[activeIndex].btn2Link} className="btn-outline-dark text-base">
+                    {heroSlides[activeIndex].btn2Text}
+                  </Link>
+                )}
               </div>
             </motion.div>
           </AnimatePresence>

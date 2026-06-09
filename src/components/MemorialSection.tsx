@@ -56,7 +56,7 @@ export default function MemorialSection() {
 
               <div className="pt-6">
                 <a
-                  href="https://pordosol-ashy.vercel.app/"
+                  href="https://www.memorialpordosol.com.br/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-primary-light group inline-flex"

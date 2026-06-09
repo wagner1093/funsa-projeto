@@ -11,6 +11,7 @@ const services = [
     description: "Plantão permanente para atendimento imediato com dignidade e respeito. Nossa equipe está pronta para oferecer todo o suporte necessário a qualquer momento.",
     image: heroImg,
     cta: "Saiba Mais",
+    link: "#contato",
   },
   {
     icon: Stethoscope,
@@ -18,6 +19,7 @@ const services = [
     description: "Convênio PrevSaúde com diversas especialidades disponíveis. Agendamento facilitado e atendimento de qualidade para toda a família.",
     image: clinicImg,
     cta: "Agendar Consulta",
+    link: "#contato",
   },
   {
     icon: Trees,
@@ -25,6 +27,7 @@ const services = [
     description: "Espaço moderno, seguro e acolhedor para homenagear seus entes queridos. Infraestrutura completa em meio a um ambiente de paz e serenidade.",
     image: memorialImg,
     cta: "Conhecer o Memorial",
+    link: "https://www.memorialpordosol.com.br/",
   },
   {
     icon: Sparkles,
@@ -32,6 +35,7 @@ const services = [
     description: "Técnica especializada que preserva a aparência natural com dignidade e cuidado, proporcionando uma despedida serena para a família.",
     image: heroImg,
     cta: "Entender Melhor",
+    link: "#contato",
   },
 ];
 
@@ -66,7 +70,9 @@ export default function ServicesSection() {
                   <h3 className="text-xl font-bold text-foreground">{s.title}</h3>
                   <p className="mt-3 text-muted-foreground leading-relaxed">{s.description}</p>
                   <a
-                    href="#contato"
+                    href={s.link}
+                    target={s.link.startsWith('http') ? '_blank' : undefined}
+                    rel={s.link.startsWith('http') ? 'noopener noreferrer' : undefined}
                     className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-azure hover:text-azure-light transition-colors"
                   >
                     {s.cta}
