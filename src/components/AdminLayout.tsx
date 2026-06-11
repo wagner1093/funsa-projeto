@@ -160,8 +160,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (loading) {
     return (
-      <div className="h-screen w-full flex items-center justify-center bg-background">
-        <div className="w-8 h-8 border-2 border-gray-900 border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen flex bg-[#FAFAFA]">
+        <aside className="w-64 shrink-0 hidden lg:block fixed left-0 top-0 bottom-0 z-30 bg-white border-r border-gray-100" />
+        <div className="flex-1 lg:ml-64 flex flex-col min-h-screen items-center justify-center">
+          <div className="w-8 h-8 border-2 border-gray-900 border-t-transparent rounded-full animate-spin" />
+        </div>
       </div>
     );
   }

@@ -67,7 +67,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(currentUser);
       
       if (currentUser) {
-        setLoading(true);
+        // Não recoloca loading=true se o usuário já estava autenticado
+        // (evita flash branco ao trocar de aba)
         const userRole = await fetchRole(currentUser.id);
         if (active) {
           setRole(userRole);
