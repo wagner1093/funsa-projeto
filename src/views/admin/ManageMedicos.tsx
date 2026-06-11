@@ -4,6 +4,8 @@ import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/lib/AuthContext';
+import { useSearchParams } from 'next/navigation';
 import { 
   Plus, Edit, Trash2, Search, Filter, Phone, 
   MapPin, BadgeCheck, MoreVertical, HeartPulse,
@@ -29,11 +31,21 @@ type Medico = {
 };
 
 export default function ManageMedicos() {
+  const { role } = useAuth();
   const [medicos, setMedicos] = useState<Medico[]>([]);
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const { toast } = useToast();
+
+  const searchParams = useSearchParams();
+  const q = searchParams.get('q');
+
+  useEffect(() => {
+    if (q !== null) {
+      setSearchTerm(q);
+    }
+  }, [q]);
 
   const [nome, setNome] = useState('');
   const [especialidade, setEspecialidade] = useState('');
@@ -113,13 +125,15 @@ export default function ManageMedicos() {
           </h1>
           <p className="text-xs text-gray-400 font-medium mt-0.5 ml-7.5">Gestão de profissionais e clínicas conveniadas ao plano.</p>
         </div>
-        <Button 
-          onClick={handleOpenNew} 
-          className="bg-gray-900 hover:bg-gray-700 text-white rounded-xl px-5 h-11 transition-all flex items-center gap-2 font-semibold text-sm shadow-xl shadow-black/5"
-        >
-          <Plus className="w-4 h-4" />
-          Adicionar Credenciado
-        </Button>
+        {role !== 'viewer' && (
+          <Button 
+            onClick={handleOpenNew} 
+            className="bg-gray-900 hover:bg-gray-700 text-white rounded-xl px-5 h-11 transition-all flex items-center gap-2 font-semibold text-sm shadow-xl shadow-black/5"
+          >
+            <Plus className="w-4 h-4" />
+            Adicionar Credenciado
+          </Button>
+        )}
       </div>
 
       {/* Toolbar */}
@@ -150,20 +164,22 @@ export default function ManageMedicos() {
                 <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Profissional / Unidade</th>
                 <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Especialidade</th>
                 <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Contato</th>
-                <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Ações</th>
+                {role !== 'viewer' && (
+                  <th className="px-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">Ações</th>
+                )}
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
               <AnimatePresence mode="popLayout">
                 {loading ? (
-                  <tr><td colSpan={5} className="px-6 py-12 text-center">
+                  <tr><td colSpan={role === 'viewer' ? 4 : 5} className="px-6 py-12 text-center">
                     <div className="flex flex-col items-center gap-2 opacity-40">
                       <div className="w-6 h-6 border-2 border-gray-900 border-t-transparent rounded-full animate-spin" />
                       <span className="text-xs font-semibold text-gray-500">Sincronizando rede...</span>
                     </div>
                   </td></tr>
                 ) : filteredMedicos.length === 0 ? (
-                  <tr><td colSpan={5} className="px-6 py-12 text-center text-gray-400 italic text-xs">
+                  <tr><td colSpan={role === 'viewer' ? 4 : 5} className="px-6 py-12 text-center text-gray-400 italic text-xs">
                     Nenhum credenciado encontrado na rede.
                   </td></tr>
                 ) : (
@@ -210,25 +226,27 @@ export default function ManageMedicos() {
                           </div>
                         ) : <span className="text-gray-300">--</span>}
                       </td>
-                      <td className="px-6 py-4 text-right">
-                        <div className="flex gap-1 justify-end opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">
-                          <button 
-                            onClick={() => {
-                              setNome(item.nome); setEspecialidade(item.especialidade); setCrm(item.crm || ''); 
-                              setContato(item.contato || ''); setImagem(item.imagem || '');
-                              setEndereco(item.endereco || ''); setProfissional(item.profissional || '');
-                              setCategoria(item.categoria || 'medico');
-                              setEditingId(item.id); setIsOpen(true);
-                            }} 
-                            className="p-2 text-gray-400 hover:text-gray-900 hover:bg-white rounded-lg shadow-sm border border-transparent hover:border-gray-100 transition-all"
-                          >
-                            <Edit className="w-4 h-4" />
-                          </button>
-                          <button onClick={() => handleDelete(item.id)} className="p-2 text-gray-400 hover:text-red-500 hover:bg-white rounded-lg shadow-sm border border-transparent hover:border-gray-100 transition-all">
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </td>
+                      {role !== 'viewer' && (
+                        <td className="px-6 py-4 text-right">
+                          <div className="flex gap-1 justify-end opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">
+                            <button 
+                              onClick={() => {
+                                setNome(item.nome); setEspecialidade(item.especialidade); setCrm(item.crm || ''); 
+                                setContato(item.contato || ''); setImagem(item.imagem || '');
+                                setEndereco(item.endereco || ''); setProfissional(item.profissional || '');
+                                setCategoria(item.categoria || 'medico');
+                                setEditingId(item.id); setIsOpen(true);
+                              }} 
+                              className="p-2 text-gray-400 hover:text-gray-900 hover:bg-white rounded-lg shadow-sm border border-transparent hover:border-gray-100 transition-all"
+                            >
+                              <Edit className="w-4 h-4" />
+                            </button>
+                            <button onClick={() => handleDelete(item.id)} className="p-2 text-gray-400 hover:text-red-500 hover:bg-white rounded-lg shadow-sm border border-transparent hover:border-gray-100 transition-all">
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </td>
+                      )}
                     </motion.tr>
                   ))
                 )}
@@ -240,7 +258,7 @@ export default function ManageMedicos() {
 
       {/* Modern Dialog */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-2xl bg-white rounded-3xl p-0 overflow-hidden border border-gray-100 shadow-2xl">
+        <DialogContent hideCloseButton className="max-w-2xl bg-white rounded-3xl p-0 overflow-hidden border border-gray-100 shadow-2xl">
           <div className="px-8 py-6 border-b border-gray-100 flex items-center justify-between bg-white">
             <div className="flex items-center gap-4">
               <div className="w-10 h-10 rounded-xl bg-gray-900 flex items-center justify-center shadow-lg shadow-black/10">
@@ -347,16 +365,6 @@ export default function ManageMedicos() {
                   />
                 </div>
               )}
-
-              <div className="md:col-span-2 space-y-2">
-                <label className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] px-1">Link da Foto ou Logo</label>
-                <Input 
-                  value={imagem} 
-                  onChange={e => setImagem(e.target.value)} 
-                  placeholder="Cole o link direto da imagem pública" 
-                  className="h-12 border-gray-100 bg-white rounded-xl text-[11px] font-medium focus-visible:ring-gray-200 shadow-sm" 
-                />
-              </div>
             </div>
             
             <div className="flex justify-end gap-3 pt-6 border-t border-gray-100">

@@ -12,6 +12,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import Counter from "@/components/Counter";
 import MemorialSection from "@/components/MemorialSection";
 import GallerySection from "@/components/GallerySection";
+import { supabase } from "@/lib/supabase";
 
 const heroSlides = [
   {
@@ -190,6 +191,29 @@ export default function Home() {
   }, [Autoplay({ delay: 6000, stopOnInteraction: false })]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeService, setActiveService] = useState<number | null>(0);
+  const [dynamicTestimonials, setDynamicTestimonials] = useState<any[]>(testimonials);
+
+  useEffect(() => {
+    async function loadTestimonials() {
+      try {
+        const { data, error } = await supabase
+          .from('funsa_avaliacoes')
+          .select('*')
+          .eq('ativo', true)
+          .order('created_at', { ascending: false });
+        if (data && data.length > 0) {
+          setDynamicTestimonials(data.map(item => ({
+            name: item.nome,
+            text: item.texto,
+            rating: item.nota,
+          })));
+        }
+      } catch (err) {
+        console.error("Error loading testimonials:", err);
+      }
+    }
+    loadTestimonials();
+  }, []);
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
@@ -665,8 +689,8 @@ export default function Home() {
           </ScrollReveal>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((t, i) => (
-              <ScrollReveal key={t.name} delay={i * 0.1}>
+            {dynamicTestimonials.map((t, i) => (
+              <ScrollReveal key={t.name + i} delay={i * 0.1}>
                 <div className="p-8 rounded-2xl bg-card border border-border/50 h-full flex flex-col">
                   <div className="flex gap-1 mb-4">
                     {Array.from({ length: t.rating }).map((_, j) => (

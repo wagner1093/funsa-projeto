@@ -1,6 +1,6 @@
 'use client';
 import { Suspense } from 'react';
-import ManageFalecidos from '@/views/admin/ManageFalecidos';
+import ManageAvaliacoes from '@/views/admin/ManageAvaliacoes';
 
 export default function Page() {
   return (
@@ -9,7 +9,7 @@ export default function Page() {
         <div className="w-6 h-6 border-2 border-gray-900 border-t-transparent rounded-full animate-spin" />
       </div>
     }>
-      <ManageFalecidos />
+      <ManageAvaliacoes />
     </Suspense>
   );
 }

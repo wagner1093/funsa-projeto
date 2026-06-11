@@ -42,7 +42,12 @@ export function SiteProvider({ children }: { children: React.ReactNode }) {
         }
         
         console.log('Configurações carregadas com sucesso:', data);
-        setConfig(data);
+        const configData: SiteConfig = {
+          ...data,
+          instagram: data.instagram_url || data.instagram || '',
+          facebook: data.facebook_url || data.facebook || '',
+        };
+        setConfig(configData);
         
         // Aplica o favicon globalmente
         if (data?.favicon_url) {

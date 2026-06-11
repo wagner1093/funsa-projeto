@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@100..900&family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -110,11 +110,17 @@
     letter-spacing: -0.02em;
   }
 
+  .admin-panel,
   .admin-panel h1, 
   .admin-panel h2, 
   .admin-panel h3, 
-  .admin-panel h4 {
+  .admin-panel h4,
+  .admin-panel p,
+  .admin-panel span,
+  .admin-panel a,
+  .admin-panel button {
     font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
 }
 
@@ -245,9 +251,9 @@
   .admin-scroll::-webkit-scrollbar-thumb { @apply bg-gray-200 rounded-full; }
 
   .admin-page-title {
-    @apply text-xl font-bold text-gray-900;
+    @apply text-xl font-semibold text-gray-800;
     font-family: 'Inter', system-ui, sans-serif;
-    letter-spacing: -0.4px;
+    letter-spacing: -0.3px;
   }
 
   .admin-search {
@@ -258,4 +264,177 @@
     @apply border-gray-400;
     box-shadow: 0 0 0 3px rgba(0,0,0,0.04);
   }
+}
+
+/* ── Quill Editor: Toolbar na base, sem borda dupla ── */
+.quill-bottom-toolbar .ql-toolbar.ql-snow {
+  order: 2;
+  border-top: 1px solid #f0f0f0 !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  background: #fafafa;
+  border-radius: 0 0 0.75rem 0.75rem;
+  padding: 8px 12px;
+}
+
+.quill-bottom-toolbar .ql-container.ql-snow {
+  order: 1;
+  border: none !important;
+  font-size: 15px;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.quill-bottom-toolbar .quill {
+  display: flex;
+  flex-direction: column;
+}
+
+.quill-bottom-toolbar .ql-editor {
+  min-height: 300px;
+  padding: 16px 20px;
+  font-size: 15px;
+  line-height: 1.8;
+  color: #374151;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.quill-bottom-toolbar .ql-editor.ql-blank::before {
+  color: #d1d5db;
+  font-style: normal;
+  font-size: 15px;
+}
+
+/* Remove a linha/borda extra que aparece acima da área de texto */
+.quill-bottom-toolbar .ql-snow .ql-editor {
+  border-top: none !important;
+}
+
+/* ── Estilos de renderização do conteúdo Quill no Blog Post ── */
+.blog-article-page {
+  min-height: 100vh;
+  background-color: #f8fafc;
+}
+
+.blog-post-content {
+  font-size: 16px;
+  line-height: 1.85;
+  color: #374151;
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.blog-post-content * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.blog-post-content h1 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: hsl(214, 55%, 25%);
+  margin: 2rem 0 1rem;
+  line-height: 1.3;
+  overflow-wrap: break-word;
+}
+
+.blog-post-content h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: hsl(214, 55%, 25%);
+  margin: 1.75rem 0 0.875rem;
+  line-height: 1.35;
+  overflow-wrap: break-word;
+}
+
+.blog-post-content h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: hsl(214, 55%, 25%);
+  margin: 1.5rem 0 0.75rem;
+  line-height: 1.4;
+  overflow-wrap: break-word;
+}
+
+.blog-post-content p {
+  margin-bottom: 1.1rem;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.blog-post-content strong {
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.blog-post-content em {
+  font-style: italic;
+}
+
+.blog-post-content s {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+.blog-post-content ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+  margin: 1rem 0 1.25rem;
+}
+
+.blog-post-content ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+  margin: 1rem 0 1.25rem;
+}
+
+.blog-post-content li {
+  margin-bottom: 0.4rem;
+  line-height: 1.75;
+  overflow-wrap: break-word;
+}
+
+.blog-post-content a {
+  color: hsl(214, 95%, 50%);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
+.blog-post-content a:hover {
+  color: hsl(214, 63%, 25%);
+}
+
+.blog-post-content blockquote {
+  border-left: 4px solid hsl(214, 95%, 60%);
+  padding-left: 1.25rem;
+  margin: 1.5rem 0;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.blog-post-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+  margin: 1rem 0;
+}
+
+.blog-post-content pre {
+  overflow-x: auto;
+  background: #f1f5f9;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.blog-post-content code {
+  background: #f1f5f9;
+  padding: 0.1em 0.4em;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
 }

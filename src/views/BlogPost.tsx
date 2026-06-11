@@ -1,197 +1,208 @@
 'use client';
-
-
-import { useParams } from "next/navigation";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import DOMPurify from 'dompurify';
-import PageHero from "@/components/PageHero";
 import ScrollReveal from "@/components/ScrollReveal";
-import { ArrowLeft, Calendar, Clock, Tag, Share2, Facebook, Twitter, Linkedin, ArrowRight } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ArrowLeft, Calendar, Tag, ArrowRight, User, Facebook, Twitter, Linkedin, BookOpen } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import { supabase } from "@/lib/supabase";
 
-export default function BlogPost() {
-  const { id } = useParams();
+type Post = {
+  id: string;
+  titulo: string;
+  resumo?: string;
+  conteudo?: string;
+  imagem?: string;
+  categoria?: string;
+  autor_nome?: string;
+  autor_descricao?: string;
+  created_at: string;
+  featured?: boolean;
+};
+
+interface BlogPostClientProps {
+  post: Post;
+}
+
+export default function BlogPostClient({ post }: BlogPostClientProps) {
   const [emblaRef] = useEmblaCarousel({ loop: false, align: "start", dragFree: true });
-  
-  const [post, setPost] = useState<any>(null);
-  const [relatedPosts, setRelatedPosts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [relatedPosts, setRelatedPosts] = useState<Post[]>([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    
-    async function fetchPost() {
-      setLoading(true);
-      if (!id) return;
-      
-      const { data: postData } = await supabase.from('funsa_posts').select('*').eq('id', id).single();
-      
-      if (postData) {
-        setPost(postData);
-        const { data: relatedData } = await supabase.from('funsa_posts').select('*').neq('id', postData.id).limit(4);
-        if (relatedData) setRelatedPosts(relatedData);
-      }
-      setLoading(false);
-    }
-    fetchPost();
-  }, [id]);
+    if (!post?.id) return;
+    supabase
+      .from('funsa_posts')
+      .select('id, titulo, resumo, imagem, categoria, autor_nome, created_at')
+      .neq('id', post.id)
+      .limit(4)
+      .then(({ data }) => { if (data) setRelatedPosts(data); });
+  }, [post?.id]);
 
-  if (loading) {
-    return <div className="text-center py-20 text-xl text-muted-foreground">Carregando artigo...</div>;
-  }
-
-  if (!post) {
-    return <div className="text-center py-20 text-xl text-muted-foreground">Artigo não encontrado.</div>;
-  }
+  const shareUrl = typeof window !== 'undefined' ? encodeURIComponent(window.location.href) : '';
+  const shareTitle = encodeURIComponent(post.titulo);
 
   return (
-    <>
-      <PageHero
-        title="Blog FUNSA"
-        subtitle={post.categoria}
-        breadcrumbs={[
-          { label: "Blog", href: "/blog" },
-          { label: "Artigo", href: "#" }
-        ]}
-      />
+    <div className="blog-article-page">
 
-      <section className="section-padding bg-slate-50">
-        <div className="section-container max-w-4xl mx-auto">
-          
-          <ScrollReveal>
-            {/* Header do Post */}
-            <div className="mb-10 text-center">
-              <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-azure/10 text-azure text-sm font-semibold mb-6">
-                <Tag className="w-4 h-4" />
-                {post.categoria}
+      {/* Hero com imagem full-bleed */}
+      <div className="relative w-full h-[45vh] md:h-[60vh] overflow-hidden">
+        {post.imagem ? (
+          <img src={post.imagem} alt={post.titulo} className="w-full h-full object-cover" />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-blue-900 to-blue-700" />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
+
+        <div className="absolute top-6 left-0 right-0 px-6 md:px-12">
+          <Link href="/blog" className="inline-flex items-center gap-2 text-white/80 hover:text-white text-sm font-semibold transition-colors backdrop-blur-sm bg-white/10 px-4 py-2 rounded-full border border-white/20">
+            <ArrowLeft className="w-4 h-4" /> Blog FUNSA
+          </Link>
+        </div>
+
+        <div className="absolute bottom-0 left-0 right-0 px-6 md:px-12 pb-10">
+          <div className="max-w-4xl mx-auto">
+            {post.categoria && (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/30 backdrop-blur-sm border border-blue-400/40 text-blue-200 text-xs font-bold uppercase tracking-widest mb-4">
+                <Tag className="w-3 h-3" /> {post.categoria}
               </span>
-              <h1 className="text-3xl md:text-5xl font-serif font-bold text-primary mb-6 leading-tight">
-                {post.titulo}
-              </h1>
-              
-              <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground font-medium mb-10">
-                <span className="flex items-center gap-2">
-                   <Calendar className="w-4 h-4 text-azure" />
-                  {new Date(post.created_at).toLocaleDateString('pt-BR')}
-                </span>
-                <span className="flex items-center gap-2">
-                   <Clock className="w-4 h-4 text-azure" />
-                  {post.tempo_leitura}
-                </span>
-              </div>
-            </div>
-          </ScrollReveal>
+            )}
+            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold text-white leading-tight drop-shadow-lg">
+              {post.titulo}
+            </h1>
+          </div>
+        </div>
+      </div>
 
-          <ScrollReveal delay={0.1}>
-            {/* Imagem Principal */}
-            <div className="rounded-3xl overflow-hidden shadow-lg border border-border mb-12 h-64 sm:h-96 w-full">
-              <img 
-                src={post.imagem} 
-                alt={post.titulo} 
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </ScrollReveal>
+      {/* Meta bar sticky */}
+      <div className="bg-white border-b border-slate-100 shadow-sm sticky top-0 z-30">
+        <div className="max-w-4xl mx-auto px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-5 text-sm text-slate-500 font-medium">
+            {post.autor_nome && (
+              <span className="flex items-center gap-1.5">
+                <User className="w-4 h-4 text-blue-500" />
+                <span>Por <strong className="text-slate-700">{post.autor_nome}</strong></span>
+              </span>
+            )}
+            <span className="flex items-center gap-1.5">
+              <Calendar className="w-4 h-4 text-blue-500" />
+              {new Date(post.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider hidden sm:block">Compartilhar</span>
+            <a href={`https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`} target="_blank" rel="noopener noreferrer"
+              className="w-8 h-8 rounded-full bg-slate-100 hover:bg-blue-600 hover:text-white text-slate-500 flex items-center justify-center transition-all">
+              <Facebook className="w-3.5 h-3.5" />
+            </a>
+            <a href={`https://twitter.com/intent/tweet?url=${shareUrl}&text=${shareTitle}`} target="_blank" rel="noopener noreferrer"
+              className="w-8 h-8 rounded-full bg-slate-100 hover:bg-sky-500 hover:text-white text-slate-500 flex items-center justify-center transition-all">
+              <Twitter className="w-3.5 h-3.5" />
+            </a>
+            <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`} target="_blank" rel="noopener noreferrer"
+              className="w-8 h-8 rounded-full bg-slate-100 hover:bg-blue-700 hover:text-white text-slate-500 flex items-center justify-center transition-all">
+              <Linkedin className="w-3.5 h-3.5" />
+            </a>
+          </div>
+        </div>
+      </div>
 
-          <ScrollReveal delay={0.2}>
-            {/* Conteúdo do Post */}
-            <div className="bg-white p-8 md:p-14 rounded-3xl shadow-sm border border-border mb-12">
-              <div className="prose prose-lg prose-stone max-w-none">
-                <p className="text-xl text-muted-foreground font-medium mb-8 leading-relaxed italic border-l-4 border-azure pl-6">
-                  {post.resumo}
-                </p>
-                <hr className="mb-8 border-border" />
-                
-                {/* O conteúdo do artigo (Em um app real, idealmente processado por um parser de HTML ou Markdown) */}
-                <div 
-                  className="space-y-6 text-slate-700 leading-relaxed 
-                  [&>h3]:text-2xl [&>h3]:font-serif [&>h3]:font-bold [&>h3]:text-primary [&>h3]:mt-10 [&>h3]:mb-4
-                  [&>p]:mb-4
-                  [&>ul]:list-disc [&>ul]:pl-6 [&>ul]:space-y-3 [&>ul]:mb-6
-                  [&>ul>li>strong]:text-primary"
-                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.conteudo) }}
+      {/* Corpo do artigo */}
+      <div className="bg-slate-50 py-12 md:py-16">
+        <div className="max-w-4xl mx-auto px-6">
+          <ScrollReveal>
+            <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+
+              {post.resumo && (
+                <div className="px-8 md:px-14 pt-10 pb-8 border-b border-slate-100">
+                  <div className="flex gap-4 items-start">
+                    <div className="w-1 flex-shrink-0 bg-gradient-to-b from-blue-500 to-blue-300 rounded-full self-stretch min-h-[40px]" />
+                    <p className="text-lg md:text-xl text-slate-600 font-medium leading-relaxed italic">{post.resumo}</p>
+                  </div>
+                </div>
+              )}
+
+              <div className="px-8 md:px-14 py-10">
+                <div
+                  className="blog-post-content"
+                  dangerouslySetInnerHTML={{ __html: post.conteudo || '' }}
                 />
               </div>
 
-              {/* Botões de Ação na Base do Post */}
-              <div className="mt-16 pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-6">
-                <div className="flex items-center gap-4">
-                  <span className="text-sm font-semibold text-muted-foreground">Compartilhar:</span>
-                  <div className="flex gap-2">
-                    <button className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-primary hover:bg-azure hover:text-white transition-colors">
-                      <Facebook className="w-4 h-4" />
-                    </button>
-                    <button className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-primary hover:bg-azure hover:text-white transition-colors">
-                      <Twitter className="w-4 h-4" />
-                    </button>
-                    <button className="w-10 h-10 rounded-full bg-muted flex items-center justify-center text-primary hover:bg-azure hover:text-white transition-colors">
-                      <Linkedin className="w-4 h-4" />
-                    </button>
+              {(post.autor_nome || post.autor_descricao) && (
+                <div className="mx-8 md:mx-14 mb-10 p-6 rounded-2xl bg-gradient-to-br from-blue-50 to-slate-50 border border-blue-100 flex items-start gap-5">
+                  <div className="w-12 h-12 flex-shrink-0 rounded-full bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center shadow-md">
+                    <User className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold text-blue-500 uppercase tracking-[0.18em] mb-1">Sobre o Autor</p>
+                    {post.autor_nome && <h4 className="text-base font-bold text-slate-800 mb-1">{post.autor_nome}</h4>}
+                    {post.autor_descricao && <p className="text-sm text-slate-500 leading-relaxed">{post.autor_descricao}</p>}
                   </div>
                 </div>
+              )}
 
-                <Link 
-                  href="/blog"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-border font-semibold text-primary hover:bg-muted transition-colors"
-                >
+              <div className="px-8 md:px-14 py-6 border-t border-slate-100 flex flex-col sm:flex-row justify-between items-center gap-4 bg-slate-50/60">
+                <Link href="/blog" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-semibold text-sm hover:bg-white hover:shadow-sm transition-all">
                   <ArrowLeft className="w-4 h-4" /> Voltar ao Blog
                 </Link>
-              </div>
-            </div>
-            
-            {/* Slider de Artigos Relacionados */}
-            <div className="mt-20 mb-8 overflow-hidden">
-              <div className="flex items-center justify-between mb-8 px-2">
-                <h3 className="text-2xl font-serif font-bold text-primary">
-                  Continue lendo
-                </h3>
-              </div>
-              
-              <div className="embla" ref={emblaRef}>
-                <div className="embla__container flex gap-6 px-2 pb-6">
-                  {relatedPosts.map((relatedPost) => (
-                    <div key={relatedPost.id} className="embla__slide flex-[0_0_85%] sm:flex-[0_0_45%] lg:flex-[0_0_31%] min-w-0">
-                      <article className="h-full flex flex-col bg-white rounded-2xl border border-border overflow-hidden group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                        <div className="w-full h-44 overflow-hidden relative">
-                          <img 
-                            src={relatedPost.imagem} 
-                            alt={relatedPost.titulo} 
-                            className="w-full h-full object-cover transform group-hover:scale-110 transition duration-500 ease-out"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60 z-10" />
-                           <span className="absolute bottom-3 left-3 z-20 inline-flex items-center px-2.5 py-0.5 rounded-full bg-white text-[10px] font-semibold text-primary shadow-sm uppercase tracking-wide">
-                            {relatedPost.categoria}
-                          </span>
-                        </div>
-                        <div className="p-5 flex flex-col flex-1">
-                          <div className="flex items-center gap-3 text-[11px] text-muted-foreground font-medium mb-2">
-                            <span className="flex items-center gap-1">
-                              <Calendar className="w-3 h-3" />
-                              {new Date(relatedPost.created_at).toLocaleDateString('pt-BR')}
-                            </span>
-                          </div>
-                          <h4 className="text-lg font-serif font-bold text-foreground mb-2 group-hover:text-azure transition-colors line-clamp-2">
-                            {relatedPost.titulo}
-                          </h4>
-                          <p className="text-sm text-muted-foreground line-clamp-2 mb-4 flex-1">
-                            {relatedPost.resumo}
-                          </p>
-                          <Link href={`/blog/${relatedPost.id}`} className="mt-auto text-xs font-semibold text-primary flex items-center gap-1 group-hover:text-azure transition-colors w-fit">
-                            Ler artigo <ArrowRight className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform" />
-                          </Link>
-                        </div>
-                      </article>
-                    </div>
-                  ))}
+                <div className="flex items-center gap-2 text-sm text-slate-400">
+                  <BookOpen className="w-4 h-4" />
+                  <span>FUNSA — Blog Institucional</span>
                 </div>
               </div>
             </div>
           </ScrollReveal>
         </div>
-      </section>
-    </>
+      </div>
+
+      {/* Artigos relacionados */}
+      {relatedPosts.length > 0 && (
+        <div className="bg-white py-14 border-t border-slate-100">
+          <div className="max-w-4xl mx-auto px-6">
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-2xl font-bold text-slate-800">Continue lendo</h2>
+              <Link href="/blog" className="text-sm font-semibold text-blue-600 hover:text-blue-800 flex items-center gap-1 transition-colors">
+                Ver todos <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+            <div className="embla overflow-hidden" ref={emblaRef}>
+              <div className="embla__container flex gap-5 pb-2">
+                {relatedPosts.map(rp => (
+                  <div key={rp.id} className="embla__slide flex-[0_0_88%] sm:flex-[0_0_46%] lg:flex-[0_0_30%] min-w-0">
+                    <Link href={`/blog/${rp.id}`}>
+                      <article className="h-full flex flex-col rounded-2xl border border-slate-100 overflow-hidden group hover:shadow-lg hover:-translate-y-1 transition-all duration-300 bg-white">
+                        <div className="relative w-full h-40 overflow-hidden">
+                          {rp.imagem ? (
+                            <img src={rp.imagem} alt={rp.titulo} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                          ) : (
+                            <div className="w-full h-full bg-gradient-to-br from-blue-100 to-slate-100" />
+                          )}
+                          {rp.categoria && (
+                            <span className="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-white/90 text-[10px] font-bold text-blue-700 uppercase tracking-wide shadow-sm">
+                              {rp.categoria}
+                            </span>
+                          )}
+                        </div>
+                        <div className="p-5 flex flex-col flex-1">
+                          <p className="text-[11px] text-slate-400 font-medium mb-2 flex items-center gap-1">
+                            <Calendar className="w-3 h-3" />
+                            {new Date(rp.created_at).toLocaleDateString('pt-BR')}
+                          </p>
+                          <h4 className="text-sm font-bold text-slate-800 leading-snug mb-2 line-clamp-2 group-hover:text-blue-700 transition-colors">{rp.titulo}</h4>
+                          {rp.resumo && <p className="text-xs text-slate-400 line-clamp-2 mb-3 flex-1">{rp.resumo}</p>}
+                          <span className="mt-auto text-xs font-bold text-blue-600 flex items-center gap-1 group-hover:gap-2 transition-all">
+                            Ler artigo <ArrowRight className="w-3.5 h-3.5" />
+                          </span>
+                        </div>
+                      </article>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
-

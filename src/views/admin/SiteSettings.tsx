@@ -61,8 +61,8 @@ export default function SiteSettings() {
           setFaviconUrl(data.favicon_url || '');
           setTelefone(data.telefone || '');
           setEndereco(data.endereco || '');
-          setInstagram(data.instagram || '');
-          setFacebook(data.facebook || '');
+          setInstagram(data.instagram_url || data.instagram || '');
+          setFacebook(data.facebook_url || data.facebook || '');
           setWhatsapp(data.whatsapp || '');
           setEmail(data.email || '');
         }
@@ -75,8 +75,7 @@ export default function SiteSettings() {
     load();
   }, []);
 
-  async function handleSave(e: React.FormEvent) {
-    e.preventDefault();
+  async function handleSave() {
     setSaving(true);
     try {
       const { error } = await supabase.from('funsa_site_config').upsert({
@@ -86,16 +85,16 @@ export default function SiteSettings() {
         favicon_url: faviconUrl,
         telefone, 
         endereco,
-        instagram,
-        facebook,
+        instagram_url: instagram,
+        facebook_url: facebook,
         whatsapp,
         email
-      }).eq('id', 1);
+      });
 
       if (error) throw error;
       toast({ title: 'Configurações atualizadas!', description: 'As mudanças já estão no ar.' });
-    } catch(err) {
-      toast({ title: 'Erro ao salvar configurações', variant: 'destructive' });
+    } catch(err: any) {
+      toast({ title: 'Erro ao salvar configurações', description: err?.message, variant: 'destructive' });
     } finally {
       setSaving(false);
     }

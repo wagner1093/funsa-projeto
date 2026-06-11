@@ -202,7 +202,7 @@ export default function ManageIntegrations() {
 
       {/* Modern Dialog */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-4xl bg-white rounded-3xl p-0 overflow-hidden border border-gray-100 shadow-2xl">
+        <DialogContent hideCloseButton className="max-w-4xl bg-white rounded-3xl p-0 overflow-hidden border border-gray-100 shadow-2xl">
           <div className="px-8 py-6 border-b border-gray-100 flex items-center justify-between bg-white">
             <div className="flex items-center gap-4">
               <div className="w-10 h-10 rounded-xl bg-gray-900 flex items-center justify-center shadow-lg shadow-black/10">
