@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+const getSupabaseAdmin = () => createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+  process.env.SUPABASE_SERVICE_ROLE_KEY || '',
   {
     auth: {
       autoRefreshToken: false,
@@ -29,6 +29,7 @@ export async function PUT(request: NextRequest) {
       authUpdatePayload.password = senha;
     }
 
+    const supabaseAdmin = getSupabaseAdmin();
     const { error: authError } = await supabaseAdmin.auth.admin.updateUserById(
       id,
       authUpdatePayload

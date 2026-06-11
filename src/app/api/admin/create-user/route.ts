@@ -3,9 +3,9 @@ import { createClient } from '@supabase/supabase-js';
 
 // Esta rota usa a SERVICE ROLE KEY para criar usuários no Supabase Auth
 // A chave de serviço NUNCA deve ser exposta no cliente
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+const getSupabaseAdmin = () => createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+  process.env.SUPABASE_SERVICE_ROLE_KEY || '',
   {
     auth: {
       autoRefreshToken: false,
@@ -33,6 +33,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 1. Criar o usuário no Supabase Auth com e-mail e senha
+    const supabaseAdmin = getSupabaseAdmin();
     const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
       email,
       password: senha,
