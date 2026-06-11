@@ -29,10 +29,14 @@ type Post = {
   featured: boolean;
 };
 
-export default function ManagePosts() {
+type Props = {
+  initialData?: Post[];
+};
+
+export default function ManagePosts({ initialData = [] }: Props) {
   const { role } = useAuth();
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [posts, setPosts] = useState<Post[]>(initialData);
+  const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const { toast } = useToast();
@@ -67,7 +71,9 @@ export default function ManagePosts() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    fetchPosts();
+    if (initialData.length === 0) {
+      fetchPosts();
+    }
     fetchCategories();
   }, []);
 

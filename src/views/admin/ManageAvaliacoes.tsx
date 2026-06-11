@@ -31,10 +31,14 @@ type Avaliacao = {
   created_at: string;
 };
 
-export default function ManageAvaliacoes() {
+type Props = {
+  initialData?: Avaliacao[];
+};
+
+export default function ManageAvaliacoes({ initialData = [] }: Props) {
   const { role } = useAuth();
-  const [avaliacoes, setAvaliacoes] = useState<Avaliacao[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [avaliacoes, setAvaliacoes] = useState<Avaliacao[]>(initialData);
+  const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const { toast } = useToast();

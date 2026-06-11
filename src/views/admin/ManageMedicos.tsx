@@ -30,10 +30,14 @@ type Medico = {
   categoria: string;
 };
 
-export default function ManageMedicos() {
+type Props = {
+  initialData?: Medico[];
+};
+
+export default function ManageMedicos({ initialData = [] }: Props) {
   const { role } = useAuth();
-  const [medicos, setMedicos] = useState<Medico[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [medicos, setMedicos] = useState<Medico[]>(initialData);
+  const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const { toast } = useToast();
@@ -58,7 +62,9 @@ export default function ManageMedicos() {
   const [editingId, setEditingId] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchMedicos();
+    if (initialData.length === 0) {
+      fetchMedicos();
+    }
   }, []);
 
   async function fetchMedicos() {

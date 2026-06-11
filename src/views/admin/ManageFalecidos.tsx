@@ -40,11 +40,16 @@ type Homenagem = {
   } | null;
 };
 
-export default function ManageFalecidos() {
+type Props = {
+  initialFalecidos?: Falecido[];
+  initialHomenagens?: Homenagem[];
+};
+
+export default function ManageFalecidos({ initialFalecidos = [], initialHomenagens = [] }: Props) {
   const { role } = useAuth();
-  const [falecidos, setFalecidos] = useState<Falecido[]>([]);
-  const [homenagens, setHomenagens] = useState<Homenagem[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [falecidos, setFalecidos] = useState<Falecido[]>(initialFalecidos);
+  const [homenagens, setHomenagens] = useState<Homenagem[]>(initialHomenagens);
+  const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [hSearchTerm, setHSearchTerm] = useState('');
@@ -75,12 +80,15 @@ export default function ManageFalecidos() {
   const [editingId, setEditingId] = useState<string | null>(null);
 
   useEffect(() => {
-    async function initData() {
-      setLoading(true);
-      await Promise.all([fetchFalecidos(), fetchHomenagens()]);
-      setLoading(false);
+    // Only fetch if no initial data was provided (client-side refresh)
+    if (initialFalecidos.length === 0 && initialHomenagens.length === 0) {
+      async function initData() {
+        setLoading(true);
+        await Promise.all([fetchFalecidos(), fetchHomenagens()]);
+        setLoading(false);
+      }
+      initData();
     }
-    initData();
   }, []);
 
   async function fetchFalecidos() {
