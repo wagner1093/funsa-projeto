@@ -474,17 +474,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         {/* Dynamic Viewport */}
         <main className="flex-1 p-6 lg:p-8 max-w-[1400px] w-full mx-auto">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={pathname}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.3, ease: 'circOut' }}
-            >
-              {children}
-            </motion.div>
-          </AnimatePresence>
+          <motion.div
+            key={pathname}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.18, ease: 'easeOut' }}
+          >
+            {children}
+          </motion.div>
         </main>
 
       </div>
