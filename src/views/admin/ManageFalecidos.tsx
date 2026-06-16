@@ -149,8 +149,13 @@ export default function ManageFalecidos({ initialFalecidos = [], initialHomenage
 
     if (editingId) {
       const { error } = await supabase.from('funsa_falecidos').update(payload).eq('id', editingId);
-      if (error) toast({ title: 'Erro ao atualizar', variant: 'destructive' });
-      else { 
+      if (error) {
+        toast({ 
+          title: 'Erro ao atualizar', 
+          description: error.message, 
+          variant: 'destructive' 
+        });
+      } else { 
         toast({ title: 'Registro atualizado' }); 
         setIsOpen(false); 
         fetchFalecidos(); 
@@ -158,8 +163,13 @@ export default function ManageFalecidos({ initialFalecidos = [], initialHomenage
       }
     } else {
       const { error } = await supabase.from('funsa_falecidos').insert([payload]);
-      if (error) toast({ title: 'Erro ao criar', variant: 'destructive' });
-      else { 
+      if (error) {
+        toast({ 
+          title: 'Erro ao criar', 
+          description: error.message, 
+          variant: 'destructive' 
+        });
+      } else { 
         toast({ title: 'Registro publicado' }); 
         setIsOpen(false); 
         fetchFalecidos(); 
@@ -297,14 +307,14 @@ export default function ManageFalecidos({ initialFalecidos = [], initialHomenage
                           </td>
                           <td className="px-6 py-4">
                              <div className="space-y-1.5">
-                                <div className="flex items-center gap-2 text-[11px] text-gray-500 font-medium">
-                                  <Clock className="w-3 h-3 text-gray-300" />
-                                  <span className="text-[9px] font-bold text-gray-400 uppercase">Velório:</span> {item.velorio}
-                                </div>
-                                <div className="flex items-center gap-2 text-[11px] text-gray-500 font-medium">
-                                  <MapPin className="w-3 h-3 text-gray-300" />
-                                  <span className="text-[9px] font-bold text-gray-400 uppercase">Sepult.:</span> {item.sepultamento}
-                                </div>
+                                 <div className="flex items-center gap-2 text-[11px] text-gray-500 font-medium">
+                                   <Clock className="w-3 h-3 text-gray-300" />
+                                   <span className="text-[9px] font-bold text-gray-400 uppercase">Velório:</span> {item.velorio || 'Não informado'}
+                                 </div>
+                                 <div className="flex items-center gap-2 text-[11px] text-gray-500 font-medium">
+                                   <MapPin className="w-3 h-3 text-gray-300" />
+                                   <span className="text-[9px] font-bold text-gray-400 uppercase">Sepult.:</span> {item.sepultamento || 'Não informado'}
+                                 </div>
                              </div>
                           </td>
                           {role !== 'viewer' && (
@@ -502,10 +512,9 @@ export default function ManageFalecidos({ initialFalecidos = [], initialHomenage
               <div className="md:col-span-2 space-y-2">
                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] px-1">Informações de Cerimônia (Horário/Local)</label>
                 <Input 
-                  required 
                   value={velorio} 
                   onChange={e => setVelorio(e.target.value)} 
-                  placeholder="Ex: Hoje às 15:00 na Capela Municipal" 
+                  placeholder="" 
                   className="h-12 border-gray-100 bg-white rounded-xl text-sm font-medium focus-visible:ring-gray-200 shadow-sm" 
                 />
               </div>
@@ -513,10 +522,9 @@ export default function ManageFalecidos({ initialFalecidos = [], initialHomenage
               <div className="md:col-span-2 space-y-2">
                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] px-1">Informações de Sepultamento</label>
                 <Input 
-                  required 
                   value={sepultamento} 
                   onChange={e => setSepultamento(e.target.value)} 
-                  placeholder="Ex: Amanhã às 10:00 no Cemitério de Avaré" 
+                  placeholder="" 
                   className="h-12 border-gray-100 bg-white rounded-xl text-sm font-medium focus-visible:ring-gray-200 shadow-sm" 
                 />
               </div>

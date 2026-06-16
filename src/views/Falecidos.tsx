@@ -158,11 +158,11 @@ export default function Falecidos() {
                         <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-foreground/80">
                           <p>
                             <span className="font-medium text-muted-foreground">Velório:</span>{" "}
-                            <span>{f.velorio}</span>
+                            <span>{f.velorio || 'Não informado'}</span>
                           </p>
                           <p>
                             <span className="font-medium text-muted-foreground">Sepultamento:</span>{" "}
-                            <span>{f.sepultamento}</span>
+                            <span>{f.sepultamento || 'Não informado'}</span>
                           </p>
                         </div>
                       </div>

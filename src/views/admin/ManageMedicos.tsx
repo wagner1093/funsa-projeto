@@ -97,12 +97,30 @@ export default function ManageMedicos({ initialData = [] }: Props) {
 
     if (editingId) {
       const { error } = await supabase.from('funsa_medicos').update(payload).eq('id', editingId);
-      if (error) toast({ title: 'Erro ao atualizar', variant: 'destructive' });
-      else { toast({ title: 'Registro atualizado' }); setIsOpen(false); fetchMedicos(); }
+      if (error) {
+        toast({ 
+          title: 'Erro ao atualizar', 
+          description: error.message, 
+          variant: 'destructive' 
+        });
+      } else { 
+        toast({ title: 'Registro atualizado' }); 
+        setIsOpen(false); 
+        fetchMedicos(); 
+      }
     } else {
       const { error } = await supabase.from('funsa_medicos').insert([payload]);
-      if (error) toast({ title: 'Erro ao cadastrar', variant: 'destructive' });
-      else { toast({ title: 'Registro cadastrado' }); setIsOpen(false); fetchMedicos(); }
+      if (error) {
+        toast({ 
+          title: 'Erro ao cadastrar', 
+          description: error.message, 
+          variant: 'destructive' 
+        });
+      } else { 
+        toast({ title: 'Registro cadastrado' }); 
+        setIsOpen(false); 
+        fetchMedicos(); 
+      }
     }
   }
 
