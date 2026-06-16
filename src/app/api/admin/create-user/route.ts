@@ -10,6 +10,8 @@ const getSupabaseAdmin = () => createClient(
     auth: {
       autoRefreshToken: false,
       persistSession: false,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      lock: async (_name: string, _acquireTimeout: number, fn: () => Promise<any>) => fn(),
     },
   }
 );
