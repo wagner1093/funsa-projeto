@@ -22,11 +22,14 @@ export default function Falecidos() {
 
   useEffect(() => {
     async function loadFalecidos() {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('funsa_falecidos')
         .select('*, mensagens:funsa_falecidos_homenagens(*)')
         .order('created_at', { ascending: false });
-      
+
+      if (error) console.error('Supabase falecidos error:', error);
+      console.log('Supabase URL:', process.env.NEXT_PUBLIC_SUPABASE_URL);
+      console.log('Falecidos data:', data);
       if (data) setFalecimentos(data);
       setLoading(false);
     }
