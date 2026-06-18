@@ -124,13 +124,14 @@ export default function ManagePosts({ initialData = [] }: Props) {
   async function handleEdit(id: string) {
     const { data } = await supabase.from('funsa_posts').select('*').eq('id', id).single();
     if (data) {
-      setTitulo(data.titulo);
-      setResumo(data.resumo);
-      setCategoria(data.categoria);
+      // Converte null → '' para evitar TypeError ao chamar .trim() no formulário
+      setTitulo(data.titulo || '');
+      setResumo(data.resumo || '');
+      setCategoria(data.categoria || '');
       setImagem(data.imagem || '');
-      setTempoLeitura(data.tempo_leitura);
-      setConteudo(data.conteudo);
-      setFeatured(data.featured);
+      setTempoLeitura(data.tempo_leitura || '');
+      setConteudo(data.conteudo || '');
+      setFeatured(data.featured ?? false);
       setAutorNome(data.autor_nome || '');
       setAutorDescricao(data.autor_descricao || '');
       setStatus(data.status || 'publicado');
@@ -196,16 +197,17 @@ export default function ManagePosts({ initialData = [] }: Props) {
     }
 
     // Envia null para campos opcionais vazios (evita erro NOT NULL)
+    // Usa (valor || '') antes do .trim() para garantir que nunca chama trim() em null
     const payload = {
-      titulo: titulo.trim(),
-      resumo: resumo.trim() || null,
-      categoria: categoria.trim() || null,
-      imagem: imagem.trim() || null,
-      tempo_leitura: tempoLeitura.trim() || null,
+      titulo: (titulo || '').trim(),
+      resumo: (resumo || '').trim() || null,
+      categoria: (categoria || '').trim() || null,
+      imagem: (imagem || '').trim() || null,
+      tempo_leitura: (tempoLeitura || '').trim() || null,
       conteudo: conteudo || '',
       featured,
-      autor_nome: autorNome.trim() || null,
-      autor_descricao: autorDescricao.trim() || null,
+      autor_nome: (autorNome || '').trim() || null,
+      autor_descricao: (autorDescricao || '').trim() || null,
       status: status || 'publicado',
     };
 
