@@ -22,13 +22,23 @@ export default function Blog() {
 
   useEffect(() => {
     async function loadPosts() {
-      const { data } = await supabase
-        .from('funsa_posts')
-        .select('*')
-        .or('status.eq.publicado,status.is.null')
-        .order('created_at', { ascending: false });
-      if (data) setArtigos(data);
-      setLoading(false);
+      try {
+        const { data, error } = await supabase
+          .from('funsa_posts')
+          .select('*')
+          .or('status.eq.publicado,status.is.null')
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          console.error('[Blog] Erro ao carregar posts:', error.message);
+        }
+        if (data) setArtigos(data);
+      } catch (err) {
+        console.error('[Blog] Erro inesperado:', err);
+      } finally {
+        // Garante que o loading SEMPRE termina, mesmo em caso de erro
+        setLoading(false);
+      }
     }
     loadPosts();
   }, []);
