@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { supabase } from './supabase';
 import { User } from '@supabase/supabase-js';
 
@@ -17,16 +17,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [role, setRole] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchRole = async (userId: string) => {
+  const fetchRole = useCallback(async (userId: string): Promise<string | null> => {
     try {
       const { data, error } = await supabase
         .from('funsa_site_users')
         .select('funcao')
         .eq('id', userId)
         .maybeSingle();
-      
+
       if (error) {
-        // Ignore "no rows" error (PGRST116) - user may not have a DB record yet
         if (error.code !== 'PGRST116') {
           console.error('Error fetching user role:', error.message ?? error);
         }
@@ -37,54 +36,92 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.error('Error in fetchRole:', err);
       return null;
     }
-  };
+  }, []);
+
+  // Sincroniza sessão atual (usado no mount e ao voltar para a aba)
+  const syncSession = useCallback(async () => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const currentUser = session?.user ?? null;
+      setUser(currentUser);
+
+      if (currentUser) {
+        const userRole = await fetchRole(currentUser.id);
+        setRole(userRole);
+      } else {
+        setRole(null);
+      }
+    } catch (err) {
+      console.error('Error syncing session:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, [fetchRole]);
 
   useEffect(() => {
     let active = true;
 
-    // Busca a sessão atual ao iniciar
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
+    // Busca a sessão inicial
+    syncSession();
+
+    // Ouve todas as mudanças de autenticação
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (!active) return;
+
+      console.debug('[Auth] Event:', event);
+
       const currentUser = session?.user ?? null;
-      setUser(currentUser);
-      
-      if (currentUser) {
-        const userRole = await fetchRole(currentUser.id);
-        if (active) {
-          setRole(userRole);
-          setLoading(false);
-        }
-      } else {
+
+      if (event === 'SIGNED_OUT') {
+        setUser(null);
         setRole(null);
         setLoading(false);
+        return;
       }
+
+      if (
+        event === 'TOKEN_REFRESHED' ||
+        event === 'SIGNED_IN' ||
+        event === 'USER_UPDATED' ||
+        event === 'INITIAL_SESSION'
+      ) {
+        setUser(currentUser);
+        if (currentUser) {
+          const userRole = await fetchRole(currentUser.id);
+          if (active) setRole(userRole);
+        } else {
+          setRole(null);
+        }
+        if (active) setLoading(false);
+        return;
+      }
+
+      // Qualquer outro evento — sincroniza normalmente
+      setUser(currentUser);
+      if (currentUser) {
+        const userRole = await fetchRole(currentUser.id);
+        if (active) setRole(userRole);
+      } else {
+        setRole(null);
+      }
+      if (active) setLoading(false);
     });
 
-    // Ouve alterações (login, logout)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      if (!active) return;
-      const currentUser = session?.user ?? null;
-      setUser(currentUser);
-      
-      if (currentUser) {
-        // Não recoloca loading=true se o usuário já estava autenticado
-        // (evita flash branco ao trocar de aba)
-        const userRole = await fetchRole(currentUser.id);
-        if (active) {
-          setRole(userRole);
-          setLoading(false);
-        }
-      } else {
-        setRole(null);
-        setLoading(false);
+    // Re-verifica sessão quando o usuário volta à aba
+    // Resolve o bug de botões que param de funcionar após longa inatividade
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        syncSession();
       }
-    });
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
       active = false;
       subscription.unsubscribe();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
+  }, [fetchRole, syncSession]);
 
   return (
     <AuthContext.Provider value={{ user, role, loading }}>
@@ -94,4 +131,3 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 };
 
 export const useAuth = () => useContext(AuthContext);
-

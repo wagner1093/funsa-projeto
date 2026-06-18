@@ -1,25 +1,15 @@
-import { createClient } from '@supabase/supabase-js';
+import { createBrowserClient } from '@supabase/auth-helpers-nextjs';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-if (!supabaseUrl || !supabaseKey) {
-  if (process.env.NODE_ENV === 'production' && typeof window === 'undefined') {
-    console.warn('⚠️ Supabase environment variables are missing during build.');
-  }
-}
-
-export const supabase = createClient(
-  supabaseUrl || 'https://placeholder.supabase.co',
-  supabaseKey || 'placeholder-key',
-  {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true,
-      detectSessionInUrl: true,
-      // Bypass navigator.locks which causes "lock stolen" conflicts in Next.js SSR/hydration
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      lock: async (_name: string, _acquireTimeout: number, fn: () => Promise<any>) => fn(),
-    },
-  }
-);
+/**
+ * Cliente Supabase para uso exclusivo no browser (componentes 'use client').
+ * Usa cookie-based storage via @supabase/ssr — compatível com Next.js SSR/middleware.
+ * 
+ * Vantagens sobre localStorage:
+ * - O middleware consegue ler e renovar a sessão a cada request
+ * - Sem conflito de token refresh entre SSR e cliente
+ * - Sem o bug de "lock stolen" que causava botões parando de funcionar
+ */
+export const supabase = createBrowserClient(supabaseUrl, supabaseKey);
