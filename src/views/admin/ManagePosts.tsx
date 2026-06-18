@@ -79,7 +79,13 @@ export default function ManagePosts({ initialData = [] }: Props) {
 
   async function fetchPosts() {
     setLoading(true);
-    const { data } = await supabase.from('funsa_posts').select('id, titulo, categoria, created_at, featured').order('created_at', { ascending: false });
+    const { data, error } = await supabase
+      .from('funsa_posts')
+      .select('id, titulo, categoria, created_at, featured')
+      .order('created_at', { ascending: false });
+    if (error) {
+      toast({ title: 'Erro ao carregar posts', description: error.message, variant: 'destructive' });
+    }
     if (data) setPosts(data);
     setLoading(false);
   }
@@ -188,27 +194,54 @@ export default function ManagePosts({ initialData = [] }: Props) {
       toast({ title: 'O título é obrigatório', variant: 'destructive' });
       return;
     }
-    const payload = { 
-      titulo, 
-      resumo, 
-      categoria, 
-      imagem, 
-      tempo_leitura: tempoLeitura, 
-      conteudo, 
+
+    // Envia null para campos opcionais vazios (evita erro NOT NULL)
+    const payload = {
+      titulo: titulo.trim(),
+      resumo: resumo.trim() || null,
+      categoria: categoria.trim() || null,
+      imagem: imagem.trim() || null,
+      tempo_leitura: tempoLeitura.trim() || null,
+      conteudo: conteudo || '',
       featured,
-      autor_nome: autorNome,
-      autor_descricao: autorDescricao,
-      status
+      autor_nome: autorNome.trim() || null,
+      autor_descricao: autorDescricao.trim() || null,
+      status: status || 'publicado',
     };
 
     if (editingId) {
-      const { error } = await supabase.from('funsa_posts').update(payload).eq('id', editingId);
-      if (error) toast({ title: 'Erro ao atualizar', description: error.message, variant: 'destructive' });
-      else { toast({ title: 'Post atualizado' }); setIsOpen(false); fetchPosts(); }
+      const { error } = await supabase
+        .from('funsa_posts')
+        .update(payload)
+        .eq('id', editingId);
+      if (error) {
+        console.error('Erro ao atualizar post:', error);
+        toast({
+          title: 'Erro ao atualizar',
+          description: `${error.message}${error.details ? ' — ' + error.details : ''}`,
+          variant: 'destructive',
+        });
+      } else {
+        toast({ title: '✅ Post atualizado com sucesso!' });
+        setIsOpen(false);
+        fetchPosts();
+      }
     } else {
-      const { error } = await supabase.from('funsa_posts').insert([payload]);
-      if (error) toast({ title: 'Erro ao criar', description: error.message, variant: 'destructive' });
-      else { toast({ title: 'Post publicado' }); setIsOpen(false); fetchPosts(); }
+      const { error } = await supabase
+        .from('funsa_posts')
+        .insert([payload]);
+      if (error) {
+        console.error('Erro ao criar post:', error);
+        toast({
+          title: 'Erro ao publicar',
+          description: `${error.message}${error.details ? ' — ' + error.details : ''}`,
+          variant: 'destructive',
+        });
+      } else {
+        toast({ title: '✅ Post publicado com sucesso!' });
+        setIsOpen(false);
+        fetchPosts();
+      }
     }
   }
 
