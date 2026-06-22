@@ -12,6 +12,26 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType>({ user: null, role: null, loading: true });
 
+// Cache da role em sessionStorage: resolve instantâneo em visitas repetidas
+const roleCache = {
+  get(userId: string): string | null | undefined {
+    try {
+      const val = sessionStorage.getItem(`funsa_role_${userId}`);
+      return val === null ? undefined : (val === '' ? null : val);
+    } catch { return undefined; }
+  },
+  set(userId: string, role: string | null) {
+    try { sessionStorage.setItem(`funsa_role_${userId}`, role ?? ''); } catch {}
+  },
+  clear() {
+    try {
+      Object.keys(sessionStorage)
+        .filter(k => k.startsWith('funsa_role_'))
+        .forEach(k => sessionStorage.removeItem(k));
+    } catch {}
+  },
+};
+
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [role, setRole] = useState<string | null>(null);
@@ -38,44 +58,71 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, []);
 
-  // Sincroniza sessão atual (usado no mount e ao voltar para a aba)
-  const syncSession = useCallback(async () => {
+  // Resolve role: usa cache para resultado imediato, valida no background
+  const resolveRole = useCallback(async (
+    userId: string,
+    done: (v: boolean) => void,
+    isActive: () => boolean,
+  ) => {
+    const cached = roleCache.get(userId);
+
+    if (cached !== undefined) {
+      // Resultado imediato do cache
+      if (isActive()) setRole(cached);
+      done(false);
+      // Valida silenciosamente em background
+      fetchRole(userId).then(fresh => {
+        if (!isActive()) return;
+        setRole(fresh);
+        roleCache.set(userId, fresh);
+      }).catch(() => {});
+      return;
+    }
+
+    // Primeira visita: busca no banco
+    const fresh = await fetchRole(userId);
+    if (isActive()) {
+      setRole(fresh);
+      roleCache.set(userId, fresh);
+    }
+    done(false);
+  }, [fetchRole]);
+
+  const syncSession = useCallback(async (isActive: () => boolean) => {
     try {
       const { data: { session } } = await supabase.auth.getSession();
       const currentUser = session?.user ?? null;
-      setUser(currentUser);
+      if (isActive()) setUser(currentUser);
 
-      if (currentUser) {
-        const userRole = await fetchRole(currentUser.id);
-        setRole(userRole);
-      } else {
-        setRole(null);
+      if (!currentUser) {
+        if (isActive()) { setRole(null); setLoading(false); }
+        roleCache.clear();
+        return;
       }
+
+      await resolveRole(currentUser.id, (v) => { if (isActive()) setLoading(v); }, isActive);
     } catch (err) {
       console.error('Error syncing session:', err);
-    } finally {
-      setLoading(false);
+      if (isActive()) setLoading(false);
     }
-  }, [fetchRole]);
+  }, [resolveRole]);
 
   useEffect(() => {
-    let active = true;
+    let alive = true;
+    const isActive = () => alive;
 
-    // Busca a sessão inicial
-    syncSession();
+    syncSession(isActive);
 
-    // Ouve todas as mudanças de autenticação
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (!active) return;
-
+      if (!alive) return;
       console.debug('[Auth] Event:', event);
-
       const currentUser = session?.user ?? null;
 
       if (event === 'SIGNED_OUT') {
         setUser(null);
         setRole(null);
         setLoading(false);
+        roleCache.clear();
         return;
       }
 
@@ -87,41 +134,37 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       ) {
         setUser(currentUser);
         if (currentUser) {
-          const userRole = await fetchRole(currentUser.id);
-          if (active) setRole(userRole);
+          await resolveRole(currentUser.id, (v) => { if (alive) setLoading(v); }, isActive);
         } else {
           setRole(null);
+          if (alive) setLoading(false);
         }
-        if (active) setLoading(false);
         return;
       }
 
-      // Qualquer outro evento — sincroniza normalmente
+      // Qualquer outro evento
       setUser(currentUser);
       if (currentUser) {
-        const userRole = await fetchRole(currentUser.id);
-        if (active) setRole(userRole);
+        await resolveRole(currentUser.id, (v) => { if (alive) setLoading(v); }, isActive);
       } else {
         setRole(null);
+        if (alive) setLoading(false);
       }
-      if (active) setLoading(false);
     });
 
-    // Re-verifica sessão quando o usuário volta à aba
-    // Resolve o bug de botões que param de funcionar após longa inatividade
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        syncSession();
+        syncSession(isActive);
       }
     };
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
-      active = false;
+      alive = false;
       subscription.unsubscribe();
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [fetchRole, syncSession]);
+  }, [syncSession, resolveRole]);
 
   return (
     <AuthContext.Provider value={{ user, role, loading }}>
