@@ -1,5 +1,5 @@
 'use client';
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { motion, AnimatePresence } from "framer-motion";
@@ -55,8 +55,8 @@ const specIcons: Record<string, React.ElementType> = {
   "Endocrinologia": Pill,
 };
 
-/* ── data (kept from original) ── */
-const especialidades: Record<string, string[]> = {
+/* ── fallback data (used when DB is empty) ── */
+const especialidadesHardcoded: Record<string, string[]> = {
   "Cabeça e pescoço": ["Dr. Renato Nakamura"],
   "Cardiologia": ["Dr. Murillo De Melo Villen Favaro De Oliveira"],
   "Clínico geral": ["Dra. Thaisa Garcia", "Dr. Lester Roberto Espinosa Popa", "Dra. Maria Eduarda M. Marques"],
@@ -86,6 +86,22 @@ interface Clinica {
   endereco: string;
   telefone: string;
 }
+
+type MedicoDB = {
+  id: string;
+  nome: string;
+  especialidade: string;
+  crm: string | null;
+  contato: string;
+  imagem: string | null;
+  endereco: string | null;
+  profissional: string | null;
+  categoria: string;
+};
+
+type Props = {
+  initialMedicos?: MedicoDB[];
+};
 
 function ResultsDialog({ children, className }: { children: React.ReactNode, className?: string }) {
   return (
@@ -132,7 +148,7 @@ function ResultsDialog({ children, className }: { children: React.ReactNode, cla
   );
 }
 
-const clinicasAvare: Clinica[] = [
+const clinicasAvareHardcoded: Clinica[] = [
   { nome: "Laboratório Ivan Garcia", especialidade: "Análises Clínicas", profissional: "Posto de coleta Laboratório Ivan Garcia", endereco: "Rua Santa Catarina, nº 1.981 – Centro", telefone: "(14) 3733-2555" },
   { nome: "PrevSaúde", especialidade: "Consultas Médicas", endereco: "Consulte no agendamento", telefone: "(14) 99818-4440" },
   { nome: "Clínica Áudio On", especialidade: "Otorrinolaringologia", profissional: "Dra. Thais Cristina Matuo", endereco: "Rua Santa Catarina, nº 1.981 – Centro", telefone: "(14) 3731-7228" },
@@ -153,7 +169,7 @@ const clinicasAvare: Clinica[] = [
   { nome: "Neurocirurgia", especialidade: "Neurocirurgia", profissional: "Dr. Marco Aurélio Pina", endereco: "Praça Rui Barbosa, nº 100 – Centro", telefone: "(14) 3733-4698" },
 ];
 
-const clinicasExames: Clinica[] = [
+const clinicasExamesHardcoded: Clinica[] = [
   { nome: "Centromed", especialidade: "Exames de Imagem", endereco: "Rua Goiás, nº 1.351 – Centro", telefone: "(14) 3732-1234" },
   { nome: "Centro de Radiologia – Unimed", especialidade: "Exames de Imagem", endereco: "Rua Santa Catarina, nº 1.981 – Bairro Alto", telefone: "(14) 3733-7571" },
   { nome: "Clínica Radiodoctor", especialidade: "Exames de Imagem", endereco: "Largo Santa Cruz, nº 808 – Centro", telefone: "(14) 3732-4316" },
@@ -163,7 +179,7 @@ const clinicasExames: Clinica[] = [
   { nome: "Clínica Imagem", especialidade: "Exames de Imagem", endereco: "Consultar no agendamento", telefone: "(14) 3732-0202" },
 ];
 
-const clinicasOutras: Clinica[] = [
+const clinicasOutrasHardcoded: Clinica[] = [
   { nome: "Organização Terra Branca – Bauru/SP", especialidade: "Diversas", endereco: "Praça Dom Pedro II, nº 4-74 – Centro", telefone: "(14) 3223-8011" },
   { nome: "Clínica Cliniprev – Botucatu/SP", especialidade: "Cardiologia, Clínico Geral, Dermatologia, Ginecologia, Oftalmologia, Ortopedia, Odontologia", endereco: "Av. Santana, nº 525 – Centro", telefone: "(14) 3361-6035" },
   { nome: "Dr. José Ricardo P. Rodrigues – Botucatu/SP", especialidade: "Ginecologia, Obstetrícia e Mastologia", endereco: "Praça Isabel Arruda, nº 157 – Centro", telefone: "(14) 3882-5515" },
@@ -186,9 +202,51 @@ function ClinicaCard({ c }: { c: Clinica }) {
   );
 }
 
-export default function PrevSaude() {
+export default function PrevSaude({ initialMedicos = [] }: Props) {
+  const toClinica = (m: MedicoDB): Clinica => ({
+    nome: m.nome,
+    especialidade: m.especialidade,
+    profissional: m.profissional ?? undefined,
+    endereco: m.endereco ?? '',
+    telefone: m.contato,
+  });
+
+  const especialidades = useMemo<Record<string, string[]>>(() => {
+    const fromDB = initialMedicos.filter(m => m.categoria === 'medico');
+    if (fromDB.length > 0 || initialMedicos.length > 0) {
+      return fromDB.reduce((acc, m) => {
+        const key = m.especialidade;
+        if (!acc[key]) acc[key] = [];
+        acc[key].push(m.nome);
+        return acc;
+      }, {} as Record<string, string[]>);
+    }
+    return especialidadesHardcoded;
+  }, [initialMedicos]);
+
+  const clinicasAvare = useMemo<Clinica[]>(() => {
+    if (initialMedicos.length > 0) {
+      return initialMedicos.filter(m => m.categoria === 'clinica_avare').map(toClinica);
+    }
+    return clinicasAvareHardcoded;
+  }, [initialMedicos]);
+
+  const clinicasExames = useMemo<Clinica[]>(() => {
+    if (initialMedicos.length > 0) {
+      return initialMedicos.filter(m => m.categoria === 'clinica_exame').map(toClinica);
+    }
+    return clinicasExamesHardcoded;
+  }, [initialMedicos]);
+
+  const clinicasOutras = useMemo<Clinica[]>(() => {
+    if (initialMedicos.length > 0) {
+      return initialMedicos.filter(m => m.categoria === 'clinica_outras').map(toClinica);
+    }
+    return clinicasOutrasHardcoded;
+  }, [initialMedicos]);
+
   /* carousel */
-  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+  const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     duration: 40,
     skipSnaps: false
