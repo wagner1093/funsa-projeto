@@ -158,7 +158,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const adminOnlyPaths = ['/admin/usuarios', '/admin/integracoes', '/admin/configuracoes'];
   const isRestrictedPath = adminOnlyPaths.some(path => pathname.startsWith(path));
 
-  if (loading) {
+  if (loading || !user) {
     return (
       <div className="min-h-screen flex bg-[#FAFAFA]">
         <aside className="w-64 shrink-0 hidden lg:block fixed left-0 top-0 bottom-0 z-30 bg-white border-r border-gray-100" />
@@ -168,8 +168,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </div>
     );
   }
-
-  if (!user) return null;
 
   // null = owner sem registro no DB, 'admin' = administrador, 'global_admin' = super admin
   const hasFullAccess = role === null || role === 'admin' || role === 'global_admin';
