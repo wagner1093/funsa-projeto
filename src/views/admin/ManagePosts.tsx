@@ -204,7 +204,9 @@ export default function ManagePosts({ initialData = [] }: Props) {
       categoria: (categoria || '').trim() || null,
       imagem: (imagem || '').trim() || null,
       tempo_leitura: (tempoLeitura || '').trim() || null,
-      conteudo: conteudo || '',
+      // Normaliza &nbsp; (espaço inseparável que o Quill insere) para espaço normal,
+      // senão o texto não quebra linha entre as palavras na página do artigo.
+      conteudo: (conteudo || '').replace(/&nbsp;| /g, ' '),
       featured,
       autor_nome: (autorNome || '').trim() || null,
       autor_descricao: (autorDescricao || '').trim() || null,
@@ -376,7 +378,7 @@ export default function ManagePosts({ initialData = [] }: Props) {
 
       {/* Modern Dialog */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent hideCloseButton className="max-w-5xl bg-white rounded-3xl p-0 overflow-hidden border border-gray-100 shadow-2xl overflow-y-auto max-h-[90vh]">
+        <DialogContent hideCloseButton className="max-w-7xl bg-white rounded-3xl p-0 overflow-hidden border border-gray-100 shadow-2xl overflow-y-auto max-h-[90vh]">
           <form onSubmit={handleSave}>
           {/* Dialog Header */}
           <div className="px-8 py-6 border-b border-gray-100 flex items-center justify-between sticky top-0 bg-white/90 backdrop-blur-md z-10">
@@ -413,8 +415,8 @@ export default function ManagePosts({ initialData = [] }: Props) {
             </div>
           </div>
           
-          <div className="p-8 grid grid-cols-1 lg:grid-cols-3 gap-8 bg-[#FBFBFC]">
-            <div className="lg:col-span-2 space-y-6">
+          <div className="p-8 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-8 bg-[#FBFBFC]">
+            <div className="space-y-6 min-w-0">
               {/* Main Content Card */}
               <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-6">
                 <div className="space-y-2">

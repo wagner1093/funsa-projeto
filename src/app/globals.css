@@ -317,19 +317,13 @@
 }
 
 .blog-post-content {
-  font-size: 16px;
-  line-height: 1.85;
+  /* Mesma tipografia do .ql-editor (editor do painel) — fonte, tamanho e
+     entrelinha — para que a quebra de linha caia nos mesmos pontos. A largura
+     preenche a seção; o editor é alargado para a mesma medida (~736px). */
+  font-size: 15px;
+  line-height: 1.8;
   color: #374151;
   font-family: 'Inter', system-ui, sans-serif;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  overflow: hidden;
-  max-width: 100%;
-}
-
-.blog-post-content * {
-  max-width: 100%;
-  box-sizing: border-box;
 }
 
 .blog-post-content h1 {
@@ -338,7 +332,6 @@
   color: hsl(214, 55%, 25%);
   margin: 2rem 0 1rem;
   line-height: 1.3;
-  overflow-wrap: break-word;
 }
 
 .blog-post-content h2 {
@@ -347,7 +340,6 @@
   color: hsl(214, 55%, 25%);
   margin: 1.75rem 0 0.875rem;
   line-height: 1.35;
-  overflow-wrap: break-word;
 }
 
 .blog-post-content h3 {
@@ -356,13 +348,11 @@
   color: hsl(214, 55%, 25%);
   margin: 1.5rem 0 0.75rem;
   line-height: 1.4;
-  overflow-wrap: break-word;
 }
 
 .blog-post-content p {
-  margin-bottom: 1.1rem;
-  overflow-wrap: break-word;
-  word-break: break-word;
+  margin: 0;
+  min-height: 1.8em;
 }
 
 .blog-post-content strong {
@@ -394,14 +384,12 @@
 .blog-post-content li {
   margin-bottom: 0.4rem;
   line-height: 1.75;
-  overflow-wrap: break-word;
 }
 
 .blog-post-content a {
   color: hsl(214, 95%, 50%);
   text-decoration: underline;
   text-underline-offset: 3px;
-  overflow-wrap: break-word;
   word-break: break-all;
 }
 

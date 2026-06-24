@@ -41,6 +41,11 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
   const shareUrl = typeof window !== 'undefined' ? encodeURIComponent(window.location.href) : '';
   const shareTitle = encodeURIComponent(post.titulo);
 
+  // Quill salva os espaços como &nbsp; (espaço inseparável), o que impede o navegador
+  // de quebrar a linha entre as palavras. Convertemos para espaço normal para que o
+  // texto quebre apenas no fim das palavras — igual ao editor.
+  const conteudoHtml = (post.conteudo || '').replace(/&nbsp;| /g, ' ');
+
   return (
     <div className="blog-article-page">
 
@@ -124,7 +129,7 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
               <div className="px-8 md:px-14 py-10">
                 <div
                   className="blog-post-content"
-                  dangerouslySetInnerHTML={{ __html: post.conteudo || '' }}
+                  dangerouslySetInnerHTML={{ __html: conteudoHtml }}
                 />
               </div>
 
