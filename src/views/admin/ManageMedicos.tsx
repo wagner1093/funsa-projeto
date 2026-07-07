@@ -6,10 +6,10 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/lib/AuthContext';
 import { useSearchParams } from 'next/navigation';
-import { 
-  Plus, Edit, Trash2, Search, Filter, Phone, 
+import {
+  Plus, Edit, Trash2, Search, Filter, Phone,
   MapPin, BadgeCheck, MoreVertical, HeartPulse,
-  ChevronRight, X, User, Stethoscope, Building2
+  ChevronRight, X, User, Stethoscope, Building2, Tags
 } from 'lucide-react';
 import {
   Dialog,
@@ -30,11 +30,52 @@ type Medico = {
   categoria: string;
 };
 
-type Props = {
-  initialData?: Medico[];
+type TipoMedico = {
+  id: string;
+  nome: string;
+  slug: string;
+  eh_medico: boolean;
+  cor: string;
+  ordem: number;
 };
 
-export default function ManageMedicos({ initialData = [] }: Props) {
+type Props = {
+  initialData?: Medico[];
+  initialTipos?: TipoMedico[];
+};
+
+const COLOR_OPTIONS = ['blue', 'purple', 'amber', 'emerald', 'rose', 'gray'] as const;
+
+const COLOR_MAP: Record<string, string> = {
+  blue: 'bg-blue-50 text-blue-500 border-blue-100',
+  purple: 'bg-purple-50 text-purple-500 border-purple-100',
+  amber: 'bg-amber-50 text-amber-500 border-amber-100',
+  emerald: 'bg-emerald-50 text-emerald-500 border-emerald-100',
+  rose: 'bg-rose-50 text-rose-500 border-rose-100',
+  gray: 'bg-gray-50 text-gray-500 border-gray-100',
+};
+
+const SWATCH_MAP: Record<string, string> = {
+  blue: 'bg-blue-400',
+  purple: 'bg-purple-400',
+  amber: 'bg-amber-400',
+  emerald: 'bg-emerald-400',
+  rose: 'bg-rose-400',
+  gray: 'bg-gray-400',
+};
+
+function slugify(text: string) {
+  const COMBINING_MARKS = new RegExp('[̀-ͯ]', 'g');
+  return text
+    .normalize('NFD')
+    .replace(COMBINING_MARKS, '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
+}
+
+export default function ManageMedicos({ initialData = [], initialTipos = [] }: Props) {
   const { role } = useAuth();
   const [medicos, setMedicos] = useState<Medico[]>(initialData);
   const [loading, setLoading] = useState(false);
@@ -61,9 +102,24 @@ export default function ManageMedicos({ initialData = [] }: Props) {
   const [categoria, setCategoria] = useState('medico');
   const [editingId, setEditingId] = useState<string | null>(null);
 
+  const [tipos, setTipos] = useState<TipoMedico[]>(initialTipos);
+  const [isTiposOpen, setIsTiposOpen] = useState(false);
+  const [tipoNome, setTipoNome] = useState('');
+  const [tipoCor, setTipoCor] = useState<string>('gray');
+  const [tipoEhMedico, setTipoEhMedico] = useState(false);
+  const [tipoOrdem, setTipoOrdem] = useState(0);
+  const [editingTipoId, setEditingTipoId] = useState<string | null>(null);
+  const [savingTipo, setSavingTipo] = useState(false);
+
+  const isMedicoCategoria = (cat: string) =>
+    tipos.find(t => t.slug === cat)?.eh_medico ?? cat === 'medico';
+
   useEffect(() => {
     if (initialData.length === 0) {
       fetchMedicos();
+    }
+    if (initialTipos.length === 0) {
+      fetchTipos();
     }
   }, []);
 
@@ -74,11 +130,79 @@ export default function ManageMedicos({ initialData = [] }: Props) {
     setLoading(false);
   }
 
+  async function fetchTipos() {
+    const { data } = await supabase.from('funsa_medicos_tipos').select('*').order('ordem', { ascending: true });
+    if (data) setTipos(data);
+  }
+
   function handleOpenNew() {
     setNome(''); setEspecialidade(''); setCrm(''); setContato(''); setImagem('');
-    setEndereco(''); setProfissional(''); setCategoria('medico');
+    setEndereco(''); setProfissional('');
+    setCategoria(tipos.find(t => t.eh_medico)?.slug || tipos[0]?.slug || 'medico');
     setEditingId(null);
     setIsOpen(true);
+  }
+
+  function handleOpenNewTipo() {
+    setTipoNome(''); setTipoCor('gray'); setTipoEhMedico(false);
+    setTipoOrdem(tipos.length > 0 ? Math.max(...tipos.map(t => t.ordem)) + 1 : 1);
+    setEditingTipoId(null);
+  }
+
+  function handleEditTipo(t: TipoMedico) {
+    setTipoNome(t.nome); setTipoCor(t.cor); setTipoEhMedico(t.eh_medico); setTipoOrdem(t.ordem);
+    setEditingTipoId(t.id);
+  }
+
+  async function handleSaveTipo(e: React.FormEvent) {
+    e.preventDefault();
+    if (!tipoNome.trim()) return;
+    setSavingTipo(true);
+
+    if (editingTipoId) {
+      const { error } = await supabase.from('funsa_medicos_tipos')
+        .update({ nome: tipoNome, cor: tipoCor, eh_medico: tipoEhMedico, ordem: tipoOrdem })
+        .eq('id', editingTipoId);
+      if (error) {
+        toast({ title: 'Erro ao atualizar tipo', description: error.message, variant: 'destructive' });
+      } else {
+        toast({ title: 'Tipo atualizado' });
+        handleOpenNewTipo();
+        fetchTipos();
+      }
+    } else {
+      const slug = slugify(tipoNome);
+      const { error } = await supabase.from('funsa_medicos_tipos')
+        .insert([{ nome: tipoNome, slug, cor: tipoCor, eh_medico: tipoEhMedico, ordem: tipoOrdem }]);
+      if (error) {
+        toast({ title: 'Erro ao criar tipo', description: error.message, variant: 'destructive' });
+      } else {
+        toast({ title: 'Tipo criado' });
+        handleOpenNewTipo();
+        fetchTipos();
+      }
+    }
+    setSavingTipo(false);
+  }
+
+  async function handleDeleteTipo(id: string, slug: string) {
+    const emUso = medicos.some(m => m.categoria === slug);
+    if (emUso) {
+      toast({
+        title: 'Não é possível excluir',
+        description: 'Existem credenciados usando este tipo. Reatribua-os para outro tipo antes de excluir.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    if (!confirm('Tem certeza que deseja apagar este tipo?')) return;
+    const { error } = await supabase.from('funsa_medicos_tipos').delete().eq('id', id);
+    if (error) {
+      toast({ title: 'Erro ao excluir tipo', description: error.message, variant: 'destructive' });
+    } else {
+      toast({ title: 'Tipo removido' });
+      fetchTipos();
+    }
   }
 
   async function handleDelete(id: string) {
@@ -130,12 +254,10 @@ export default function ManageMedicos({ initialData = [] }: Props) {
   );
 
   const getCategoryBadge = (cat: string) => {
-    switch(cat) {
-      case 'medico': return <span className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-blue-50 text-blue-500 uppercase tracking-wider border border-blue-100">Médico</span>;
-      case 'clinica_avare': return <span className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-purple-50 text-purple-500 uppercase tracking-wider border border-purple-100">Clínica Avaré</span>;
-      case 'clinica_exame': return <span className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-amber-50 text-amber-500 uppercase tracking-wider border border-amber-100">Exames</span>;
-      default: return <span className="px-2 py-0.5 rounded-md text-[9px] font-bold bg-gray-50 text-gray-500 uppercase tracking-wider border border-gray-100">Parceiro</span>;
-    }
+    const tipo = tipos.find(t => t.slug === cat);
+    const classes = COLOR_MAP[tipo?.cor || 'gray'] || COLOR_MAP.gray;
+    const label = tipo?.nome || cat || 'Parceiro';
+    return <span className={`px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider border ${classes}`}>{label}</span>;
   }
 
   return (
@@ -150,13 +272,23 @@ export default function ManageMedicos({ initialData = [] }: Props) {
           <p className="text-xs text-gray-400 font-medium mt-0.5 ml-7.5">Gestão de profissionais e clínicas conveniadas ao plano.</p>
         </div>
         {role !== 'viewer' && (
-          <Button 
-            onClick={handleOpenNew} 
-            className="bg-gray-900 hover:bg-gray-700 text-white rounded-xl px-5 h-11 transition-all flex items-center gap-2 font-semibold text-sm shadow-xl shadow-black/5"
-          >
-            <Plus className="w-4 h-4" />
-            Adicionar Credenciado
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              onClick={() => { handleOpenNewTipo(); setIsTiposOpen(true); }}
+              variant="outline"
+              className="rounded-xl px-5 h-11 border-gray-200 text-gray-600 hover:bg-gray-50 hover:text-gray-900 flex items-center gap-2 font-semibold text-sm"
+            >
+              <Tags className="w-4 h-4" />
+              Gerenciar Tipos
+            </Button>
+            <Button
+              onClick={handleOpenNew}
+              className="bg-gray-900 hover:bg-gray-700 text-white rounded-xl px-5 h-11 transition-all flex items-center gap-2 font-semibold text-sm shadow-xl shadow-black/5"
+            >
+              <Plus className="w-4 h-4" />
+              Adicionar Credenciado
+            </Button>
+          </div>
         )}
       </div>
 
@@ -286,7 +418,7 @@ export default function ManageMedicos({ initialData = [] }: Props) {
           <div className="px-8 py-6 border-b border-gray-100 flex items-center justify-between bg-white">
             <div className="flex items-center gap-4">
               <div className="w-10 h-10 rounded-xl bg-gray-900 flex items-center justify-center shadow-lg shadow-black/10">
-                {categoria === 'medico' ? <Stethoscope className="w-5 h-5 text-white" /> : <Building2 className="w-5 h-5 text-white" />}
+                {isMedicoCategoria(categoria) ? <Stethoscope className="w-5 h-5 text-white" /> : <Building2 className="w-5 h-5 text-white" />}
               </div>
               <div>
                 <DialogTitle className="text-lg font-bold text-gray-900">
@@ -306,15 +438,16 @@ export default function ManageMedicos({ initialData = [] }: Props) {
             <div className="grid md:grid-cols-2 gap-5">
               <div className="md:col-span-2 space-y-2">
                 <label className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] px-1">Tipo de Cadastro</label>
-                <select 
-                  className="w-full h-12 rounded-xl text-sm border border-gray-100 bg-white px-4 py-2 focus:ring-1 focus:ring-gray-200 outline-none transition-all font-medium shadow-sm" 
-                  value={categoria} 
+                <select
+                  className="w-full h-12 rounded-xl text-sm border border-gray-100 bg-white px-4 py-2 focus:ring-1 focus:ring-gray-200 outline-none transition-all font-medium shadow-sm"
+                  value={categoria}
                   onChange={e => setCategoria(e.target.value)}
                 >
-                  <option value="medico">Médico (Individual)</option>
-                  <option value="clinica_avare">Clínica (Unidade Avaré)</option>
-                  <option value="clinica_exame">Clínica de Exames</option>
-                  <option value="clinica_outras">Outras Unidades</option>
+                  {tipos.length === 0 ? (
+                    <option value="">Nenhum tipo cadastrado</option>
+                  ) : (
+                    tipos.map(t => <option key={t.id} value={t.slug}>{t.nome}</option>)
+                  )}
                 </select>
               </div>
 
@@ -352,7 +485,7 @@ export default function ManageMedicos({ initialData = [] }: Props) {
                 />
               </div>
 
-              {categoria !== 'medico' && (
+              {!isMedicoCategoria(categoria) && (
                 <>
                   <div className="md:col-span-2 space-y-2">
                     <label className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] px-1">Endereço da Unidade</label>
@@ -378,7 +511,7 @@ export default function ManageMedicos({ initialData = [] }: Props) {
                 </>
               )}
 
-              {categoria === 'medico' && (
+              {isMedicoCategoria(categoria) && (
                 <div className="space-y-2">
                   <label className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] px-1">Número do CRM</label>
                   <Input 
@@ -407,6 +540,126 @@ export default function ManageMedicos({ initialData = [] }: Props) {
               </button>
             </div>
           </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Tipos Management Dialog */}
+      <Dialog open={isTiposOpen} onOpenChange={(open) => { setIsTiposOpen(open); if (!open) handleOpenNewTipo(); }}>
+        <DialogContent hideCloseButton className="max-w-xl bg-white rounded-3xl p-0 overflow-hidden border border-gray-100 shadow-2xl">
+          <div className="px-8 py-6 border-b border-gray-100 flex items-center justify-between bg-white">
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 rounded-xl bg-gray-900 flex items-center justify-center shadow-lg shadow-black/10">
+                <Tags className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <DialogTitle className="text-lg font-bold text-gray-900">Gerenciar Tipos</DialogTitle>
+                <div className="flex items-center gap-1.5 text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">
+                  Rede PrevSaúde <ChevronRight className="w-3 h-3" /> Tipos de Cadastro
+                </div>
+              </div>
+            </div>
+            <button onClick={() => setIsTiposOpen(false)} className="p-2 rounded-lg hover:bg-gray-50 text-gray-400">
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          <div className="p-8 space-y-6 bg-[#FBFBFC] max-h-[70vh] overflow-y-auto">
+            <form onSubmit={handleSaveTipo} className="space-y-4 pb-6 border-b border-gray-100">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="col-span-2 space-y-2">
+                  <label className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] px-1">Nome do Tipo</label>
+                  <Input
+                    required
+                    value={tipoNome}
+                    onChange={e => setTipoNome(e.target.value)}
+                    placeholder="Ex: Odontologia"
+                    className="h-11 border-gray-100 bg-white rounded-xl text-sm font-medium shadow-sm"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] px-1">Cor do Badge</label>
+                  <div className="flex gap-2 h-11 items-center">
+                    {COLOR_OPTIONS.map(c => (
+                      <button
+                        type="button"
+                        key={c}
+                        onClick={() => setTipoCor(c)}
+                        aria-label={c}
+                        className={`w-7 h-7 rounded-full ${SWATCH_MAP[c]} transition-all ${tipoCor === c ? 'ring-2 ring-offset-2 ring-gray-900' : 'opacity-60 hover:opacity-100'}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] px-1">Ordem</label>
+                  <Input
+                    type="number"
+                    value={tipoOrdem}
+                    onChange={e => setTipoOrdem(Number(e.target.value))}
+                    className="h-11 border-gray-100 bg-white rounded-xl text-sm font-medium shadow-sm"
+                  />
+                </div>
+                <div className="col-span-2 flex items-center gap-2 pt-1">
+                  <input
+                    type="checkbox"
+                    id="eh_medico"
+                    checked={tipoEhMedico}
+                    onChange={e => setTipoEhMedico(e.target.checked)}
+                    className="w-4 h-4 rounded border-gray-300"
+                  />
+                  <label htmlFor="eh_medico" className="text-xs text-gray-500 font-medium">
+                    Representa profissionais individuais (aparece na aba "Especialidades" do site)
+                  </label>
+                </div>
+              </div>
+              <div className="flex justify-end gap-2">
+                {editingTipoId && (
+                  <button
+                    type="button"
+                    onClick={handleOpenNewTipo}
+                    className="px-4 py-2 text-xs font-bold text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    Cancelar edição
+                  </button>
+                )}
+                <button
+                  type="submit"
+                  disabled={savingTipo}
+                  className="px-6 py-2 bg-gray-900 text-white rounded-xl hover:bg-gray-700 transition-all text-xs font-bold shadow-lg shadow-black/5 disabled:opacity-50"
+                >
+                  {editingTipoId ? 'Salvar Alterações' : 'Criar Tipo'}
+                </button>
+              </div>
+            </form>
+
+            <div className="space-y-2">
+              {tipos.length === 0 ? (
+                <p className="text-xs text-gray-400 italic text-center py-4">Nenhum tipo cadastrado.</p>
+              ) : (
+                tipos.map(t => (
+                  <div key={t.id} className="flex items-center justify-between p-3 rounded-xl bg-white border border-gray-100 shadow-sm">
+                    <div className="flex items-center gap-3">
+                      <span className={`w-3 h-3 rounded-full shrink-0 ${SWATCH_MAP[t.cor] || SWATCH_MAP.gray}`} />
+                      <div>
+                        <p className="text-sm font-bold text-gray-800">{t.nome}</p>
+                        <p className="text-[9px] font-bold text-gray-400 uppercase tracking-wider">
+                          {t.slug} · {t.eh_medico ? 'Profissional' : 'Clínica'}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-1">
+                      <button onClick={() => handleEditTipo(t)} className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-all">
+                        <Edit className="w-3.5 h-3.5" />
+                      </button>
+                      <button onClick={() => handleDeleteTipo(t.id, t.slug)} className="p-2 text-gray-400 hover:text-red-500 hover:bg-gray-50 rounded-lg transition-all">
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </div>

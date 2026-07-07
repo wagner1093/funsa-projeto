@@ -99,8 +99,17 @@ type MedicoDB = {
   categoria: string;
 };
 
+type TipoDB = {
+  id: string;
+  nome: string;
+  slug: string;
+  eh_medico: boolean;
+  ordem: number;
+};
+
 type Props = {
   initialMedicos?: MedicoDB[];
+  initialTipos?: TipoDB[];
 };
 
 function ResultsDialog({ children, className }: { children: React.ReactNode, className?: string }) {
@@ -202,7 +211,7 @@ function ClinicaCard({ c }: { c: Clinica }) {
   );
 }
 
-export default function PrevSaude({ initialMedicos = [] }: Props) {
+export default function PrevSaude({ initialMedicos = [], initialTipos = [] }: Props) {
   const toClinica = (m: MedicoDB): Clinica => ({
     nome: m.nome,
     especialidade: m.especialidade,
@@ -212,8 +221,9 @@ export default function PrevSaude({ initialMedicos = [] }: Props) {
   });
 
   const especialidades = useMemo<Record<string, string[]>>(() => {
-    const fromDB = initialMedicos.filter(m => m.categoria === 'medico');
-    if (fromDB.length > 0 || initialMedicos.length > 0) {
+    if (initialMedicos.length > 0) {
+      const tiposMedico = new Set(initialTipos.filter(t => t.eh_medico).map(t => t.slug));
+      const fromDB = initialMedicos.filter(m => tiposMedico.has(m.categoria));
       return fromDB.reduce((acc, m) => {
         const key = m.especialidade;
         if (!acc[key]) acc[key] = [];
@@ -222,28 +232,26 @@ export default function PrevSaude({ initialMedicos = [] }: Props) {
       }, {} as Record<string, string[]>);
     }
     return especialidadesHardcoded;
-  }, [initialMedicos]);
+  }, [initialMedicos, initialTipos]);
 
-  const clinicasAvare = useMemo<Clinica[]>(() => {
-    if (initialMedicos.length > 0) {
-      return initialMedicos.filter(m => m.categoria === 'clinica_avare').map(toClinica);
+  /* Grupos de clínicas: um por tipo cadastrado (exceto tipos de profissional individual) */
+  const clinicGroups = useMemo<{ nome: string; items: Clinica[] }[]>(() => {
+    if (initialMedicos.length === 0) {
+      return [
+        { nome: "Avaré / SP", items: clinicasAvareHardcoded },
+        { nome: "Exames de Imagem – Avaré / SP", items: clinicasExamesHardcoded },
+        { nome: "Outras Cidades", items: clinicasOutrasHardcoded },
+      ];
     }
-    return clinicasAvareHardcoded;
-  }, [initialMedicos]);
-
-  const clinicasExames = useMemo<Clinica[]>(() => {
-    if (initialMedicos.length > 0) {
-      return initialMedicos.filter(m => m.categoria === 'clinica_exame').map(toClinica);
-    }
-    return clinicasExamesHardcoded;
-  }, [initialMedicos]);
-
-  const clinicasOutras = useMemo<Clinica[]>(() => {
-    if (initialMedicos.length > 0) {
-      return initialMedicos.filter(m => m.categoria === 'clinica_outras').map(toClinica);
-    }
-    return clinicasOutrasHardcoded;
-  }, [initialMedicos]);
+    return initialTipos
+      .filter(t => !t.eh_medico)
+      .sort((a, b) => a.ordem - b.ordem)
+      .map(t => ({
+        nome: t.nome,
+        items: initialMedicos.filter(m => m.categoria === t.slug).map(toClinica),
+      }))
+      .filter(g => g.items.length > 0);
+  }, [initialMedicos, initialTipos]);
 
   /* carousel */
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -573,23 +581,19 @@ export default function PrevSaude({ initialMedicos = [] }: Props) {
 
             <TabsContent value="clinicas" className="mt-10">
               <ScrollReveal>
-                <div className="mb-8">
-                  <h3 className="text-xl font-bold text-foreground">Avaré / SP</h3>
-                  <p className="text-muted-foreground mt-1">Exames laboratoriais e de imagem</p>
-                </div>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
-                  {clinicasAvare.map((c, i) => <ClinicaCard key={i} c={c} />)}
-                </div>
-
-                <h3 className="text-xl font-bold text-foreground mb-6">Exames de Imagem – Avaré / SP</h3>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
-                  {clinicasExames.map((c, i) => <ClinicaCard key={i} c={c} />)}
-                </div>
-
-                <h3 className="text-xl font-bold text-foreground mb-6">Outras Cidades</h3>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {clinicasOutras.map((c, i) => <ClinicaCard key={i} c={c} />)}
-                </div>
+                {clinicGroups.map((g, i) => (
+                  <div key={g.nome} className={i < clinicGroups.length - 1 ? "mb-12" : ""}>
+                    <h3 className="text-xl font-bold text-foreground mb-6">{g.nome}</h3>
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {g.items.map((c, idx) => <ClinicaCard key={idx} c={c} />)}
+                    </div>
+                  </div>
+                ))}
+                {clinicGroups.length === 0 && (
+                  <div className="py-12 text-center text-muted-foreground">
+                    Nenhuma clínica parceira cadastrada no momento.
+                  </div>
+                )}
               </ScrollReveal>
             </TabsContent>
           </Tabs>

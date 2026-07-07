@@ -6,10 +6,10 @@ export const dynamic = 'force-dynamic';
 
 export default async function Page() {
   const supabase = createServerSupabase();
-  const { data: initialData } = await supabase
-    .from('funsa_medicos')
-    .select('*')
-    .order('nome', { ascending: true });
+  const [{ data: initialData }, { data: initialTipos }] = await Promise.all([
+    supabase.from('funsa_medicos').select('*').order('nome', { ascending: true }),
+    supabase.from('funsa_medicos_tipos').select('*').order('ordem', { ascending: true }),
+  ]);
 
   return (
     <Suspense fallback={
@@ -17,7 +17,7 @@ export default async function Page() {
         <div className="w-6 h-6 border-2 border-gray-900 border-t-transparent rounded-full animate-spin" />
       </div>
     }>
-      <ManageMedicos initialData={initialData ?? []} />
+      <ManageMedicos initialData={initialData ?? []} initialTipos={initialTipos ?? []} />
     </Suspense>
   );
 }
