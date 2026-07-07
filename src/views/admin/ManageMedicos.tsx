@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,7 +9,8 @@ import { useSearchParams } from 'next/navigation';
 import {
   Plus, Edit, Trash2, Search, Filter, Phone,
   MapPin, BadgeCheck, MoreVertical, HeartPulse,
-  ChevronRight, X, User, Stethoscope, Building2, Tags
+  ChevronRight, X, User, Stethoscope, Building2, Tags,
+  ChevronUp, ChevronDown
 } from 'lucide-react';
 import {
   Dialog,
@@ -28,6 +29,7 @@ type Medico = {
   endereco: string | null;
   profissional: string | null;
   categoria: string;
+  ordem: number;
 };
 
 type TipoMedico = {
@@ -215,9 +217,33 @@ export default function ManageMedicos({ initialData = [], initialTipos = [] }: P
     }
   }
 
+  async function handleMove(item: Medico, direction: 'up' | 'down') {
+    const groupItems = sortedMedicos.filter(m => m.categoria === item.categoria);
+    const idx = groupItems.findIndex(m => m.id === item.id);
+    const swapIdx = direction === 'up' ? idx - 1 : idx + 1;
+    if (swapIdx < 0 || swapIdx >= groupItems.length) return;
+    const neighbor = groupItems[swapIdx];
+
+    // Atualização otimista: reordena localmente na hora, sem recarregar a lista.
+    setMedicos(prev => prev.map(m => {
+      if (m.id === item.id) return { ...m, ordem: neighbor.ordem };
+      if (m.id === neighbor.id) return { ...m, ordem: item.ordem };
+      return m;
+    }));
+
+    const [{ error: e1 }, { error: e2 }] = await Promise.all([
+      supabase.from('funsa_medicos').update({ ordem: neighbor.ordem }).eq('id', item.id),
+      supabase.from('funsa_medicos').update({ ordem: item.ordem }).eq('id', neighbor.id),
+    ]);
+    if (e1 || e2) {
+      toast({ title: 'Erro ao reordenar', description: (e1 || e2)?.message, variant: 'destructive' });
+      fetchMedicos(); // reverte para o estado real do banco em caso de falha
+    }
+  }
+
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
-    const payload = { nome, especialidade, crm, contato, imagem, endereco, profissional, categoria };
+    const payload: Partial<Medico> = { nome, especialidade, crm, contato, imagem, endereco, profissional, categoria };
 
     if (editingId) {
       const { error } = await supabase.from('funsa_medicos').update(payload).eq('id', editingId);
@@ -233,6 +259,8 @@ export default function ManageMedicos({ initialData = [], initialTipos = [] }: P
         fetchMedicos(); 
       }
     } else {
+      const maxOrdem = medicos.filter(m => m.categoria === categoria).reduce((max, m) => Math.max(max, m.ordem ?? 0), 0);
+      payload.ordem = maxOrdem + 1;
       const { error } = await supabase.from('funsa_medicos').insert([payload]);
       if (error) {
         toast({ 
@@ -248,8 +276,16 @@ export default function ManageMedicos({ initialData = [], initialTipos = [] }: P
     }
   }
 
-  const filteredMedicos = medicos.filter(m => 
-    m.nome.toLowerCase().includes(searchTerm.toLowerCase()) || 
+  const sortedMedicos = [...medicos].sort((a, b) => {
+    const ta = tipos.find(t => t.slug === a.categoria)?.ordem ?? 999;
+    const tb = tipos.find(t => t.slug === b.categoria)?.ordem ?? 999;
+    if (ta !== tb) return ta - tb;
+    if (a.ordem !== b.ordem) return (a.ordem ?? 0) - (b.ordem ?? 0);
+    return a.nome.localeCompare(b.nome);
+  });
+
+  const filteredMedicos = sortedMedicos.filter(m =>
+    m.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
     m.especialidade.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -339,14 +375,31 @@ export default function ManageMedicos({ initialData = [], initialTipos = [] }: P
                     Nenhum credenciado encontrado na rede.
                   </td></tr>
                 ) : (
-                  filteredMedicos.map((item, idx) => (
-                    <motion.tr 
-                      key={item.id}
-                      initial={{ opacity: 0, x: -4 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: idx * 0.02 }}
-                      className="hover:bg-gray-50/50 transition-colors group"
-                    >
+                  filteredMedicos.map((item, idx) => {
+                    const groupItems = sortedMedicos.filter(m => m.categoria === item.categoria);
+                    const posInGroup = groupItems.findIndex(m => m.id === item.id);
+                    const isFirstOfGroup = idx === 0 || filteredMedicos[idx - 1].categoria !== item.categoria;
+                    const tipoAtual = tipos.find(t => t.slug === item.categoria);
+
+                    return (
+                    <Fragment key={item.id}>
+                      {isFirstOfGroup && (
+                        <tr className="bg-gray-50/60">
+                          <td colSpan={role === 'viewer' ? 4 : 5} className="px-6 py-2 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                            {tipoAtual?.nome || item.categoria}
+                            <span className="text-gray-300 font-medium normal-case ml-1.5">
+                              · {groupItems.length} {groupItems.length === 1 ? 'registro' : 'registros'}
+                            </span>
+                          </td>
+                        </tr>
+                      )}
+                      <motion.tr
+                        layout
+                        initial={{ opacity: 0, x: -4 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ opacity: { delay: idx * 0.02 }, x: { delay: idx * 0.02 }, layout: { duration: 0.3, ease: [0.22, 1, 0.36, 1] } }}
+                        className="hover:bg-gray-50/50 transition-colors group"
+                      >
                       <td className="px-6 py-4 whitespace-nowrap">
                         {getCategoryBadge(item.categoria)}
                       </td>
@@ -385,14 +438,30 @@ export default function ManageMedicos({ initialData = [], initialTipos = [] }: P
                       {role !== 'viewer' && (
                         <td className="px-6 py-4 text-right">
                           <div className="flex gap-1 justify-end opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">
-                            <button 
+                            <button
+                              onClick={() => handleMove(item, 'up')}
+                              disabled={posInGroup === 0}
+                              title="Mover para cima no grupo"
+                              className="p-2 text-gray-400 hover:text-gray-900 hover:bg-white rounded-lg shadow-sm border border-transparent hover:border-gray-100 transition-all disabled:opacity-20 disabled:pointer-events-none"
+                            >
+                              <ChevronUp className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={() => handleMove(item, 'down')}
+                              disabled={posInGroup === groupItems.length - 1}
+                              title="Mover para baixo no grupo"
+                              className="p-2 text-gray-400 hover:text-gray-900 hover:bg-white rounded-lg shadow-sm border border-transparent hover:border-gray-100 transition-all disabled:opacity-20 disabled:pointer-events-none"
+                            >
+                              <ChevronDown className="w-4 h-4" />
+                            </button>
+                            <button
                               onClick={() => {
-                                setNome(item.nome); setEspecialidade(item.especialidade); setCrm(item.crm || ''); 
+                                setNome(item.nome); setEspecialidade(item.especialidade); setCrm(item.crm || '');
                                 setContato(item.contato || ''); setImagem(item.imagem || '');
                                 setEndereco(item.endereco || ''); setProfissional(item.profissional || '');
                                 setCategoria(item.categoria || 'medico');
                                 setEditingId(item.id); setIsOpen(true);
-                              }} 
+                              }}
                               className="p-2 text-gray-400 hover:text-gray-900 hover:bg-white rounded-lg shadow-sm border border-transparent hover:border-gray-100 transition-all"
                             >
                               <Edit className="w-4 h-4" />
@@ -403,8 +472,10 @@ export default function ManageMedicos({ initialData = [], initialTipos = [] }: P
                           </div>
                         </td>
                       )}
-                    </motion.tr>
-                  ))
+                      </motion.tr>
+                    </Fragment>
+                    );
+                  })
                 )}
               </AnimatePresence>
             </tbody>

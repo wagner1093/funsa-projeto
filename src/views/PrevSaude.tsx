@@ -97,6 +97,7 @@ type MedicoDB = {
   endereco: string | null;
   profissional: string | null;
   categoria: string;
+  ordem: number;
 };
 
 type TipoDB = {
@@ -223,7 +224,9 @@ export default function PrevSaude({ initialMedicos = [], initialTipos = [] }: Pr
   const especialidades = useMemo<Record<string, string[]>>(() => {
     if (initialMedicos.length > 0) {
       const tiposMedico = new Set(initialTipos.filter(t => t.eh_medico).map(t => t.slug));
-      const fromDB = initialMedicos.filter(m => tiposMedico.has(m.categoria));
+      const fromDB = initialMedicos
+        .filter(m => tiposMedico.has(m.categoria))
+        .sort((a, b) => a.ordem - b.ordem);
       return fromDB.reduce((acc, m) => {
         const key = m.especialidade;
         if (!acc[key]) acc[key] = [];
@@ -248,7 +251,10 @@ export default function PrevSaude({ initialMedicos = [], initialTipos = [] }: Pr
       .sort((a, b) => a.ordem - b.ordem)
       .map(t => ({
         nome: t.nome,
-        items: initialMedicos.filter(m => m.categoria === t.slug).map(toClinica),
+        items: initialMedicos
+          .filter(m => m.categoria === t.slug)
+          .sort((a, b) => a.ordem - b.ordem)
+          .map(toClinica),
       }))
       .filter(g => g.items.length > 0);
   }, [initialMedicos, initialTipos]);
